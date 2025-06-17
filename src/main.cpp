@@ -2,6 +2,7 @@
 #include "Nova/Core/Scene.hpp"
 #include "Nova/Core/SceneManager.hpp"
 #include "Nova/Core/Input.hpp"
+#include "Nova/Core/Renderer.hpp"
 
 #include <glad/glad.h>
 #include <imgui.h>
@@ -11,72 +12,45 @@ class TestScene : public Nova::Scene
 public:
     void Update(float deltaTime) override
     {
-        if (Nova::Input::IsKeyDown(Nova::Input::Key::W))
-            Nova::Logger::Trace("W key down!");
+        constexpr float speed = 120.0f;
+        float velocity = speed * deltaTime;
 
-		if (Nova::Input::IsKeyPressed(Nova::Input::Key::A))
-			Nova::Logger::Trace("A key pressed!");
+        if (Nova::Input::IsKeyDown(Nova::Input::Key::A))
+			m_Pos.x -= velocity;
+		else if (Nova::Input::IsKeyDown(Nova::Input::Key::D))
+			m_Pos.x += velocity;
+        else if (Nova::Input::IsKeyDown(Nova::Input::Key::W))
+			m_Pos.y -= velocity;
+		else if (Nova::Input::IsKeyDown(Nova::Input::Key::S))
+			m_Pos.y += velocity;
     }
 
     void Draw() override
     {
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        Nova::Renderer::ClearScreen({51, 76, 76});
+        Nova::Renderer::DrawQuad(m_Pos, m_Size, Nova::White, rotation, m_Origin);
     }
 
     void ImGuiDraw() override
     {
+        Nova::Window& window = Nova::Window::Get();
+
         ImGui::Begin("Test Scene");
-        ImGui::Text("Hello, Test Scene!");
 
-        if (ImGui::Button("Pause Another Scene"))
-            Nova::SceneManager::Get().PauseScene("AnotherScene");
+        ImGui::Text("Position: %.2f, %.2f", m_Pos.x, m_Pos.y);
+		ImGui::SliderFloat("Rotation", &rotation, 0.0f, 360.0f, "%.2f");
+		ImGui::SliderFloat2("Size", &m_Size.x, 0.0f, 100.0f);
 
-        if (ImGui::Button("Resume Another Scene"))
-            Nova::SceneManager::Get().ResumeScene("AnotherScene");
+        m_Origin = {m_Size.x / 2.0f, m_Size.y / 2.0f};
 
-        if (ImGui::Button("Stop Another Scene"))
-            Nova::SceneManager::Get().StopScene("AnotherScene");
-
-        if (ImGui::Button("Start Another Scene"))
-            Nova::SceneManager::Get().StartScene("AnotherScene");
-
-        glm::vec2 mousePos = Nova::Input::GetMousePos();
-		ImGui::Text("Mouse pos: %.2f, %.2f", mousePos.x, mousePos.y);
-
-		glm::vec2 mouseWheel = Nova::Input::GetMouseWheel();
-		ImGui::Text("Mouse wheel: %f, %f", mouseWheel.x, mouseWheel.y);
-
-        ImGui::End();
-    }
-};
-
-class AnotherScene : public Nova::Scene
-{
-public:
-    void Start() override
-    {
-        m_Val = 0;
-        Nova::Logger::Info("Another Scene started!");
-    }
-
-    void End() override
-    {
-        Nova::Logger::Info("Another Scene ended!");
-    }
-
-    void Draw() override {}
-
-    void ImGuiDraw() override
-    {
-        ImGui::Begin("Another Scene");
-        ImGui::Text("Hello, Another Scene!");
-        ImGui::SliderInt("Value", &m_Val, 0, 100);
         ImGui::End();
     }
 
 private:
-    int m_Val;
+    glm::vec2 m_Pos = {0.0f, 0.0f};
+    glm::vec2 m_Size = {100.0f, 100.0f};
+    glm::vec2 m_Origin;
+    float rotation = 0.0f;
 };
 
 class Sandbox : public Nova::App
@@ -84,15 +58,10 @@ class Sandbox : public Nova::App
 public:
     Sandbox(const Nova::AppConfig& config) : Nova::App(config)
     {
-        Nova::Logger::SetMinimumLogLevel(Nova::Logger::Level::Trace);
-
         Nova::SceneManager& sceneManager = Nova::SceneManager::Get();
 
         sceneManager.AddScene<TestScene>("TestScene");
         sceneManager.StartScene("TestScene");
-
-        sceneManager.AddScene<AnotherScene>("AnotherScene");
-        sceneManager.StartScene("AnotherScene");
     }
 };
 

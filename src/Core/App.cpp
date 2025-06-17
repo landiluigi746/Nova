@@ -4,6 +4,7 @@
 #include "Nova/Core/Assert.hpp"
 #include "Nova/Core/Input.hpp"
 #include "Nova/Core/SceneManager.hpp"
+#include "Nova/Core/Renderer.hpp"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -48,13 +49,9 @@ namespace Nova
         Logger::Info("OpenGL vendor: {}", (const char*) glGetString(GL_VENDOR));
         Logger::Info("OpenGL renderer: {}", (const char*) glGetString(GL_RENDERER));
 
-        Logger::Info("Initializing ImGui...");
-        InitImGui();
-        Logger::Info("Initialized ImGui successfully!");
-
-        Logger::Info("Initializing SceneManager...");
+		Renderer::Init();
+		InitImGui();
         SceneManager::Init();
-        Logger::Info("SceneManager initialized successfully!");
 
         Logger::Info("Nova App initialized successfully!");
     }
@@ -74,7 +71,9 @@ namespace Nova
 
             Input::PollEvents();
 
+            Renderer::BeginFrame();
             sceneManager.ProcessScenes(deltaTime);
+			Renderer::EndFrame();
 
             ImGui_ImplOpenGL3_NewFrame();
             ImGui_ImplGlfw_NewFrame();
@@ -93,8 +92,10 @@ namespace Nova
     {
         Logger::Info("Shutting down Nova App...");
 
-        Window::Shutdown();
         ShutdownImGui();
+		SceneManager::Shutdown();
+        Renderer::Shutdown();
+        Window::Shutdown();
         glfwTerminate();
 
         Logger::Info("Nova App shut down successfully!");
@@ -102,6 +103,8 @@ namespace Nova
 
     void App::InitImGui()
     {
+        Logger::Info("Initializing ImGui...");
+
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
 
@@ -114,6 +117,8 @@ namespace Nova
 
         ImGui_ImplGlfw_InitForOpenGL(Window::Get().GetNativeWindow(), true);
         ImGui_ImplOpenGL3_Init("#version 330");
+
+        Logger::Info("Initialized ImGui successfully!");
     }
 
     void App::ShutdownImGui()

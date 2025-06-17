@@ -97,7 +97,9 @@ namespace Nova
         if (s_SceneManager)
             return;
 
+        Logger::Info("Initializing SceneManager...");
         s_SceneManager = new SceneManager();
+		Logger::Info("SceneManager initialized successfully!");
     }
 
     void SceneManager::Shutdown()
@@ -105,8 +107,10 @@ namespace Nova
         if (!s_SceneManager)
             return;
 
+		Logger::Info("Shutting down SceneManager...");
         delete s_SceneManager;
         s_SceneManager = nullptr;
+		Logger::Info("SceneManager shut down successfully!");
     }
 
     SceneManager& SceneManager::Get()

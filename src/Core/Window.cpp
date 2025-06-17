@@ -1,6 +1,7 @@
 #include "Nova/Core/Window.hpp"
 #include "Nova/Core/Assert.hpp"
 #include "Nova/Core/Input.hpp"
+#include "Nova/Core/Renderer.hpp"
 
 #include <GLFW/glfw3.h>
 
@@ -43,6 +44,8 @@ namespace Nova
 
             if (window.m_Config.Flags & WindowFlags_Vsync)
 				glfwSwapInterval(1);
+
+			Renderer::UpdateProjection(width, height);
         });
 
         if (m_Config.Flags & WindowFlags_Vsync)
