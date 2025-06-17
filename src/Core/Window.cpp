@@ -1,0 +1,88 @@
+#include "Nova/Core/Window.hpp"
+#include "Nova/Core/Assert.hpp"
+
+#include <GLFW/glfw3.h>
+
+namespace Nova
+{
+    static Window* s_Window = nullptr;
+
+    Window::Window(const WindowConfig& config) : m_Config(config)
+    {
+        NOVA_ASSERT(config.Width > 0 && config.Height > 0, "Invalid window dimensions");
+        NOVA_ASSERT(!config.Title.empty(), "Window title cannot be empty");
+
+        Logger::Info("Initializing GLFW window...");
+
+        glfwWindowHint(GLFW_RESIZABLE, (m_Config.Flags & WindowFlags_Resizable));
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+        GLFWmonitor* monitor = (m_Config.Flags & WindowFlags_Fullscreen) ? glfwGetPrimaryMonitor() : nullptr;
+
+        m_Window = glfwCreateWindow(m_Config.Width, m_Config.Height, m_Config.Title.c_str(), monitor, nullptr);
+
+        NOVA_ASSERT_CLEANUP_FUNC(m_Window, "Failed to initialize GLFW window!", [] {
+            glfwTerminate();
+        });
+
+        glfwMakeContextCurrent(m_Window);
+        glfwSetWindowUserPointer(m_Window, this);
+
+        glfwSetFramebufferSizeCallback(m_Window, [](GLFWwindow* glfwWindow, int width, int height) {
+            Window& window = *(Window*) glfwGetWindowUserPointer(glfwWindow);
+
+            window.m_Config.Width = width;
+            window.m_Config.Height = height;
+        });
+
+        if (m_Config.Flags & WindowFlags_Vsync)
+            glfwSwapInterval(1);
+
+        Logger::Info("Initialized GLFW window successfully!");
+    }
+
+    Window::~Window()
+    {
+        Logger::Info("Destroying GLFW window...");
+        glfwDestroyWindow(m_Window);
+        Logger::Info("Destroyed GLFW window successfully!");
+    }
+
+    bool Window::ShouldClose() const
+    {
+        return glfwWindowShouldClose(m_Window);
+    }
+
+    void Window::SwapBuffers() const
+    {
+        glfwSwapBuffers(m_Window);
+    }
+
+    void Window::Init(const WindowConfig& config)
+    {
+        if (s_Window)
+            return;
+
+        s_Window = new Window(config);
+    }
+
+    void Window::Shutdown()
+    {
+        if (!s_Window)
+            return;
+
+        delete s_Window;
+        s_Window = nullptr;
+    }
+
+    Window& Window::Get()
+    {
+        NOVA_ASSERT_CLEANUP_FUNC(s_Window, "Window is not initialized", [] {
+            glfwTerminate();
+        });
+
+        return *s_Window;
+    }
+} // namespace Nova
