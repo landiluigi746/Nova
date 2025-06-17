@@ -12,7 +12,7 @@ namespace Nova
         NOVA_ASSERT(config.Width > 0 && config.Height > 0, "Invalid window dimensions");
         NOVA_ASSERT(!config.Title.empty(), "Window title cannot be empty");
 
-        Logger::Info("Initializing GLFW window...");
+        Logger::Info("Creating window...");
 
         glfwWindowHint(GLFW_RESIZABLE, (m_Config.Flags & WindowFlags_Resizable));
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -23,7 +23,7 @@ namespace Nova
 
         m_Window = glfwCreateWindow(m_Config.Width, m_Config.Height, m_Config.Title.c_str(), monitor, nullptr);
 
-        NOVA_ASSERT_CLEANUP_FUNC(m_Window, "Failed to initialize GLFW window!", [] {
+        NOVA_ASSERT_CLEANUP_FUNC(m_Window, "Failed to create window!", [] {
             glfwTerminate();
         });
 
@@ -40,14 +40,14 @@ namespace Nova
         if (m_Config.Flags & WindowFlags_Vsync)
             glfwSwapInterval(1);
 
-        Logger::Info("Initialized GLFW window successfully!");
+        Logger::Info("Window created and initialized successfully!");
     }
 
     Window::~Window()
     {
-        Logger::Info("Destroying GLFW window...");
+        Logger::Info("Destroying window...");
         glfwDestroyWindow(m_Window);
-        Logger::Info("Destroyed GLFW window successfully!");
+        Logger::Info("Window destroyed successfully!");
     }
 
     bool Window::ShouldClose() const

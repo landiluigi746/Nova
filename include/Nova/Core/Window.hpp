@@ -1,6 +1,8 @@
 #pragma once
 
 #include <string>
+#include <string_view>
+#include <cstdint>
 
 struct GLFWwindow;
 
@@ -38,6 +40,26 @@ namespace Nova
 
         bool ShouldClose() const;
         void SwapBuffers() const;
+
+        int GetWidth() const noexcept
+        {
+            return m_Config.Width;
+        }
+
+        int GetHeight() const noexcept
+        {
+            return m_Config.Height;
+        }
+
+        std::string_view GetTitle() const noexcept
+        {
+            return m_Config.Title;
+        }
+
+        GLFWwindow* GetNativeWindow() const noexcept
+        {
+            return m_Window;
+        }
 
     private:
         Window(const WindowConfig& config);
