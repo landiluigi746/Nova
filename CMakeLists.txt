@@ -53,4 +53,6 @@ FetchContent_MakeAvailable(imgui)
 
 find_package(OpenGL REQUIRED)
 
+add_subdirectory(vendor/glad)
+
 add_subdirectory(src)

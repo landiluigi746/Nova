@@ -3,13 +3,14 @@ file(GLOB_RECURSE ${PROJECT_NAME}_HEADERS CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOU
 
 add_executable(${PROJECT_NAME} ${${PROJECT_NAME}_SOURCES} ${${PROJECT_NAME}_HEADERS})
 
-target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/../include")
+target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/../include" "${CMAKE_CURRENT_SOURCE_DIR}/../vendor/stb_image")
 
 target_link_libraries(
     ${PROJECT_NAME}
     PUBLIC
     fmt::fmt
     ${OPENGL_LIBRARIES}
+    glad
     glfw
     imgui
 )
