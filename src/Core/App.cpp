@@ -36,7 +36,13 @@ namespace Nova
                                   .Height = config.Height,
                                   .Title = config.Title});
 
+		Logger::Info("Initializing GLAD...");
         NOVA_ASSERT(gladLoadGLLoader((GLADloadproc) glfwGetProcAddress), "Failed to initialize GLAD!");
+		Logger::Info("Initialized GLAD successfully!");
+
+		Logger::Info("OpenGL version: {}", (const char*) glGetString(GL_VERSION));
+        Logger::Info("OpenGL vendor: {}", (const char*) glGetString(GL_VENDOR));
+        Logger::Info("OpenGL renderer: {}", (const char*) glGetString(GL_RENDERER));
 
 		Logger::Info("Nova App initialized successfully!");
     }
