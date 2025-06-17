@@ -2,6 +2,7 @@
 #include "Nova/Core/Window.hpp"
 #include "Nova/Core/Logger.hpp"
 #include "Nova/Core/Assert.hpp"
+#include "Nova/Core/Input.hpp"
 #include "Nova/Core/SceneManager.hpp"
 
 #include <glad/glad.h>
@@ -71,7 +72,7 @@ namespace Nova
             float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
             lastTime = currentTime;
 
-            glfwPollEvents();
+            Input::PollEvents();
 
             sceneManager.ProcessScenes(deltaTime);
 

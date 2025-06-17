@@ -13,6 +13,7 @@ target_link_libraries(
     glad
     glfw
     imgui
+    glm::glm
 )
 
 if(MSVC)

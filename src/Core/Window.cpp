@@ -1,5 +1,6 @@
 #include "Nova/Core/Window.hpp"
 #include "Nova/Core/Assert.hpp"
+#include "Nova/Core/Input.hpp"
 
 #include <GLFW/glfw3.h>
 
@@ -30,15 +31,25 @@ namespace Nova
         glfwMakeContextCurrent(m_Window);
         glfwSetWindowUserPointer(m_Window, this);
 
+        glfwSetKeyCallback(m_Window, &Input::KeyCallback);
+		glfwSetMouseButtonCallback(m_Window, &Input::MouseButtonCallback);
+		glfwSetScrollCallback(m_Window, &Input::MouseScrollCallback);
+
         glfwSetFramebufferSizeCallback(m_Window, [](GLFWwindow* glfwWindow, int width, int height) {
             Window& window = *(Window*) glfwGetWindowUserPointer(glfwWindow);
 
             window.m_Config.Width = width;
             window.m_Config.Height = height;
+
+            if (window.m_Config.Flags & WindowFlags_Vsync)
+				glfwSwapInterval(1);
         });
 
         if (m_Config.Flags & WindowFlags_Vsync)
+        {
+            Logger::Info("Enabling vsync...");
             glfwSwapInterval(1);
+        }
 
         Logger::Info("Window created and initialized successfully!");
     }
