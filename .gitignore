@@ -1,0 +1,16 @@
+.vs/
+.vscode/
+.cache/
+.idea/
+
+bin/
+lib/
+out/
+build/
+vendor/FetchContentArtifacts/
+
+CMakeSettings.json
+
+*.sln
+*.vcxproj
+*.vcxproj.*
