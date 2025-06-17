@@ -30,6 +30,9 @@ namespace Nova
         void Run();
         void Shutdown();
 
+        void InitImGui();
+        void ShutdownImGui();
+
         friend int ::main();
     };
 

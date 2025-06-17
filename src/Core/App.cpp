@@ -7,6 +7,10 @@
 #include <GLFW/glfw3.h>
 #include <chrono>
 
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
+#include <imgui_impl_opengl3.h>
+
 namespace Nova
 {
     App::App(const AppConfig& config)
@@ -44,6 +48,10 @@ namespace Nova
         Logger::Info("OpenGL vendor: {}", (const char*) glGetString(GL_VENDOR));
         Logger::Info("OpenGL renderer: {}", (const char*) glGetString(GL_RENDERER));
 
+		Logger::Info("Initializing ImGui...");
+		InitImGui();
+		Logger::Info("Initialized ImGui successfully!");
+
 		Logger::Info("Nova App initialized successfully!");
     }
 
@@ -58,6 +66,15 @@ namespace Nova
             glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
 
+            ImGui_ImplOpenGL3_NewFrame();
+			ImGui_ImplGlfw_NewFrame();
+			ImGui::NewFrame();
+
+            ImGui::ShowDemoWindow();
+
+			ImGui::Render();
+			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
             window.SwapBuffers();
         }
     }
@@ -67,8 +84,39 @@ namespace Nova
 		Logger::Info("Shutting down Nova App...");
 
         Window::Shutdown();
+		ShutdownImGui();
         glfwTerminate();
 
 		Logger::Info("Nova App shut down successfully!");
     }
+
+    void App::InitImGui()
+    {
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
+
+        ImGuiIO& io = ImGui::GetIO();
+
+        io.Fonts->AddFontDefault();
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+
+        ImGui::StyleColorsDark();
+
+		ImGui_ImplGlfw_InitForOpenGL(Window::Get().GetNativeWindow(), true);
+		ImGui_ImplOpenGL3_Init("#version 330");
+    }
+
+	void App::ShutdownImGui()
+	{
+        Logger::Info("Shutting down ImGui...");
+
+		ImGui_ImplOpenGL3_Shutdown();
+		ImGui_ImplGlfw_Shutdown();
+		ImGui::DestroyContext();
+
+		Logger::Info("ImGui shut down successfully!");
+	}
 } // namespace Nova
+
+#include <imgui_impl_glfw.cpp>
+#include <imgui_impl_opengl3.cpp>
