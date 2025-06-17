@@ -2,6 +2,7 @@
 #include "Nova/Core/Window.hpp"
 #include "Nova/Core/Logger.hpp"
 #include "Nova/Core/Assert.hpp"
+#include "Nova/Core/SceneManager.hpp"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -35,45 +36,53 @@ namespace Nova
             Nova::Logger::Error("GLFW error: {}, {}", code, msg);
         });
 
-        Window::Init(WindowConfig{.Flags = config.WindowFlags,
-                                  .Width = config.Width,
-                                  .Height = config.Height,
-                                  .Title = config.Title});
+        Window::Init(WindowConfig{
+            .Flags = config.WindowFlags, .Width = config.Width, .Height = config.Height, .Title = config.Title});
 
-		Logger::Info("Initializing GLAD...");
+        Logger::Info("Initializing GLAD...");
         NOVA_ASSERT(gladLoadGLLoader((GLADloadproc) glfwGetProcAddress), "Failed to initialize GLAD!");
-		Logger::Info("Initialized GLAD successfully!");
+        Logger::Info("Initialized GLAD successfully!");
 
-		Logger::Info("OpenGL version: {}", (const char*) glGetString(GL_VERSION));
+        Logger::Info("OpenGL version: {}", (const char*) glGetString(GL_VERSION));
         Logger::Info("OpenGL vendor: {}", (const char*) glGetString(GL_VENDOR));
         Logger::Info("OpenGL renderer: {}", (const char*) glGetString(GL_RENDERER));
 
-		Logger::Info("Initializing ImGui...");
-		InitImGui();
-		Logger::Info("Initialized ImGui successfully!");
+        Logger::Info("Initializing ImGui...");
+        InitImGui();
+        Logger::Info("Initialized ImGui successfully!");
 
-		Logger::Info("Nova App initialized successfully!");
+        Logger::Info("Initializing SceneManager...");
+        SceneManager::Init();
+        Logger::Info("SceneManager initialized successfully!");
+
+        Logger::Info("Nova App initialized successfully!");
     }
 
     void App::Run()
     {
         Window& window = Window::Get();
+        SceneManager& sceneManager = SceneManager::Get();
+
+        auto lastTime = std::chrono::high_resolution_clock::now();
 
         while (!window.ShouldClose())
         {
+            auto currentTime = std::chrono::high_resolution_clock::now();
+            float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
+            lastTime = currentTime;
+
             glfwPollEvents();
 
-            glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT);
+            sceneManager.ProcessScenes(deltaTime);
 
             ImGui_ImplOpenGL3_NewFrame();
-			ImGui_ImplGlfw_NewFrame();
-			ImGui::NewFrame();
+            ImGui_ImplGlfw_NewFrame();
+            ImGui::NewFrame();
 
-            ImGui::ShowDemoWindow();
+            sceneManager.ProcessImGuiFrame();
 
-			ImGui::Render();
-			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+            ImGui::Render();
+            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
             window.SwapBuffers();
         }
@@ -81,13 +90,13 @@ namespace Nova
 
     void App::Shutdown()
     {
-		Logger::Info("Shutting down Nova App...");
+        Logger::Info("Shutting down Nova App...");
 
         Window::Shutdown();
-		ShutdownImGui();
+        ShutdownImGui();
         glfwTerminate();
 
-		Logger::Info("Nova App shut down successfully!");
+        Logger::Info("Nova App shut down successfully!");
     }
 
     void App::InitImGui()
@@ -102,21 +111,22 @@ namespace Nova
 
         ImGui::StyleColorsDark();
 
-		ImGui_ImplGlfw_InitForOpenGL(Window::Get().GetNativeWindow(), true);
-		ImGui_ImplOpenGL3_Init("#version 330");
+        ImGui_ImplGlfw_InitForOpenGL(Window::Get().GetNativeWindow(), true);
+        ImGui_ImplOpenGL3_Init("#version 330");
     }
 
-	void App::ShutdownImGui()
-	{
+    void App::ShutdownImGui()
+    {
         Logger::Info("Shutting down ImGui...");
 
-		ImGui_ImplOpenGL3_Shutdown();
-		ImGui_ImplGlfw_Shutdown();
-		ImGui::DestroyContext();
+        ImGui_ImplOpenGL3_Shutdown();
+        ImGui_ImplGlfw_Shutdown();
+        ImGui::DestroyContext();
 
-		Logger::Info("ImGui shut down successfully!");
-	}
+        Logger::Info("ImGui shut down successfully!");
+    }
 } // namespace Nova
 
+#define IMGUI_IMPL_OPENGL_LOADER_GLAD
 #include <imgui_impl_glfw.cpp>
 #include <imgui_impl_opengl3.cpp>
