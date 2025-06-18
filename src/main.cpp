@@ -10,25 +10,22 @@
 class TestScene : public Nova::Scene
 {
 public:
+    TestScene()
+    {
+        // decomment to load texture
+        // m_Texture.Init("image.png"); 
+    }
+
     void Update(float deltaTime) override
     {
-        constexpr float speed = 120.0f;
-        float velocity = speed * deltaTime;
-
-        if (Nova::Input::IsKeyDown(Nova::Input::Key::A))
-			m_Pos.x -= velocity;
-		else if (Nova::Input::IsKeyDown(Nova::Input::Key::D))
-			m_Pos.x += velocity;
-        else if (Nova::Input::IsKeyDown(Nova::Input::Key::W))
-			m_Pos.y -= velocity;
-		else if (Nova::Input::IsKeyDown(Nova::Input::Key::S))
-			m_Pos.y += velocity;
+        m_Pos = Nova::Input::GetMousePos();
     }
 
     void Draw() override
     {
         Nova::Renderer::ClearScreen({51, 76, 76});
-        Nova::Renderer::DrawQuad(m_Pos, m_Size, Nova::White, rotation);
+        //Nova::Renderer::DrawQuad(m_Pos, m_Size, Nova::White, rotation);
+        Nova::Renderer::DrawQuad(m_Texture, m_Pos, m_Size, Nova::White, rotation);
     }
 
     void ImGuiDraw() override
@@ -48,6 +45,8 @@ private:
     glm::vec2 m_Pos = {0.0f, 0.0f};
     glm::vec2 m_Size = {100.0f, 100.0f};
     float rotation = 0.0f;
+
+    Nova::Texture m_Texture;
 };
 
 class Sandbox : public Nova::App

@@ -1,6 +1,8 @@
 #include "Nova/Renderer/Renderer.hpp"
 #include "Nova/Renderer/VertexArray.hpp"
 #include "Nova/Renderer/Shader.hpp"
+#include "Nova/Renderer/Texture.hpp"
+
 #include "Nova/Misc/Logger.hpp"
 #include "Nova/Misc/Assert.hpp"
 #include "Nova/Core/Window.hpp"
@@ -11,26 +13,31 @@
 
 namespace Nova::Renderer
 {
-    VertexArray s_QuadVA;
-    Shader s_DefaultShader;
+    static VertexArray s_QuadVA;
+    static Shader s_DefaultShader;
+    static Texture s_DefaultTexture; // just a white 1x1 texture
 
     static constexpr const char* s_VertexShaderSource =
         "#version 330 core\n"
         "layout (location = 0) in vec2 aPos;\n"
+        "layout (location = 1) in vec2 aTex;\n"
+        "out vec2 TexCoords;\n"
         "uniform mat4 uProjection;\n"
         "uniform mat4 uTransform;\n"
-        "uniform vec4 uColor;\n"
         "void main()\n"
         "{\n"
+        "    TexCoords = aTex;\n"
         "    gl_Position = uProjection * uTransform * vec4(aPos, 0.0, 1.0);\n"
         "}\n";
 
     static constexpr const char* s_FragmentShaderSource = "#version 330 core\n"
+                                                          "in vec2 TexCoords;\n"
                                                           "out vec4 FragColor;\n"
                                                           "uniform vec4 uColor;\n"
+                                                          "uniform sampler2D uTexture;\n"
                                                           "void main()\n"
                                                           "{\n"
-                                                          "    FragColor = uColor;\n"
+                                                          "    FragColor = texture(uTexture, TexCoords) * uColor;\n"
                                                           "}\n";
 
     static bool s_Initialized = false;
@@ -70,11 +77,12 @@ namespace Nova::Renderer
         Logger::Info("Initializing Renderer...");
 
         // clang-format off
-        float quadVertices[] = {
-            -0.5f, -0.5f,
-			 0.5f, -0.5f,
-			 0.5f,  0.5f,
-			-0.5f,  0.5f
+        float quadVertexData[] = {
+            // pos         // tex
+            -0.5f, -0.5f,  0.0f, 0.0f,
+			 0.5f, -0.5f,  1.0f, 0.0f,
+			 0.5f,  0.5f,  1.0f, 1.0f,
+			-0.5f,  0.5f,  0.0f, 1.0f
         };
 
 		uint32_t quadIndices[] = {
@@ -83,15 +91,23 @@ namespace Nova::Renderer
 		};
         // clang-format on
 
+        glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
         s_QuadVA.Init();
         s_QuadVA.Bind();
 
-        s_QuadVA.SetVertexBuffer(quadVertices, sizeof(quadVertices), {{ShaderDataType::Float2, false}});
+        s_QuadVA.SetVertexBuffer(quadVertexData, sizeof(quadVertexData),
+                                 {{ShaderDataType::Float2, false}, {ShaderDataType::Float2, false}});
         s_QuadVA.SetIndexBuffer(quadIndices, sizeof(quadIndices));
 
         Logger::Info("Initializing default shader...");
         s_DefaultShader.Init(s_VertexShaderSource, s_FragmentShaderSource);
         Logger::Info("Default shader initialized successfully!");
+
+        Logger::Info("Initializing default texture...");
+        s_DefaultTexture.Init(1, 1, &Nova::White);
+        Logger::Info("Default texture initialized successfully!");
 
         s_QuadVA.Unbind();
 
@@ -137,8 +153,21 @@ namespace Nova::Renderer
     void DrawQuad(const glm::vec2& position, const glm::vec2& size, const Color& color, float rotation,
                   const glm::vec2& origin)
     {
+        DrawQuad(s_DefaultTexture, position, size, color, rotation, origin);
+    }
+
+    void DrawQuad(const Texture& texture, const glm::vec2& position, const glm::vec2& size, float rotation,
+                  const glm::vec2& origin)
+    {
+        DrawQuad(texture, position, size, White, rotation, origin);
+    }
+
+    void DrawQuad(const Texture& texture, const glm::vec2& position, const glm::vec2& size, const Color& color,
+                  float rotation, const glm::vec2& origin)
+    {
         s_QuadVA.Bind();
         s_DefaultShader.Bind();
+        texture.Bind();
 
         glm::mat4 transform = glm::mat4(1.0f);
         transform = glm::translate(transform, glm::vec3(position, 0.0f));
@@ -147,12 +176,14 @@ namespace Nova::Renderer
         transform = glm::scale(transform, glm::vec3(size.x, size.y, 1.0f));
         transform = glm::translate(transform, glm::vec3(-origin, 0.0f));
 
+        s_DefaultShader.SetUniformInt("uTexture", 0);
         s_DefaultShader.SetUniformMat4("uTransform", transform);
         s_DefaultShader.SetUniformFloat4("uColor",
                                          {color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.a / 255.0f});
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
+        texture.Unbind();
         s_DefaultShader.Unbind();
         s_QuadVA.Unbind();
     }
