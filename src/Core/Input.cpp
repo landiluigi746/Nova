@@ -1,5 +1,5 @@
 #include "Nova/Core/Input.hpp"
-#include "Nova/Core/Logger.hpp"
+#include "Nova/Misc/Logger.hpp"
 #include "Nova/Core/Window.hpp"
 
 #include <GLFW/glfw3.h>

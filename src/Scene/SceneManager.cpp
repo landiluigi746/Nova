@@ -1,5 +1,5 @@
-#include "Nova/Core/SceneManager.hpp"
-#include "Nova/Core/Assert.hpp"
+#include "Nova/Scene/SceneManager.hpp"
+#include "Nova/Misc/Assert.hpp"
 
 #include <GLFW/glfw3.h>
 

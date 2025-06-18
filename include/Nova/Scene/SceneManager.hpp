@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Nova/Core/Scene.hpp"
-#include "Nova/Core/Logger.hpp"
+#include "Nova/Scene/Scene.hpp"
+#include "Nova/Misc/Logger.hpp"
 
 #include <vector>
 #include <string>

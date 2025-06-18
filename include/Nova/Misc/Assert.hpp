@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Nova/Core/Logger.hpp"
+#include "Nova/Misc/Logger.hpp"
 
 #include <functional>
 #include <string_view>

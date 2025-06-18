@@ -1,9 +1,9 @@
 #include "Nova/Core/App.hpp"
 #include "Nova/Core/Window.hpp"
-#include "Nova/Core/Logger.hpp"
-#include "Nova/Core/Assert.hpp"
+#include "Nova/Misc/Logger.hpp"
+#include "Nova/Misc/Assert.hpp"
 #include "Nova/Core/Input.hpp"
-#include "Nova/Core/SceneManager.hpp"
+#include "Nova/Scene/SceneManager.hpp"
 #include "Nova/Core/Renderer.hpp"
 
 #include <glad/glad.h>

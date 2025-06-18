@@ -1,6 +1,6 @@
 #include "Nova/Core/EntryPoint.hpp"
-#include "Nova/Core/Scene.hpp"
-#include "Nova/Core/SceneManager.hpp"
+#include "Nova/Scene/Scene.hpp"
+#include "Nova/Scene/SceneManager.hpp"
 #include "Nova/Core/Input.hpp"
 #include "Nova/Core/Renderer.hpp"
 

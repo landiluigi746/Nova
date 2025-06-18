@@ -1,5 +1,5 @@
 #include "Nova/Core/Window.hpp"
-#include "Nova/Core/Assert.hpp"
+#include "Nova/Misc/Assert.hpp"
 #include "Nova/Core/Input.hpp"
 #include "Nova/Core/Renderer.hpp"
 

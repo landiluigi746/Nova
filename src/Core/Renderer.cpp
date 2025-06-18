@@ -1,6 +1,6 @@
 #include "Nova/Core/Renderer.hpp"
-#include "Nova/Core/Logger.hpp"
-#include "Nova/Core/Assert.hpp"
+#include "Nova/Misc/Logger.hpp"
+#include "Nova/Misc/Assert.hpp"
 #include "Nova/Core/Window.hpp"
 
 #include <glad/glad.h>
