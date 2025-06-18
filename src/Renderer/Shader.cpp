@@ -10,7 +10,7 @@ namespace Nova
 {
     static uint32_t CompileShader(GLenum type, const std::string_view& source)
     {
-		uint32_t shader = glCreateShader(type);
+        uint32_t shader = glCreateShader(type);
 
         const char* src = source.data();
         glShaderSource(shader, 1, &src, nullptr);
@@ -41,44 +41,44 @@ namespace Nova
         if (!std::filesystem::is_regular_file(vertexPath))
         {
             Logger::Warning("Vertex shader path {} does not exist!", vertexPath.string().c_str());
-			return;
+            return;
         }
 
-		if (!std::filesystem::is_regular_file(fragmentPath))
-		{
-			Logger::Warning("Fragment shader path {} does not exist!", fragmentPath.string().c_str());
-			return;
-		}
+        if (!std::filesystem::is_regular_file(fragmentPath))
+        {
+            Logger::Warning("Fragment shader path {} does not exist!", fragmentPath.string().c_str());
+            return;
+        }
 
-		std::string vertexSource;
-		std::string fragmentSource;
+        std::string vertexSource;
+        std::string fragmentSource;
 
-		std::ifstream vertexFile(vertexPath);
-		std::ifstream fragmentFile(fragmentPath);
+        std::ifstream vertexFile(vertexPath);
+        std::ifstream fragmentFile(fragmentPath);
 
         if (!vertexFile.is_open())
-		{
-			Logger::Warning("Failed to open vertex shader file {}!", vertexPath.string().c_str());
-			return;
-		}
+        {
+            Logger::Warning("Failed to open vertex shader file {}!", vertexPath.string().c_str());
+            return;
+        }
 
-		if (!fragmentFile.is_open())
-		{
-			Logger::Warning("Failed to open fragment shader file {}!", fragmentPath.string().c_str());
-			return;
-		}
+        if (!fragmentFile.is_open())
+        {
+            Logger::Warning("Failed to open fragment shader file {}!", fragmentPath.string().c_str());
+            return;
+        }
 
-		vertexFile.seekg(0, std::ios::end);
-		vertexSource.resize(vertexFile.tellg());
-		vertexFile.seekg(0, std::ios::beg);
-		vertexFile.read(vertexSource.data(), vertexSource.size());
+        vertexFile.seekg(0, std::ios::end);
+        vertexSource.resize(vertexFile.tellg());
+        vertexFile.seekg(0, std::ios::beg);
+        vertexFile.read(vertexSource.data(), vertexSource.size());
 
-		fragmentFile.seekg(0, std::ios::end);
-		fragmentSource.resize(fragmentFile.tellg());
-		fragmentFile.seekg(0, std::ios::beg);
-		fragmentFile.read(fragmentSource.data(), fragmentSource.size());
+        fragmentFile.seekg(0, std::ios::end);
+        fragmentSource.resize(fragmentFile.tellg());
+        fragmentFile.seekg(0, std::ios::beg);
+        fragmentFile.read(fragmentSource.data(), fragmentSource.size());
 
-		Init(vertexSource, fragmentSource);
+        Init(vertexSource, fragmentSource);
     }
 
     void Shader::Init(const std::string_view& vertexSource, const std::string_view& fragmentSource)
@@ -95,48 +95,61 @@ namespace Nova
         glDeleteShader(fragmentShader);
     }
 
-	void Shader::Shutdown()
-	{
+    void Shader::Shutdown()
+    {
         if (m_ID)
-		{
-			glDeleteProgram(m_ID);
-			m_ID = 0;
-		}
-	}
-
-    void Shader::SetUniformInt(const std::string_view& name, const int32_t value) const
-    {
-		glUniform1i(glGetUniformLocation(m_ID, name.data()), value);
+        {
+            glDeleteProgram(m_ID);
+            m_ID = 0;
+        }
     }
 
-    void Shader::SetUniformFloat(const std::string_view& name, const float value) const
+    int32_t Shader::GetUniformLocation(const std::string_view& name)
     {
-		glUniform1f(glGetUniformLocation(m_ID, name.data()), value);
+        if (m_UniformLocationCache.contains(name))
+            return m_UniformLocationCache[name];
+
+        int32_t location = glGetUniformLocation(m_ID, name.data());
+
+        NOVA_ASSERT(location != -1, "Failed to get uniform location for {}", name);
+
+        m_UniformLocationCache[name] = location;
+        return location;
     }
 
-    void Shader::SetUniformFloat2(const std::string_view& name, const glm::vec2& value) const
+    void Shader::SetUniformInt(const std::string_view& name, const int32_t value)
     {
-		glUniform2f(glGetUniformLocation(m_ID, name.data()), value.x, value.y);
+        glUniform1i(GetUniformLocation(name), value);
     }
 
-    void Shader::SetUniformFloat3(const std::string_view& name, const glm::vec3& value) const
+    void Shader::SetUniformFloat(const std::string_view& name, const float value)
     {
-		glUniform3f(glGetUniformLocation(m_ID, name.data()), value.x, value.y, value.z);
+        glUniform1f(GetUniformLocation(name), value);
     }
 
-    void Shader::SetUniformFloat4(const std::string_view& name, const glm::vec4& value) const
+    void Shader::SetUniformFloat2(const std::string_view& name, const glm::vec2& value)
     {
-        glUniform4f(glGetUniformLocation(m_ID, name.data()), value.x, value.y, value.z, value.w);
+        glUniform2f(GetUniformLocation(name), value.x, value.y);
     }
 
-    void Shader::SetUniformMat3(const std::string_view& name, const glm::mat3& value) const
+    void Shader::SetUniformFloat3(const std::string_view& name, const glm::vec3& value)
     {
-        glUniformMatrix3fv(glGetUniformLocation(m_ID, name.data()), 1, GL_FALSE, glm::value_ptr(value));
+        glUniform3f(GetUniformLocation(name), value.x, value.y, value.z);
     }
 
-    void Shader::SetUniformMat4(const std::string_view& name, const glm::mat4& value) const
+    void Shader::SetUniformFloat4(const std::string_view& name, const glm::vec4& value)
     {
-		glUniformMatrix4fv(glGetUniformLocation(m_ID, name.data()), 1, GL_FALSE, glm::value_ptr(value));
+        glUniform4f(GetUniformLocation(name), value.x, value.y, value.z, value.w);
+    }
+
+    void Shader::SetUniformMat3(const std::string_view& name, const glm::mat3& value)
+    {
+        glUniformMatrix3fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(value));
+    }
+
+    void Shader::SetUniformMat4(const std::string_view& name, const glm::mat4& value)
+    {
+        glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(value));
     }
 
     void Shader::Bind() const
