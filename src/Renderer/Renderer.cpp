@@ -17,6 +17,7 @@ namespace Nova::Renderer
     static Shader s_DefaultShader;
     static Texture s_DefaultTexture; // just a white 1x1 texture
 
+    // clang-format off
     static constexpr const char* s_VertexShaderSource =
         "#version 330 core\n"
         "layout (location = 0) in vec2 aPos;\n"
@@ -30,15 +31,17 @@ namespace Nova::Renderer
         "    gl_Position = uProjection * uTransform * vec4(aPos, 0.0, 1.0);\n"
         "}\n";
 
-    static constexpr const char* s_FragmentShaderSource = "#version 330 core\n"
-                                                          "in vec2 TexCoords;\n"
-                                                          "out vec4 FragColor;\n"
-                                                          "uniform vec4 uColor;\n"
-                                                          "uniform sampler2D uTexture;\n"
-                                                          "void main()\n"
-                                                          "{\n"
-                                                          "    FragColor = texture(uTexture, TexCoords) * uColor;\n"
-                                                          "}\n";
+    static constexpr const char* s_FragmentShaderSource = 
+        "#version 330 core\n"
+        "in vec2 TexCoords;\n"
+        "out vec4 FragColor;\n"
+        "uniform vec4 uColor;\n"
+        "uniform sampler2D uTexture;\n"
+        "void main()\n"
+        "{\n"
+        "    FragColor = texture(uTexture, TexCoords) * uColor;\n"
+        "}\n";
+	// clang-format on
 
     static bool s_Initialized = false;
 
@@ -92,7 +95,7 @@ namespace Nova::Renderer
         // clang-format on
 
         glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         s_QuadVA.Init();
         s_QuadVA.Bind();
@@ -156,10 +159,9 @@ namespace Nova::Renderer
         DrawQuad(s_DefaultTexture, position, size, color, rotation, origin);
     }
 
-    void DrawQuad(const Texture& texture, const glm::vec2& position, const glm::vec2& size, float rotation,
-                  const glm::vec2& origin)
+    void DrawQuad(const Texture& texture, const glm::vec2& position, float rotation, const glm::vec2& origin)
     {
-        DrawQuad(texture, position, size, White, rotation, origin);
+        DrawQuad(texture, position, {texture.GetWidth(), texture.GetHeight()}, White, rotation, origin);
     }
 
     void DrawQuad(const Texture& texture, const glm::vec2& position, const glm::vec2& size, const Color& color,
