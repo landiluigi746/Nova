@@ -133,6 +133,7 @@ namespace Nova::Renderer
 
         s_QuadVA.Shutdown();
         s_DefaultShader.Shutdown();
+        s_DefaultTexture.Shutdown();
 
         NOVA_ASSERT(CheckOpenGLError(), "Failed to shutdown renderer!");
 

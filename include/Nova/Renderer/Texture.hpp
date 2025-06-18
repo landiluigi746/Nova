@@ -11,7 +11,7 @@ namespace Nova
     {
     public:
         Texture() = default;
-        ~Texture();
+        virtual ~Texture();
 
         void Init(const std::filesystem::path& path);
         void Init(uint32_t width, uint32_t height, const Color* data);

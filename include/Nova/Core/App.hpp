@@ -23,7 +23,7 @@ namespace Nova
     {
     public:
         App(const AppConfig& config);
-        ~App();
+        virtual ~App();
 
     private:
         void Init(const AppConfig& config);

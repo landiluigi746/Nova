@@ -15,7 +15,7 @@ namespace Nova
 	{
     public:
 		Shader() = default;
-        ~Shader();
+        virtual ~Shader();
 
         void Init(const std::string_view& vertexSource, const std::string_view& fragmentSource);
 		void Shutdown();
