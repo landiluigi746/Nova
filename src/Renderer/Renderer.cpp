@@ -1,4 +1,5 @@
 #include "Nova/Renderer/Renderer.hpp"
+#include "Nova/Renderer/VertexArray.hpp"
 #include "Nova/Misc/Logger.hpp"
 #include "Nova/Misc/Assert.hpp"
 #include "Nova/Core/Window.hpp"
@@ -9,7 +10,7 @@
 
 namespace Nova::Renderer
 {
-    uint32_t s_VertexArray = 0;
+    VertexArray s_QuadVA;
     uint32_t s_ShaderProgram = 0;
 
     static constexpr const char* s_VertexShaderSource =
@@ -67,8 +68,6 @@ namespace Nova::Renderer
 
         Logger::Info("Initializing Renderer...");
 
-        uint32_t vertexBuffer, indexBuffer;
-
         // clang-format off
         float quadVertices[] = {
             -0.5f, -0.5f,
@@ -83,26 +82,13 @@ namespace Nova::Renderer
 		};
         // clang-format on
 
-        glGenVertexArrays(1, &s_VertexArray);
-        glGenBuffers(1, &vertexBuffer);
-        glGenBuffers(1, &indexBuffer);
+        s_QuadVA.Init();
+        s_QuadVA.Bind();
 
-        glBindVertexArray(s_VertexArray);
-
-        glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), quadVertices, GL_STATIC_DRAW);
-
-        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*) 0);
-        glEnableVertexAttribArray(0);
-
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(quadIndices), quadIndices, GL_STATIC_DRAW);
-
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glBindVertexArray(0);
-
-        glDeleteBuffers(1, &vertexBuffer);
-		glDeleteBuffers(1, &indexBuffer);
+        s_QuadVA.SetVertexBuffer(quadVertices, sizeof(quadVertices), {
+			{ShaderDataType::Float2, false}
+        });
+		s_QuadVA.SetIndexBuffer(quadIndices, sizeof(quadIndices));
 
         uint32_t vertexShader = glCreateShader(GL_VERTEX_SHADER);
         uint32_t fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
@@ -138,7 +124,7 @@ namespace Nova::Renderer
 
         EndFrame();
 
-        glDeleteVertexArrays(1, &s_VertexArray);
+		s_QuadVA.Shutdown();
         glDeleteProgram(s_ShaderProgram);
 
         NOVA_ASSERT(CheckOpenGLError(), "Failed to shutdown renderer!");
@@ -148,16 +134,10 @@ namespace Nova::Renderer
     }
 
     void BeginFrame()
-    {
-        glUseProgram(s_ShaderProgram);
-        glBindVertexArray(s_VertexArray);
-    }
+    {}
 
     void EndFrame()
     {
-        glBindVertexArray(0);
-        glUseProgram(0);
-
         NOVA_ASSERT(CheckOpenGLError(), "Failed to end frame!");
     }
 
@@ -170,6 +150,9 @@ namespace Nova::Renderer
     void DrawQuad(const glm::vec2& position, const glm::vec2& size, const Color& color, float rotation,
                   const glm::vec2& origin)
     {
+		s_QuadVA.Bind();
+		glUseProgram(s_ShaderProgram);
+
         glm::mat4 transform = glm::mat4(1.0f);
         transform = glm::translate(transform, glm::vec3(position, 0.0f));
         transform = glm::translate(transform, glm::vec3(origin, 0.0f));
@@ -182,5 +165,8 @@ namespace Nova::Renderer
                     color.b / 255.0f, color.a / 255.0f);
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
+		glUseProgram(0);
+        s_QuadVA.Unbind();
     }
 } // namespace Nova::Renderer
