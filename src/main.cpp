@@ -28,7 +28,7 @@ public:
     void Draw() override
     {
         Nova::Renderer::ClearScreen({51, 76, 76});
-        Nova::Renderer::DrawQuad(m_Pos, m_Size, Nova::White, rotation, m_Origin);
+        Nova::Renderer::DrawQuad(m_Pos, m_Size, Nova::White, rotation);
     }
 
     void ImGuiDraw() override
@@ -41,15 +41,12 @@ public:
 		ImGui::SliderFloat("Rotation", &rotation, 0.0f, 360.0f, "%.2f");
 		ImGui::SliderFloat2("Size", &m_Size.x, 0.0f, 100.0f);
 
-        m_Origin = {m_Size.x / 2.0f, m_Size.y / 2.0f};
-
         ImGui::End();
     }
 
 private:
     glm::vec2 m_Pos = {0.0f, 0.0f};
     glm::vec2 m_Size = {100.0f, 100.0f};
-    glm::vec2 m_Origin;
     float rotation = 0.0f;
 };
 

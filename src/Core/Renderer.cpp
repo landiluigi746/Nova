@@ -159,12 +159,15 @@ namespace Nova::Renderer
         glClear(GL_COLOR_BUFFER_BIT);
     }
 
-    void DrawQuad(const glm::vec2& position, const glm::vec2& size, const Color& color, float rotation)
+    void DrawQuad(const glm::vec2& position, const glm::vec2& size, const Color& color, float rotation,
+                  const glm::vec2& origin)
     {
         glm::mat4 transform = glm::mat4(1.0f);
         transform = glm::translate(transform, glm::vec3(position, 0.0f));
+        transform = glm::translate(transform, glm::vec3(origin, 0.0f));
         transform = glm::rotate(transform, glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f));
         transform = glm::scale(transform, glm::vec3(size.x, size.y, 1.0f));
+		transform = glm::translate(transform, glm::vec3(-origin, 0.0f));
 
         glUniformMatrix4fv(glGetUniformLocation(s_ShaderProgram, "uTransform"), 1, GL_FALSE, glm::value_ptr(transform));
         glUniform4f(glGetUniformLocation(s_ShaderProgram, "uColor"), color.r / 255.0f, color.g / 255.0f,
