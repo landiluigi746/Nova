@@ -1,4 +1,4 @@
-#include "Nova/Core/Renderer.hpp"
+#include "Nova/Renderer/Renderer.hpp"
 #include "Nova/Misc/Logger.hpp"
 #include "Nova/Misc/Assert.hpp"
 #include "Nova/Core/Window.hpp"
@@ -54,6 +54,10 @@ namespace Nova::Renderer
         glUniformMatrix4fv(glGetUniformLocation(s_ShaderProgram, "uProjection"), 1, GL_FALSE,
                            glm::value_ptr(projection));
         glUseProgram(0);
+
+        glViewport(0, 0, width, height);
+
+		NOVA_ASSERT(CheckOpenGLError(), "Failed to update projection!");
     }
 
     void Init()
@@ -73,7 +77,7 @@ namespace Nova::Renderer
 			-0.5f,  0.5f
         };
 
-		unsigned int quadIndices[] = {
+		uint32_t quadIndices[] = {
 			0, 1, 2,
 			2, 3, 0
 		};
@@ -94,7 +98,11 @@ namespace Nova::Renderer
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(quadIndices), quadIndices, GL_STATIC_DRAW);
 
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
+
+        glDeleteBuffers(1, &vertexBuffer);
+		glDeleteBuffers(1, &indexBuffer);
 
         uint32_t vertexShader = glCreateShader(GL_VERTEX_SHADER);
         uint32_t fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);

@@ -2,7 +2,7 @@
 #include "Nova/Scene/Scene.hpp"
 #include "Nova/Scene/SceneManager.hpp"
 #include "Nova/Core/Input.hpp"
-#include "Nova/Core/Renderer.hpp"
+#include "Nova/Renderer/Renderer.hpp"
 
 #include <glad/glad.h>
 #include <imgui.h>

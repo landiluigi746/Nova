@@ -1,7 +1,7 @@
 #include "Nova/Core/Window.hpp"
 #include "Nova/Misc/Assert.hpp"
 #include "Nova/Core/Input.hpp"
-#include "Nova/Core/Renderer.hpp"
+#include "Nova/Renderer/Renderer.hpp"
 
 #include <GLFW/glfw3.h>
 

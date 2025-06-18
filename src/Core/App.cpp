@@ -4,7 +4,7 @@
 #include "Nova/Misc/Assert.hpp"
 #include "Nova/Core/Input.hpp"
 #include "Nova/Scene/SceneManager.hpp"
-#include "Nova/Core/Renderer.hpp"
+#include "Nova/Renderer/Renderer.hpp"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
