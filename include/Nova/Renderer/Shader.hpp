@@ -17,6 +17,7 @@ namespace Nova
 		Shader() = default;
         virtual ~Shader();
 
+		void InitFromFiles(const std::filesystem::path& vertexPath, const std::filesystem::path& fragmentPath);
         void Init(const std::string_view& vertexSource, const std::string_view& fragmentSource);
 		void Shutdown();
 

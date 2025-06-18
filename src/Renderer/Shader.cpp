@@ -4,6 +4,7 @@
 
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
+#include <fstream>
 
 namespace Nova
 {
@@ -33,6 +34,51 @@ namespace Nova
     Shader::~Shader()
     {
         Shutdown();
+    }
+
+    void Shader::InitFromFiles(const std::filesystem::path& vertexPath, const std::filesystem::path& fragmentPath)
+    {
+        if (!std::filesystem::is_regular_file(vertexPath))
+        {
+            Logger::Warning("Vertex shader path {} does not exist!", vertexPath.string().c_str());
+			return;
+        }
+
+		if (!std::filesystem::is_regular_file(fragmentPath))
+		{
+			Logger::Warning("Fragment shader path {} does not exist!", fragmentPath.string().c_str());
+			return;
+		}
+
+		std::string vertexSource;
+		std::string fragmentSource;
+
+		std::ifstream vertexFile(vertexPath);
+		std::ifstream fragmentFile(fragmentPath);
+
+        if (!vertexFile.is_open())
+		{
+			Logger::Warning("Failed to open vertex shader file {}!", vertexPath.string().c_str());
+			return;
+		}
+
+		if (!fragmentFile.is_open())
+		{
+			Logger::Warning("Failed to open fragment shader file {}!", fragmentPath.string().c_str());
+			return;
+		}
+
+		vertexFile.seekg(0, std::ios::end);
+		vertexSource.resize(vertexFile.tellg());
+		vertexFile.seekg(0, std::ios::beg);
+		vertexFile.read(vertexSource.data(), vertexSource.size());
+
+		fragmentFile.seekg(0, std::ios::end);
+		fragmentSource.resize(fragmentFile.tellg());
+		fragmentFile.seekg(0, std::ios::beg);
+		fragmentFile.read(fragmentSource.data(), fragmentSource.size());
+
+		Init(vertexSource, fragmentSource);
     }
 
     void Shader::Init(const std::string_view& vertexSource, const std::string_view& fragmentSource)
