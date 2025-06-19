@@ -1,4 +1,5 @@
 #include "Nova/Renderer/Texture.hpp"
+#include "Nova/Renderer/GLError.hpp"
 #include "Nova/Misc/Assert.hpp"
 #include "Nova/Misc/Logger.hpp"
 
@@ -103,5 +104,7 @@ namespace Nova
         glTexImage2D(GL_TEXTURE_2D, 0, format, m_Width, m_Height, 0, format, GL_UNSIGNED_BYTE, data);
 
         glBindTexture(GL_TEXTURE_2D, 0);
+
+        CheckOpenGLErrors();
     }
 } // namespace Nova

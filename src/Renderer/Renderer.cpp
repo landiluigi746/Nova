@@ -2,6 +2,7 @@
 #include "Nova/Renderer/VertexArray.hpp"
 #include "Nova/Renderer/Shader.hpp"
 #include "Nova/Renderer/Texture.hpp"
+#include "Nova/Renderer/GLError.hpp"
 
 #include "Nova/Misc/Logger.hpp"
 #include "Nova/Misc/Assert.hpp"
@@ -41,23 +42,9 @@ namespace Nova::Renderer
         "{\n"
         "    FragColor = texture(uTexture, TexCoords) * uColor;\n"
         "}\n";
-	// clang-format on
+    // clang-format on
 
     static bool s_Initialized = false;
-
-    static bool CheckOpenGLError()
-    {
-        GLenum error;
-        int count = 0;
-
-        while ((error = glGetError()) != GL_NO_ERROR)
-        {
-            Logger::Error("OpenGL error: {}", error);
-            ++count;
-        }
-
-        return count == 0;
-    }
 
     void UpdateProjection(int width, int height)
     {
@@ -69,7 +56,7 @@ namespace Nova::Renderer
 
         glViewport(0, 0, width, height);
 
-        NOVA_ASSERT(CheckOpenGLError(), "Failed to update projection!");
+        CheckOpenGLErrors();
     }
 
     void Init()
@@ -116,7 +103,7 @@ namespace Nova::Renderer
 
         UpdateProjection(Window::Get().GetWidth(), Window::Get().GetHeight());
 
-        NOVA_ASSERT(CheckOpenGLError(), "Failed to initialize renderer!");
+        CheckOpenGLErrors();
 
         s_Initialized = true;
         Logger::Info("Renderer initialized successfully!");
@@ -135,7 +122,7 @@ namespace Nova::Renderer
         s_DefaultShader.Shutdown();
         s_DefaultTexture.Shutdown();
 
-        NOVA_ASSERT(CheckOpenGLError(), "Failed to shutdown renderer!");
+        CheckOpenGLErrors();
 
         s_Initialized = false;
         Logger::Info("Renderer shut down successfully!");
@@ -145,7 +132,7 @@ namespace Nova::Renderer
 
     void EndFrame()
     {
-        NOVA_ASSERT(CheckOpenGLError(), "Failed to end frame!");
+        CheckOpenGLErrors();
     }
 
     void ClearScreen(const Color& color)

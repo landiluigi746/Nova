@@ -1,4 +1,5 @@
 #include "Nova/Renderer/Shader.hpp"
+#include "Nova/Renderer/GLError.hpp"
 #include "Nova/Misc/Assert.hpp"
 #include "Nova/Misc/Logger.hpp"
 
@@ -8,6 +9,26 @@
 
 namespace Nova
 {
+    static std::string ReadFile(const std::filesystem::path& path)
+    {
+        std::ifstream in(path);
+        std::string buffer;
+
+        if (!in.is_open())
+        {
+            Logger::Warning("Failed to open shader file {}!", path.string().c_str());
+            return buffer;
+        }
+
+        in.seekg(0, std::ios::end);
+        buffer.resize(in.tellg());
+        in.seekg(0, std::ios::beg);
+        in.read(buffer.data(), buffer.size());
+        in.close();
+
+        return buffer;
+    }
+
     static uint32_t CompileShader(GLenum type, const std::string_view& source)
     {
         uint32_t shader = glCreateShader(type);
@@ -36,6 +57,17 @@ namespace Nova
         Shutdown();
     }
 
+    void Shader::InitFromFile(const std::filesystem::path& fragmentPath)
+    {
+        if (!std::filesystem::is_regular_file(fragmentPath))
+        {
+            Logger::Warning("Fragment shader path {} does not exist!", fragmentPath.string().c_str());
+            return;
+        }
+
+        Init("", ReadFile(fragmentPath));
+    }
+
     void Shader::InitFromFiles(const std::filesystem::path& vertexPath, const std::filesystem::path& fragmentPath)
     {
         if (!std::filesystem::is_regular_file(vertexPath))
@@ -50,49 +82,42 @@ namespace Nova
             return;
         }
 
-        std::string vertexSource;
-        std::string fragmentSource;
-
-        std::ifstream vertexFile(vertexPath);
-        std::ifstream fragmentFile(fragmentPath);
-
-        if (!vertexFile.is_open())
-        {
-            Logger::Warning("Failed to open vertex shader file {}!", vertexPath.string().c_str());
-            return;
-        }
-
-        if (!fragmentFile.is_open())
-        {
-            Logger::Warning("Failed to open fragment shader file {}!", fragmentPath.string().c_str());
-            return;
-        }
-
-        vertexFile.seekg(0, std::ios::end);
-        vertexSource.resize(vertexFile.tellg());
-        vertexFile.seekg(0, std::ios::beg);
-        vertexFile.read(vertexSource.data(), vertexSource.size());
-
-        fragmentFile.seekg(0, std::ios::end);
-        fragmentSource.resize(fragmentFile.tellg());
-        fragmentFile.seekg(0, std::ios::beg);
-        fragmentFile.read(fragmentSource.data(), fragmentSource.size());
+        std::string vertexSource = ReadFile(vertexPath);
+        std::string fragmentSource = ReadFile(fragmentPath);
 
         Init(vertexSource, fragmentSource);
     }
 
     void Shader::Init(const std::string_view& vertexSource, const std::string_view& fragmentSource)
     {
-        uint32_t vertexShader = CompileShader(GL_VERTEX_SHADER, vertexSource);
-        uint32_t fragmentShader = CompileShader(GL_FRAGMENT_SHADER, fragmentSource);
+        if (fragmentSource.empty())
+        {
+            Logger::Warning("To create a shader, a fragment source must be provided!");
+            return;
+        }
+
+        uint32_t vertexShader, fragmentShader;
 
         m_ID = glCreateProgram();
-        glAttachShader(m_ID, vertexShader);
-        glAttachShader(m_ID, fragmentShader);
-        glLinkProgram(m_ID);
 
-        glDeleteShader(vertexShader);
+        if (!vertexSource.empty())
+        {
+            vertexShader = CompileShader(GL_VERTEX_SHADER, vertexSource);
+            glAttachShader(m_ID, vertexShader);
+        }
+
+        fragmentShader = CompileShader(GL_FRAGMENT_SHADER, fragmentSource);
+        glAttachShader(m_ID, fragmentShader);
+
+        glLinkProgram(m_ID);
+        glValidateProgram(m_ID);
+
+        if (!vertexSource.empty())
+            glDeleteShader(vertexShader);
+
         glDeleteShader(fragmentShader);
+
+        CheckOpenGLErrors();
     }
 
     void Shader::Shutdown()
