@@ -1,10 +1,14 @@
 #include "Nova/Core/App.hpp"
 #include "Nova/Core/Window.hpp"
+#include "Nova/Core/Input.hpp"
+#include "Nova/Core/AssetManager.hpp"
+
+#include "Nova/Renderer/Renderer.hpp"
+
+#include "Nova/Scene/SceneManager.hpp"
+
 #include "Nova/Misc/Logger.hpp"
 #include "Nova/Misc/Assert.hpp"
-#include "Nova/Core/Input.hpp"
-#include "Nova/Scene/SceneManager.hpp"
-#include "Nova/Renderer/Renderer.hpp"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -52,6 +56,7 @@ namespace Nova
 		Renderer::Init();
 		InitImGui();
         SceneManager::Init();
+		AssetManager::Init();
 
         Logger::Info("Nova App initialized successfully!");
     }
@@ -92,8 +97,9 @@ namespace Nova
     {
         Logger::Info("Shutting down Nova App...");
 
-        ShutdownImGui();
+		AssetManager::Shutdown();
 		SceneManager::Shutdown();
+        ShutdownImGui();
         Renderer::Shutdown();
         Window::Shutdown();
         glfwTerminate();

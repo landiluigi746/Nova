@@ -3,17 +3,24 @@
 #include "Nova/Scene/SceneManager.hpp"
 #include "Nova/Core/Input.hpp"
 #include "Nova/Renderer/Renderer.hpp"
+#include "Nova/Renderer/Texture.hpp"
+#include "Nova/Renderer/Shader.hpp"
+#include "Nova/Core/AssetManager.hpp"
 
 #include <glad/glad.h>
 #include <imgui.h>
+
+/*
+To see the asset manager in action, decomment commented lines and make 
+sure to have an image called "image.png" in the same folder as the executable
+*/
 
 class TestScene : public Nova::Scene
 {
 public:
     TestScene()
     {
-        // decomment to load texture
-        // m_Texture.Init("image.png"); 
+        //m_Texture = Nova::AssetManager::GetTexture("texture");
     }
 
     void Update(float deltaTime) override
@@ -24,8 +31,7 @@ public:
     void Draw() override
     {
         Nova::Renderer::ClearScreen({51, 76, 76});
-        //Nova::Renderer::DrawQuad(m_Pos, m_Size, Nova::White, rotation);
-        Nova::Renderer::DrawQuad(m_Texture, m_Pos, m_Size, Nova::White, rotation);
+        //Nova::Renderer::DrawQuad(m_Texture, m_Pos, m_Size, Nova::White, rotation);
     }
 
     void ImGuiDraw() override
@@ -46,7 +52,7 @@ private:
     glm::vec2 m_Size = {100.0f, 100.0f};
     float rotation = 0.0f;
 
-    Nova::Texture m_Texture;
+    //Nova::TextureAsset m_Texture;
 };
 
 class Sandbox : public Nova::App
@@ -54,6 +60,8 @@ class Sandbox : public Nova::App
 public:
     Sandbox(const Nova::AppConfig& config) : Nova::App(config)
     {
+        Nova::AssetManager::LoadTexture("texture", "negro2.png");
+
         Nova::SceneManager& sceneManager = Nova::SceneManager::Get();
 
         sceneManager.AddScene<TestScene>("TestScene");
