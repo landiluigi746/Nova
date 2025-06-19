@@ -53,10 +53,10 @@ namespace Nova
         Logger::Info("OpenGL vendor: {}", (const char*) glGetString(GL_VENDOR));
         Logger::Info("OpenGL renderer: {}", (const char*) glGetString(GL_RENDERER));
 
-		Renderer::Init();
-		InitImGui();
+        Renderer::Init();
+        InitImGui();
         SceneManager::Init();
-		AssetManager::Init();
+        AssetManager::Init();
 
         Logger::Info("Nova App initialized successfully!");
     }
@@ -78,7 +78,7 @@ namespace Nova
 
             Renderer::BeginFrame();
             sceneManager.ProcessScenes(deltaTime);
-			Renderer::EndFrame();
+            Renderer::EndFrame();
 
             ImGui_ImplOpenGL3_NewFrame();
             ImGui_ImplGlfw_NewFrame();
@@ -97,8 +97,8 @@ namespace Nova
     {
         Logger::Info("Shutting down Nova App...");
 
-		AssetManager::Shutdown();
-		SceneManager::Shutdown();
+        AssetManager::Shutdown();
+        SceneManager::Shutdown();
         ShutdownImGui();
         Renderer::Shutdown();
         Window::Shutdown();

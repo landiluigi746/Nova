@@ -44,7 +44,7 @@ namespace Nova
 
             Logger::Info("Registering scene \"{}\"", name);
             m_Scenes.emplace_back(SceneData{.Running = false,
-											.Stopped = true,
+                                            .Stopped = true,
                                             .Name = std::move(name),
                                             .Scene = std::make_shared<SceneT>(std::forward<Args>(args)...)});
         }
@@ -60,7 +60,7 @@ namespace Nova
     private:
         struct SceneData
         {
-			bool Running;
+            bool Running;
             bool Stopped;
             std::string Name;
             ScenePtr Scene;
@@ -72,6 +72,7 @@ namespace Nova
         ~SceneManager() = default;
 
         std::pair<bool, SceneContainer::iterator> IsSceneRegistered(const std::string_view& name);
+
     private:
         SceneContainer m_Scenes;
     };

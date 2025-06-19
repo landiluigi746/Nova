@@ -11,7 +11,7 @@ namespace Nova
 
         virtual ~Scene() {}
 
-		virtual void Start() {}
+        virtual void Start() {}
         virtual void End() {}
         virtual void Update(float deltaTime) {}
         virtual void Draw() = 0;

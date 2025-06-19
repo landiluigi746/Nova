@@ -10,7 +10,7 @@ namespace Nova
     void SceneManager::RemoveScene(const std::string_view& name)
     {
         if (auto [found, it] = IsSceneRegistered(name); found)
-			m_Scenes.erase(it);
+            m_Scenes.erase(it);
     }
 
     void SceneManager::StartScene(const std::string_view& name)
@@ -26,31 +26,31 @@ namespace Nova
 
     void SceneManager::StopScene(const std::string_view& name)
     {
-		if (auto [found, it] = IsSceneRegistered(name); found && it->Running && !it->Stopped)
-		{
-			Logger::Info("Stopping scene \"{}\"", it->Name);
-			it->Scene->End();
-			it->Running = false;
-			it->Stopped = true;
-		}
+        if (auto [found, it] = IsSceneRegistered(name); found && it->Running && !it->Stopped)
+        {
+            Logger::Info("Stopping scene \"{}\"", it->Name);
+            it->Scene->End();
+            it->Running = false;
+            it->Stopped = true;
+        }
     }
 
     void SceneManager::ResumeScene(const std::string_view& name)
     {
-		if (auto [found, it] = IsSceneRegistered(name); found && !it->Running && !it->Stopped)
-		{
-			Logger::Info("Resuming scene \"{}\"", it->Name);
-			it->Running = true;
-		}
+        if (auto [found, it] = IsSceneRegistered(name); found && !it->Running && !it->Stopped)
+        {
+            Logger::Info("Resuming scene \"{}\"", it->Name);
+            it->Running = true;
+        }
     }
 
     void SceneManager::PauseScene(const std::string_view& name)
     {
-		if (auto [found, it] = IsSceneRegistered(name); found && it->Running && !it->Stopped)
-		{
-			Logger::Info("Pausing scene \"{}\"", it->Name);
-			it->Running = false;
-		}
+        if (auto [found, it] = IsSceneRegistered(name); found && it->Running && !it->Stopped)
+        {
+            Logger::Info("Pausing scene \"{}\"", it->Name);
+            it->Running = false;
+        }
     }
 
     std::pair<bool, SceneManager::SceneContainer::iterator> SceneManager::IsSceneRegistered(
@@ -70,27 +70,27 @@ namespace Nova
 
     void SceneManager::ProcessScenes(float deltaTime)
     {
-		for (auto& scene : m_Scenes)
-		{
-			if (scene.Running && !scene.Stopped)
-				scene.Scene->Update(deltaTime);
-		}
+        for (auto& scene : m_Scenes)
+        {
+            if (scene.Running && !scene.Stopped)
+                scene.Scene->Update(deltaTime);
+        }
 
-		for (auto& scene : m_Scenes)
-		{
-			if (scene.Running && !scene.Stopped)
-				scene.Scene->Draw();
-		}
+        for (auto& scene : m_Scenes)
+        {
+            if (scene.Running && !scene.Stopped)
+                scene.Scene->Draw();
+        }
     }
 
-	void SceneManager::ProcessImGuiFrame()
-	{
-		for (auto& scene : m_Scenes)
-		{
-			if (scene.Running && !scene.Stopped)
-				scene.Scene->ImGuiDraw();
-		}
-	}
+    void SceneManager::ProcessImGuiFrame()
+    {
+        for (auto& scene : m_Scenes)
+        {
+            if (scene.Running && !scene.Stopped)
+                scene.Scene->ImGuiDraw();
+        }
+    }
 
     void SceneManager::Init()
     {
@@ -99,7 +99,7 @@ namespace Nova
 
         Logger::Info("Initializing SceneManager...");
         s_SceneManager = new SceneManager();
-		Logger::Info("SceneManager initialized successfully!");
+        Logger::Info("SceneManager initialized successfully!");
     }
 
     void SceneManager::Shutdown()
@@ -107,10 +107,10 @@ namespace Nova
         if (!s_SceneManager)
             return;
 
-		Logger::Info("Shutting down SceneManager...");
+        Logger::Info("Shutting down SceneManager...");
         delete s_SceneManager;
         s_SceneManager = nullptr;
-		Logger::Info("SceneManager shut down successfully!");
+        Logger::Info("SceneManager shut down successfully!");
     }
 
     SceneManager& SceneManager::Get()

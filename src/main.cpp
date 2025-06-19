@@ -11,7 +11,7 @@
 #include <imgui.h>
 
 /*
-To see the asset manager in action, decomment commented lines and make 
+To see the asset manager in action, decomment commented lines and make
 sure to have an image called "image.png" in the same folder as the executable
 */
 
@@ -20,7 +20,7 @@ class TestScene : public Nova::Scene
 public:
     TestScene()
     {
-        //m_Texture = Nova::AssetManager::GetTexture("texture");
+        m_Texture = Nova::AssetManager::GetTexture("player");
     }
 
     void Update(float deltaTime) override
@@ -31,7 +31,7 @@ public:
     void Draw() override
     {
         Nova::Renderer::ClearScreen({51, 76, 76});
-        //Nova::Renderer::DrawQuad(m_Texture, m_Pos, m_Size, Nova::White, rotation);
+        Nova::Renderer::DrawQuad(m_Texture, m_Pos, m_Size, Nova::White, rotation);
     }
 
     void ImGuiDraw() override
@@ -41,8 +41,8 @@ public:
         ImGui::Begin("Test Scene");
 
         ImGui::Text("Position: %.2f, %.2f", m_Pos.x, m_Pos.y);
-		ImGui::SliderFloat("Rotation", &rotation, 0.0f, 360.0f, "%.2f");
-		ImGui::SliderFloat2("Size", &m_Size.x, 0.0f, 100.0f);
+        ImGui::SliderFloat("Rotation", &rotation, 0.0f, 360.0f, "%.2f");
+        ImGui::SliderFloat2("Size", &m_Size.x, 0.0f, 100.0f);
 
         ImGui::End();
     }
@@ -52,7 +52,7 @@ private:
     glm::vec2 m_Size = {100.0f, 100.0f};
     float rotation = 0.0f;
 
-    //Nova::TextureAsset m_Texture;
+    Nova::TextureAsset m_Texture;
 };
 
 class Sandbox : public Nova::App
@@ -60,7 +60,8 @@ class Sandbox : public Nova::App
 public:
     Sandbox(const Nova::AppConfig& config) : Nova::App(config)
     {
-        Nova::AssetManager::LoadTexture("texture", "negro2.png");
+        // Nova::AssetManager::LoadTexture("texture", "negro2.png");
+        Nova::AssetManager::LoadFromDirectory("res");
 
         Nova::SceneManager& sceneManager = Nova::SceneManager::Get();
 

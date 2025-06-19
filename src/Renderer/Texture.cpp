@@ -62,23 +62,23 @@ namespace Nova
     void Texture::Init(uint32_t width, uint32_t height, const Color* data)
     {
         NOVA_ASSERT(data != nullptr, "Cannot initialize texture with null data!");
-        
+
         m_Width = width;
         m_Height = height;
-        
+
         Init(GL_RGBA, data);
     }
 
-	void Texture::Bind() const
-	{
+    void Texture::Bind() const
+    {
         glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, m_ID);
-	}
+        glBindTexture(GL_TEXTURE_2D, m_ID);
+    }
 
-	void Texture::Unbind() const
-	{
-		glBindTexture(GL_TEXTURE_2D, 0);
-	}
+    void Texture::Unbind() const
+    {
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
 
     void Texture::Shutdown()
     {

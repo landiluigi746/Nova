@@ -44,6 +44,8 @@ namespace Nova
         static void Init();
         static void Shutdown();
 
+        static void LoadFromDirectory(const std::filesystem::path& path);
+
         static void LoadTexture(const std::string& name, const std::filesystem::path& path);
         static void LoadShader(const std::string& name, const std::filesystem::path& fragmentPath);
 
@@ -53,6 +55,8 @@ namespace Nova
     private:
         AssetManager() = default;
         ~AssetManager() = default;
+
+        void LoadFromDirectoryImpl(const std::filesystem::path& path);
 
         void LoadTextureImpl(const std::string& name, const std::filesystem::path& path);
         void LoadShaderImpl(const std::string& name, const std::filesystem::path& fragmentPath);

@@ -81,8 +81,8 @@ namespace Nova
         glGenVertexArrays(1, &m_ID);
     }
 
-	void VertexArray::Shutdown()
-	{
+    void VertexArray::Shutdown()
+    {
         if (m_ID)
         {
             glDeleteVertexArrays(1, &m_ID);
@@ -100,7 +100,7 @@ namespace Nova
             glDeleteBuffers(1, &m_IndexBufferID);
             m_IndexBufferID = 0;
         }
-	}
+    }
 
     void VertexArray::Bind() const
     {
@@ -134,7 +134,7 @@ namespace Nova
 
         // moved here because of compiler errors
         GLenum type;
-		uint32_t rows;
+        uint32_t rows;
         uint32_t cols;
 
         for (const auto& element : layout)

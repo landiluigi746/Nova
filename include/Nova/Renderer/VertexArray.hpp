@@ -29,16 +29,17 @@ namespace Nova
     class VertexArray
     {
     public:
-		VertexArray() = default;
+        VertexArray() = default;
         virtual ~VertexArray();
 
         void Init();
-		void Shutdown();
+        void Shutdown();
 
         VertexArray(const VertexArray&) = delete;
         VertexArray& operator=(const VertexArray&) = delete;
 
-        void SetVertexBuffer(const void* vertices, uint32_t sizeBytes, std::initializer_list<VertexBufferElement> layout);
+        void SetVertexBuffer(const void* vertices, uint32_t sizeBytes,
+                             std::initializer_list<VertexBufferElement> layout);
         void SetIndexBuffer(const uint32_t* indices, uint32_t count);
 
         void Bind() const;

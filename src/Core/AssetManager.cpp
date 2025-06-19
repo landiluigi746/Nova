@@ -16,6 +16,11 @@ namespace Nova
         Logger::Info("AssetManager initialized successfully!");
     }
 
+    void AssetManager::LoadFromDirectory(const std::filesystem::path& path)
+    {
+        s_Instance->LoadFromDirectoryImpl(path);
+    }
+
     void AssetManager::LoadTexture(const std::string& name, const std::filesystem::path& path)
     {
         s_Instance->LoadTextureImpl(name, path);
@@ -47,6 +52,33 @@ namespace Nova
         Logger::Info("AssetManager shut down successfully!");
     }
 
+    void AssetManager::LoadFromDirectoryImpl(const std::filesystem::path& path)
+    {
+        if (!std::filesystem::is_directory(path))
+        {
+            Logger::Warning("{} is not a directory! Skipping...", path.string());
+            return;
+        }
+
+        if (std::filesystem::is_directory(path / "textures"))
+        {
+            for (const auto& entry : std::filesystem::directory_iterator(path / "textures"))
+            {
+                auto path = entry.path();
+                LoadTextureImpl(path.stem().string(), path);
+            }
+        }
+
+        if (std::filesystem::is_directory(path / "shaders"))
+        {
+            for (const auto& entry : std::filesystem::directory_iterator(path / "shaders"))
+            {
+                auto path = entry.path();
+                LoadShaderImpl(path.stem().string(), path);
+            }
+        }
+    }
+
     void AssetManager::LoadTextureImpl(const std::string& name, const std::filesystem::path& path)
     {
         if (m_Textures.contains(name))
@@ -71,7 +103,7 @@ namespace Nova
             return;
         }
 
-		Logger::Info("Loading shader {}...", name);
+        Logger::Info("Loading shader {}...", name);
 
         ShaderAsset shader(std::make_shared<Shader>());
         shader.Asset->InitFromFile(fragmentPath);

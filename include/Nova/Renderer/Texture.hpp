@@ -20,8 +20,16 @@ namespace Nova
         void Bind() const;
         void Unbind() const;
 
-        int GetWidth() const { return m_Width; }
-		int GetHeight() const { return m_Height; }
+        int GetWidth() const
+        {
+            return m_Width;
+        }
+
+        int GetHeight() const
+        {
+            return m_Height;
+        }
+
     private:
         void Init(int format, const void* data);
 

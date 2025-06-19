@@ -33,8 +33,8 @@ namespace Nova
         glfwSetWindowUserPointer(m_Window, this);
 
         glfwSetKeyCallback(m_Window, &Input::KeyCallback);
-		glfwSetMouseButtonCallback(m_Window, &Input::MouseButtonCallback);
-		glfwSetScrollCallback(m_Window, &Input::MouseScrollCallback);
+        glfwSetMouseButtonCallback(m_Window, &Input::MouseButtonCallback);
+        glfwSetScrollCallback(m_Window, &Input::MouseScrollCallback);
 
         glfwSetFramebufferSizeCallback(m_Window, [](GLFWwindow* glfwWindow, int width, int height) {
             Window& window = *(Window*) glfwGetWindowUserPointer(glfwWindow);
@@ -43,9 +43,9 @@ namespace Nova
             window.m_Config.Height = height;
 
             if (window.m_Config.Flags & WindowFlags_Vsync)
-				glfwSwapInterval(1);
+                glfwSwapInterval(1);
 
-			Renderer::UpdateProjection(width, height);
+            Renderer::UpdateProjection(width, height);
         });
 
         if (m_Config.Flags & WindowFlags_Vsync)
