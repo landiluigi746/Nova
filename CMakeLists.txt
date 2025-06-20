@@ -65,4 +65,7 @@ find_package(OpenGL REQUIRED)
 
 add_subdirectory(vendor/glad)
 add_subdirectory(src)
-add_subdirectory(sandbox)
+
+if(NOVA_STANDALONE)
+    add_subdirectory(sandbox)
+endif()
