@@ -10,11 +10,6 @@
 #include <glad/glad.h>
 #include <imgui.h>
 
-/*
-To see the asset manager in action, decomment commented lines and make
-sure to have an image called "image.png" in the same folder as the executable
-*/
-
 class TestScene : public Nova::Scene
 {
 public:
@@ -31,13 +26,17 @@ public:
     void Draw() override
     {
         Nova::Renderer::ClearScreen({51, 76, 76});
-        Nova::Renderer::DrawQuad(m_Texture, m_Pos, m_Size, Nova::White, rotation);
+
+        for (int i = 0; i < 10; i++)
+        {
+            Nova::Renderer::DrawQuad(m_Pos + glm::vec2(i * m_Size.x, i * m_Size.y), m_Size, Nova::White, rotation);
+        }
+
+        Nova::Renderer::DrawQuad(m_Texture, m_Pos - m_Size, m_Size, Nova::White, rotation);
     }
 
     void ImGuiDraw() override
     {
-        Nova::Window& window = Nova::Window::Get();
-
         ImGui::Begin("Test Scene");
 
         ImGui::Text("Position: %.2f, %.2f", m_Pos.x, m_Pos.y);
@@ -60,22 +59,22 @@ class Sandbox : public Nova::App
 public:
     Sandbox(const Nova::AppConfig& config) : Nova::App(config)
     {
-        // Nova::AssetManager::LoadTexture("texture", "negro2.png");
+        Nova::AssetManager::LoadTexture("player", "negro2.png");
         Nova::AssetManager::LoadFromDirectory("res");
 
         Nova::SceneManager& sceneManager = Nova::SceneManager::Get();
 
         sceneManager.AddScene<TestScene>("TestScene");
         sceneManager.StartScene("TestScene");
+
+        Nova::Texture s;
     }
 };
 
 Nova::AppPtr Nova::CreateApp()
 {
-    Nova::AppConfig config = {.WindowFlags = Nova::WindowFlags_Vsync | Nova::WindowFlags_Resizable,
-                              .Width = 1280,
-                              .Height = 720,
-                              .Title = "Nova Test"};
+    Nova::AppConfig config = {
+        .WindowFlags = Nova::WindowFlags_Resizable, .Width = 1280, .Height = 720, .Title = "Nova Test"};
 
     return Nova::MakeApp<Sandbox>(config);
 }

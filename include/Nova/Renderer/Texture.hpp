@@ -13,12 +13,22 @@ namespace Nova
         Texture() = default;
         virtual ~Texture();
 
+        Texture(const Texture&) = delete;
+        Texture(Texture&&) noexcept = delete;
+        Texture& operator=(const Texture&) = delete;
+        Texture& operator=(Texture&&) noexcept = delete;
+
         void Init(const std::filesystem::path& path);
         void Init(uint32_t width, uint32_t height, const Color* data);
         void Shutdown();
 
-        void Bind() const;
+        void Bind(uint32_t slot) const;
         void Unbind() const;
+
+        int GetID() const
+        {
+            return m_ID;
+        }
 
         int GetWidth() const
         {

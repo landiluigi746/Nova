@@ -38,9 +38,12 @@ namespace Nova
         VertexArray(const VertexArray&) = delete;
         VertexArray& operator=(const VertexArray&) = delete;
 
-        void SetVertexBuffer(const void* vertices, uint32_t sizeBytes,
-                             std::initializer_list<VertexBufferElement> layout);
-        void SetIndexBuffer(const uint32_t* indices, uint32_t count);
+        void InitVertexBuffer(const void* vertices, uint32_t sizeBytes,
+                              std::initializer_list<VertexBufferElement> layout = {});
+        void InitIndexBuffer(const uint32_t* indices, uint32_t count);
+
+        void SetVertexBufferData(const void* vertices, uint32_t sizeBytes);
+        void SetIndexBufferData(const uint32_t* indices, uint32_t count);
 
         void Bind() const;
         void Unbind() const;
@@ -49,5 +52,7 @@ namespace Nova
         uint32_t m_ID = 0;
         uint32_t m_VertexBufferID = 0;
         uint32_t m_IndexBufferID = 0;
+        bool m_VertexBufferDynamic = false;
+        bool m_IndexBufferDynamic = false;
     };
 } // namespace Nova

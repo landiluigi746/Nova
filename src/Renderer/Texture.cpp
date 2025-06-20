@@ -69,9 +69,9 @@ namespace Nova
         Init(GL_RGBA, data);
     }
 
-    void Texture::Bind() const
+    void Texture::Bind(uint32_t slot) const
     {
-        glActiveTexture(GL_TEXTURE0);
+        glActiveTexture(GL_TEXTURE0 + slot);
         glBindTexture(GL_TEXTURE_2D, m_ID);
     }
 
@@ -101,10 +101,13 @@ namespace Nova
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-        glTexImage2D(GL_TEXTURE_2D, 0, format, m_Width, m_Height, 0, format, GL_UNSIGNED_BYTE, data);
+        GLenum internalFormat = (format == GL_RGBA) ? GL_RGBA8 : GL_RGB8;
+        glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, m_Width, m_Height, 0, format, GL_UNSIGNED_BYTE, data);
 
         glBindTexture(GL_TEXTURE_2D, 0);
 
         CheckOpenGLErrors();
+
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
     }
 } // namespace Nova

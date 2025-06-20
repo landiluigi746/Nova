@@ -142,6 +142,11 @@ namespace Nova
         return location;
     }
 
+    void Shader::SetUniformIntV(const std::string_view& name, const int32_t* values, uint32_t count)
+    {
+        glUniform1iv(GetUniformLocation(name), count, values);
+    }
+
     void Shader::SetUniformInt(const std::string_view& name, const int32_t value)
     {
         glUniform1i(GetUniformLocation(name), value);

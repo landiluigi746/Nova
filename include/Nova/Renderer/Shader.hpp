@@ -26,6 +26,7 @@ namespace Nova
         Shader(const Shader&) = delete;
         Shader& operator=(const Shader&) = delete;
 
+        void SetUniformIntV(const std::string_view& name, const int32_t* values, uint32_t count);
         void SetUniformInt(const std::string_view& name, const int32_t value);
         void SetUniformFloat(const std::string_view& name, const float value);
         void SetUniformFloat2(const std::string_view& name, const glm::vec2& value);

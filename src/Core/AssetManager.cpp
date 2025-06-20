@@ -77,6 +77,9 @@ namespace Nova
                 LoadShaderImpl(path.stem().string(), path);
             }
         }
+
+        for (const auto& [name, texture] : m_Textures)
+            Logger::Info("{}, id {}", name, texture.Asset->GetID());
     }
 
     void AssetManager::LoadTextureImpl(const std::string& name, const std::filesystem::path& path)

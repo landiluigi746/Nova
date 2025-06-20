@@ -112,8 +112,8 @@ namespace Nova
         glBindVertexArray(0);
     }
 
-    void VertexArray::SetVertexBuffer(const void* data, uint32_t sizeBytes,
-                                      std::initializer_list<VertexBufferElement> layout)
+    void VertexArray::InitVertexBuffer(const void* data, uint32_t sizeBytes,
+                                       std::initializer_list<VertexBufferElement> layout)
     {
         if (m_VertexBufferID)
         {
@@ -125,9 +125,12 @@ namespace Nova
         for (const auto& element : layout)
             stride += GetSizeOfType(element.Type);
 
+        GLenum usage = (data == nullptr) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW;
+        m_VertexBufferDynamic = (usage == GL_DYNAMIC_DRAW);
+
         glGenBuffers(1, &m_VertexBufferID);
         glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferID);
-        glBufferData(GL_ARRAY_BUFFER, sizeBytes, data, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, sizeBytes, data, usage);
 
         uint32_t offset = 0;
         uint32_t index = 0;
@@ -185,7 +188,7 @@ namespace Nova
         }
     }
 
-    void VertexArray::SetIndexBuffer(const uint32_t* indices, uint32_t count)
+    void VertexArray::InitIndexBuffer(const uint32_t* indices, uint32_t count)
     {
         if (m_IndexBufferID)
         {
@@ -193,8 +196,59 @@ namespace Nova
             return;
         }
 
+        GLenum usage = (indices == nullptr) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW;
+        m_IndexBufferDynamic = (usage == GL_DYNAMIC_DRAW);
+
         glGenBuffers(1, &m_IndexBufferID);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBufferID);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t), indices, GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t), indices, usage);
+    }
+
+    void VertexArray::SetVertexBufferData(const void* vertices, uint32_t sizeBytes)
+    {
+        if (!m_VertexBufferID)
+        {
+            Logger::Warning("Cannot set vertex buffer on a vertex array with no vertex buffer!");
+            return;
+        }
+
+        if (!m_VertexBufferDynamic)
+        {
+            Logger::Warning("Cannot set vertex buffer on a vertex array with a static vertex buffer!");
+            return;
+        }
+
+        if (!vertices)
+        {
+            Logger::Warning("Cannot set vertex buffer to nullptr!");
+            return;
+        }
+
+        glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferID);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeBytes, vertices);
+    }
+
+    void VertexArray::SetIndexBufferData(const uint32_t* indices, uint32_t count)
+    {
+        if (!m_IndexBufferID)
+        {
+            Logger::Warning("Cannot set index buffer on a vertex array with no index buffer!");
+            return;
+        }
+
+        if (!m_IndexBufferDynamic)
+        {
+            Logger::Warning("Cannot set index buffer on a vertex array with a static index buffer!");
+            return;
+        }
+
+        if (!indices)
+        {
+            Logger::Warning("Cannot set index buffer to nullptr!");
+            return;
+        }
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBufferID);
+        glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, count * sizeof(uint32_t), indices);
     }
 } // namespace Nova

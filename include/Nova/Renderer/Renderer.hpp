@@ -4,6 +4,7 @@
 #include "Nova/Renderer/Texture.hpp"
 
 #include <glm/vec2.hpp>
+#include <memory>
 
 namespace Nova::Renderer
 {
@@ -19,9 +20,9 @@ namespace Nova::Renderer
     void DrawQuad(const glm::vec2& position, const glm::vec2& size, const Color& color, float rotation = 0.0f,
                   const glm::vec2& origin = {0.0f, 0.0f});
 
-    void DrawQuad(const Texture& texture, const glm::vec2& position, float rotation = 0.0f,
+    void DrawQuad(std::shared_ptr<Texture> texture, const glm::vec2& position, float rotation = 0.0f,
                   const glm::vec2& origin = {0.0f, 0.0f});
 
-    void DrawQuad(const Texture& texture, const glm::vec2& position, const glm::vec2& size,
+    void DrawQuad(std::shared_ptr<Texture> texture, const glm::vec2& position, const glm::vec2& size,
                   const Color& color = Nova::White, float rotation = 0.0f, const glm::vec2& origin = {0.0f, 0.0f});
 } // namespace Nova::Renderer

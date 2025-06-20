@@ -17,16 +17,17 @@ namespace Nova
     {
         std::shared_ptr<T> Asset;
 
-		AssetHandle() = default;
-		AssetHandle(std::shared_ptr<T> asset) : Asset(asset) {}
+        AssetHandle() = default;
+        AssetHandle(std::shared_ptr<T> asset) : Asset(asset) {}
 
         operator bool() const
         {
             return Asset != nullptr;
         }
-        operator T&() const
+
+        operator std::shared_ptr<T>() const
         {
-            return *Asset;
+            return Asset;
         }
     };
 
