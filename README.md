@@ -1,9 +1,10 @@
-﻿# Nova
+﻿<h1 align="center">Nova</h1>
 
-![Language](https://img.shields.io/badge/Language-C%2B%2B-blue)
-[![CMake multi-platform](https://github.com/landiluigi746/Nova/actions/workflows/cmake-multi-platform.yml/badge.svg)](https://github.com/landiluigi746/Nova/actions/workflows/cmake-multi-platform.yml)
-![GitHub License](https://img.shields.io/github/license/landiluigi746/Nova)
-
+<p align="center">
+<img src="https://img.shields.io/badge/Language-C%2B%2B-blue">
+<a href="https://github.com/landiluigi746/Nova/actions/workflows/cmake-multi-platform.yml"><img src="https://github.com/landiluigi746/Nova/actions/workflows/cmake-multi-platform.yml/badge.svg"></a>
+<img src="https://img.shields.io/github/license/landiluigi746/Nova">
+</p>
 
 Nova is a lightweight 2D game development framework written in **C++20** using **OpenGL 3.3**. It's designed to make building simple games and applications easier and more straight-forward.
 
@@ -17,7 +18,7 @@ Currently implemented (as of day 4 of development):
 - Shader abstraction and usage
 - Mouse and Keyboard input handling
 - Integration with **Dear ImGui** for building UIs
-- Basic **Asset Manager** for streamlined resource handling  
+- Basic **Asset Manager** for streamlined resource handling
 - Modular **Scene System** with functions for lifecycle management (`Start`, `Update`, `Draw`, `ImGuiDraw`, etc.)
 
 ## 📦 Dependencies used by Nova
@@ -62,6 +63,7 @@ cmake --build build
 ```
 
 3. Run the sandbox project:
+
 ```bash
 # or the build type you chose
 cd bin/Debug
@@ -78,10 +80,10 @@ The suggested way of using Nova in your own CMake project is to use `FetchConten
 include(FetchContent)
 
 FetchContent_Declare(
-	Nova
-	GIT_REPOSITORY https://github.com/landiluigi746/Nova.git
-	GIT_TAG master
-	GIT_SHALLOW TRUE # make sure to use a shallow clone, you don't need the full repo history
+    Nova
+    GIT_REPOSITORY https://github.com/landiluigi746/Nova.git
+    GIT_TAG master
+    GIT_SHALLOW TRUE # make sure to use a shallow clone, you don't need the full repo history
 )
 FetchContent_MakeAvailable(Nova)
 ```
@@ -93,3 +95,18 @@ Now you can access the exposed target `Nova` in your CMake project.
 add_executable(MyProject main.cpp)
 target_link_libraries(MyProject PRIVATE Nova)
 ```
+
+## 📝 License
+
+Nova is licensed under the [MIT License](https://github.com/landiluigi746/Nova/blob/master/LICENSE).
+
+## 📝 Acknowledgements
+
+The project is inspired from TheCherno's [Hazel](https://hazelengine.com/) game engine and related video series.
+
+## 👥 Contributing
+
+Contributions are welcome! If you find any bugs or have any suggestions, please [open an issue](https://github.com/landiluigi746/Nova/issues/new) or [submit a pull request](https://github.com/landiluigi746/Nova/pulls).
+Contributing guidelines will be added soon.
+
+<p align="center">Drop a ⭐ if you like this project!</p>
