@@ -31,14 +31,14 @@ public:
         m_Pos = Nova::Input::GetMousePos();
     }
 
-	// This function gets called every frame after Update
+    // This function gets called every frame after Update
     void Draw() override
     {
         Nova::Renderer::ClearScreen(Nova::Gray);
         Nova::Renderer::DrawQuad(m_Pos, m_Size, Nova::White, rotation);
     }
 
-	// This function gets called every frame after Draw (so ImGui is drawn on top of the scene)
+    // This function gets called every frame after Draw (so ImGui is drawn on top of the scene)
     void ImGuiDraw() override
     {
         ImGui::Begin("Nova Sandbox project");
@@ -71,7 +71,7 @@ public:
         // Get the instance of the SceneManager
         Nova::SceneManager& sceneManager = Nova::SceneManager::Get();
 
-		// Add and start the SandboxScene
+        // Add and start the SandboxScene
         sceneManager.AddScene<SandboxScene>("SandboxScene");
         sceneManager.StartScene("SandboxScene");
     }
