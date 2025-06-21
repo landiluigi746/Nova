@@ -1,9 +1,15 @@
 ﻿<h1 align="center">Nova</h1>
 
+<div align="center">
+    <img src="assets/NovaLogo.png">
+</div>
+
+<div style="height: 20px "></div>
+
 <p align="center">
-<img src="https://img.shields.io/badge/Language-C%2B%2B-blue">
-<a href="https://github.com/landiluigi746/Nova/actions/workflows/cmake-multi-platform.yml"><img src="https://github.com/landiluigi746/Nova/actions/workflows/cmake-multi-platform.yml/badge.svg"></a>
-<img src="https://img.shields.io/github/license/landiluigi746/Nova">
+    <img src="https://img.shields.io/badge/Language-C%2B%2B-blue">
+    <a href="https://github.com/landiluigi746/Nova/actions/workflows/cmake-multi-platform.yml"><img src="https://github.com/landiluigi746/Nova/actions/workflows/cmake-multi-platform.yml/badge.svg"></a>
+    <img src="https://img.shields.io/github/license/landiluigi746/Nova">
 </p>
 
 Nova is a lightweight 2D game development framework written in **C++20** using **OpenGL 3.3**. It's designed to make building simple games and applications easier and more straight-forward.
