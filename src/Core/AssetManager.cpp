@@ -77,9 +77,6 @@ namespace Nova
                 LoadShaderImpl(path.stem().string(), path);
             }
         }
-
-        for (const auto& [name, texture] : m_Textures)
-            Logger::Info("{}, id {}", name, texture.Asset->GetID());
     }
 
     void AssetManager::LoadTextureImpl(const std::string& name, const std::filesystem::path& path)
@@ -90,10 +87,12 @@ namespace Nova
             return;
         }
 
-        Logger::Info("Loading texture {}...", name);
+        Logger::Info("Loading texture {} ({})...", name, path.string());
 
         TextureAsset texture(std::make_shared<Texture>());
-        texture.Asset->Init(path);
+
+        if (!texture.Asset->Init(path))
+            return;
 
         m_Textures[name] = texture;
     }
@@ -106,10 +105,12 @@ namespace Nova
             return;
         }
 
-        Logger::Info("Loading shader {}...", name);
+        Logger::Info("Loading fragment shader {} ()...", name, fragmentPath.string());
 
         ShaderAsset shader(std::make_shared<Shader>());
-        shader.Asset->InitFromFile(fragmentPath);
+
+        if (!shader.Asset->InitFromFile(fragmentPath))
+            return;
 
         m_Shaders[name] = shader;
     }

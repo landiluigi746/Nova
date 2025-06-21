@@ -18,8 +18,8 @@ namespace Nova
         Texture& operator=(const Texture&) = delete;
         Texture& operator=(Texture&&) noexcept = delete;
 
-        void Init(const std::filesystem::path& path);
-        void Init(uint32_t width, uint32_t height, const Color* data);
+        bool Init(const std::filesystem::path& path);
+        bool Init(uint32_t width, uint32_t height, const Color* data);
         void Shutdown();
 
         void Bind(uint32_t slot) const;
@@ -41,7 +41,7 @@ namespace Nova
         }
 
     private:
-        void Init(int format, const void* data);
+        bool Init(int format, const void* data);
 
     private:
         uint32_t m_ID = 0;

@@ -15,18 +15,18 @@ namespace Nova
         Shutdown();
     }
 
-    void Texture::Init(const std::filesystem::path& path)
+    bool Texture::Init(const std::filesystem::path& path)
     {
         if (m_ID)
         {
             Logger::Warning("Can't set texture twice on the same texture!");
-            return;
+            return false;
         }
 
         if (!std::filesystem::is_regular_file(path))
         {
             Logger::Warning("Path {} either does not exist or is not a regular file!", path.string());
-            return;
+            return false;
         }
 
         std::string pathString = path.string();
@@ -36,7 +36,7 @@ namespace Nova
         if (data == nullptr)
         {
             Logger::Warning("Failed to load texture: {}", pathString);
-            return;
+            return false;
         }
 
         GLenum format;
@@ -52,21 +52,23 @@ namespace Nova
         default:
             Logger::Warning("Texture {} is in an unsupported format!", pathString);
             m_Width = m_Height = m_Channels = -1;
-            return;
+            return false;
         }
 
         Init(format, data);
         stbi_image_free(data);
+
+        return true;
     }
 
-    void Texture::Init(uint32_t width, uint32_t height, const Color* data)
+    bool Texture::Init(uint32_t width, uint32_t height, const Color* data)
     {
         NOVA_ASSERT(data != nullptr, "Cannot initialize texture with null data!");
 
         m_Width = width;
         m_Height = height;
 
-        Init(GL_RGBA, data);
+        return Init(GL_RGBA, data);
     }
 
     void Texture::Bind(uint32_t slot) const
@@ -89,7 +91,7 @@ namespace Nova
         }
     }
 
-    void Texture::Init(int format, const void* data)
+    bool Texture::Init(int format, const void* data)
     {
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
@@ -106,8 +108,10 @@ namespace Nova
 
         glBindTexture(GL_TEXTURE_2D, 0);
 
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 4); 
+
         CheckOpenGLErrors();
 
-        glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+        return true;
     }
 } // namespace Nova

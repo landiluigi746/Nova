@@ -57,43 +57,43 @@ namespace Nova
         Shutdown();
     }
 
-    void Shader::InitFromFile(const std::filesystem::path& fragmentPath)
+    bool Shader::InitFromFile(const std::filesystem::path& fragmentPath)
     {
         if (!std::filesystem::is_regular_file(fragmentPath))
         {
             Logger::Warning("Fragment shader path {} does not exist!", fragmentPath.string().c_str());
-            return;
+            return false;
         }
 
-        Init("", ReadFile(fragmentPath));
+        return Init("", ReadFile(fragmentPath));
     }
 
-    void Shader::InitFromFiles(const std::filesystem::path& vertexPath, const std::filesystem::path& fragmentPath)
+    bool Shader::InitFromFiles(const std::filesystem::path& vertexPath, const std::filesystem::path& fragmentPath)
     {
         if (!std::filesystem::is_regular_file(vertexPath))
         {
             Logger::Warning("Vertex shader path {} does not exist!", vertexPath.string().c_str());
-            return;
+            return false;
         }
 
         if (!std::filesystem::is_regular_file(fragmentPath))
         {
             Logger::Warning("Fragment shader path {} does not exist!", fragmentPath.string().c_str());
-            return;
+            return false;
         }
 
         std::string vertexSource = ReadFile(vertexPath);
         std::string fragmentSource = ReadFile(fragmentPath);
 
-        Init(vertexSource, fragmentSource);
+        return Init(vertexSource, fragmentSource);
     }
 
-    void Shader::Init(const std::string_view& vertexSource, const std::string_view& fragmentSource)
+    bool Shader::Init(const std::string_view& vertexSource, const std::string_view& fragmentSource)
     {
         if (fragmentSource.empty())
         {
             Logger::Warning("To create a shader, a fragment source must be provided!");
-            return;
+            return false;
         }
 
         uint32_t vertexShader, fragmentShader;
@@ -118,6 +118,7 @@ namespace Nova
         glDeleteShader(fragmentShader);
 
         CheckOpenGLErrors();
+        return true;
     }
 
     void Shader::Shutdown()
