@@ -1,8 +1,13 @@
 ﻿# Nova
 
-Nova is a lightweight game development framework written in **C++20** using **OpenGL 3.3**. It's designed to make building games easier and more user-friendly
+![Language](https://img.shields.io/badge/Language-C%2B%2B-blue)
+[![CMake multi-platform](https://github.com/landiluigi746/Nova/actions/workflows/cmake-multi-platform.yml/badge.svg)](https://github.com/landiluigi746/Nova/actions/workflows/cmake-multi-platform.yml)
+![GitHub License](https://img.shields.io/github/license/landiluigi746/Nova)
 
-**Currently, Nova has been tested only on Windows and Linux**
+
+Nova is a lightweight 2D game development framework written in **C++20** using **OpenGL 3.3**. It's designed to make building simple games and applications easier and more straight-forward.
+
+**Currently, Nova has been tested only on Windows and Linux.**
 
 ## ✨ Features
 
