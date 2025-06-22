@@ -119,7 +119,7 @@ Nova is licensed under the [MIT License](https://github.com/landiluigi746/Nova/b
 
 ## 📝 Acknowledgements
 
-The project is inspired from TheCherno's [Hazel](https://hazelengine.com/) game engine and related video series.
+Huge shoutouts to [TheCherno](https://www.youtube.com/@TheCherno) for his OpenGL series and his [Hazel](https://hazelengine.com/) game engine, which served as a great inspiration for this project.
 
 ## 👥 Contributing
 
