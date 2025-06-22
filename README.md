@@ -18,7 +18,7 @@ Nova is a lightweight 2D game development framework written in **C++20** using *
 
 ## ✨ Features
 
-Currently implemented (as of day 4 of development):
+Currently implemented (after just 4 days of development):
 
 - Texture loading and management
 - Shader abstraction and usage
@@ -27,7 +27,18 @@ Currently implemented (as of day 4 of development):
 - Basic **Asset Manager** for streamlined resource handling
 - Modular **Scene System** with functions for lifecycle management (`Start`, `Update`, `Draw`, `ImGuiDraw`, etc.)
 
-## 📦 Dependencies used by Nova
+## 🔮 Roadmap
+
+Planned features coming soon:
+
+- 🔊 **Sound support**
+- 🎞 **Spritesheet management**
+- ⚡ **Event system** (input dispatch, custom events)
+- 🧩 **GameObject/component system**
+
+## 📦 Dependencies
+
+Nova uses the following libraries:
 
 - [GLFW](https://www.glfw.org/)
 - [glad](https://glad.dav1d.de/)
@@ -41,11 +52,11 @@ Currently implemented (as of day 4 of development):
 - [Running the sandbox project](#running-the-sandbox-project)
 - [Using Nova with CMake](#using-nova-with-cmake)
 
-**Make sure you have these dependencies:**
+### 🛠 Requirements
 
-- An OpenGL 3.3+ compatible graphics card
+- OpenGL 3.3+ compatible GPU
 - CMake 3.12+
-- C++20 compiler
+- C++20-compatible compiler
 
 ### Running the sandbox project
 
@@ -60,7 +71,7 @@ cd Nova
 
 2. Build the Nova and sandbox projects:
 
-**You can also use your favourite IDE to build the projects and run the sandbox**
+> 💡 **You can also use your favourite IDE to build the projects and run the sandbox**
 
 ```bash
 # you can set BUILD_TYPE to either "Release" or "Debug"
