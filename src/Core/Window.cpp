@@ -64,6 +64,11 @@ namespace Nova
         Logger::Info("Window destroyed successfully!");
     }
 
+    void Window::Close() const
+    {
+        glfwSetWindowShouldClose(m_Window, GLFW_TRUE);
+    }
+
     bool Window::ShouldClose() const
     {
         return glfwWindowShouldClose(m_Window);

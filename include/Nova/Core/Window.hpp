@@ -38,6 +38,7 @@ namespace Nova
         static void Shutdown();
         static Window& Get();
 
+        void Close() const;
         bool ShouldClose() const;
         void SwapBuffers() const;
 
