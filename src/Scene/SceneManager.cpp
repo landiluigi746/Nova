@@ -73,8 +73,11 @@ namespace Nova
     {
         for (auto& scene : m_Scenes)
         {
-            if (scene.Running && !scene.Stopped)
-                scene.Scene->Update(deltaTime);
+            if (!(scene.Running && !scene.Stopped))
+                continue;
+
+            scene.Scene->Update(deltaTime);
+            scene.Scene->ProcessEasings(deltaTime * 1000.0f);
         }
 
         for (auto& scene : m_Scenes)
