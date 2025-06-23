@@ -9,11 +9,11 @@
 
 namespace Nova::Input
 {
-    static std::array<bool, (size_t) Key::Last> s_CurrentKeyState;
-    static std::array<bool, (size_t) Key::Last> s_PreviousKeyState;
+    static std::array<bool, (size_t) Key::Last + 1> s_CurrentKeyState;
+    static std::array<bool, (size_t) Key::Last + 1> s_PreviousKeyState;
 
-    static std::array<bool, (size_t) MouseButton::Last> s_CurrentMouseState;
-    static std::array<bool, (size_t) MouseButton::Last> s_PreviousMouseState;
+    static std::array<bool, (size_t) MouseButton::Last + 1> s_CurrentMouseState;
+    static std::array<bool, (size_t) MouseButton::Last + 1> s_PreviousMouseState;
 
     static glm::vec2 s_MouseWheelOffset;
 
