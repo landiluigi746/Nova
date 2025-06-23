@@ -33,7 +33,7 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
 
     if(NOVA_DIST)
         set(OPTIONS_OPTIMIZATION -O2)
-		set(OPTIONS_LINK -Wl,--subsystem,windows)
+		set(OPTIONS_LINK -mwindows)
     elseif(NOVA_DEBUG)
         set(OPTIONS_OPTIMIZATION -g)
     elseif(NOVA_RELEASE)
