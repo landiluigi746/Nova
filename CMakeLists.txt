@@ -4,6 +4,15 @@ project(Nova LANGUAGES C CXX)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+message(STATUS "
+  _   _                    
+ | \\ | |                   
+ |  \\| |  ___ __   __ __ _ 
+ | . ` | / _ \\\\ \\ / // _` |
+ | |\\  || (_) |\\ V /| (_| |
+ |_| \\_| \\___/  \\_/  \\__,_|
+")
+
 string(COMPARE EQUAL "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_SOURCE_DIR}" NOVA_STANDALONE)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -13,7 +22,15 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type")
+    set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "" FORCE)
+endif()
+
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+	set(NOVA_DEBUG ON CACHE BOOL "")
+elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+    set(NOVA_DIST ON CACHE BOOL "")
+else()
+    set(NOVA_RELEASE ON CACHE BOOL "")
 endif()
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE} CACHE INTERNAL "")
