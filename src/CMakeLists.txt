@@ -3,7 +3,7 @@ file(GLOB_RECURSE ${PROJECT_NAME}_HEADERS CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOU
 
 add_library(${PROJECT_NAME} STATIC ${${PROJECT_NAME}_SOURCES} ${${PROJECT_NAME}_HEADERS})
 
-target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/../include" "${CMAKE_CURRENT_SOURCE_DIR}/../vendor/stb_image")
+target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/../include")
 
 target_link_libraries(
     ${PROJECT_NAME}
@@ -14,6 +14,8 @@ target_link_libraries(
     glfw
     imgui
     glm::glm
+    stb_image
+    reasings
 )
 
 if(MSVC)

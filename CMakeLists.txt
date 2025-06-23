@@ -80,7 +80,7 @@ FetchContent_MakeAvailable(glm)
 
 find_package(OpenGL REQUIRED)
 
-add_subdirectory(vendor/glad)
+add_subdirectory(vendor)
 add_subdirectory(src)
 
 if(NOVA_STANDALONE)
