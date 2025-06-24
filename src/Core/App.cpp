@@ -9,6 +9,7 @@
 
 #include "Nova/Misc/Logger.hpp"
 #include "Nova/Misc/Assert.hpp"
+#include "Nova/Misc/Metrics.hpp"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -66,13 +67,9 @@ namespace Nova
         Window& window = Window::Get();
         SceneManager& sceneManager = SceneManager::Get();
 
-        auto lastTime = std::chrono::high_resolution_clock::now();
-
         while (!window.ShouldClose())
         {
-            auto currentTime = std::chrono::high_resolution_clock::now();
-            float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
-            lastTime = currentTime;
+            float deltaTime = Metrics::NewFrame();
 
             Input::PollEvents();
 

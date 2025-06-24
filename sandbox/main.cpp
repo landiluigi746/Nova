@@ -3,6 +3,7 @@
 
 // Other headers used in this sandbox project
 #include <Nova/Misc/Logger.hpp>
+#include <Nova/Misc/Metrics.hpp>
 #include <Nova/Scene/Scene.hpp>
 #include <Nova/Scene/SceneManager.hpp>
 #include <Nova/Core/Input.hpp>
@@ -52,6 +53,8 @@ public:
         ImGui::SliderFloat2("Size", &m_Size.x, 0.0f, 100.0f);
 
         ImGui::End();
+
+        Nova::Metrics::DebugUI();
     }
 
 private:

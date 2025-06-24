@@ -6,6 +6,8 @@
 
 #include "Nova/Misc/Logger.hpp"
 #include "Nova/Misc/Assert.hpp"
+#include "Nova/Misc/Metrics.hpp"
+
 #include "Nova/Core/Window.hpp"
 
 #include <glad/glad.h>
@@ -234,6 +236,10 @@ namespace Nova::Renderer
         s_Data.QuadVA.Unbind();
 
         CheckOpenGLErrors();
+        
+        Metrics::IncrementDrawnObjects(s_Data.QuadIndicesCount / 6);
+        Metrics::IncrementDrawCalls();
+
         ClearQuadBatch();
     }
 
