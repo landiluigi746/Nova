@@ -9,7 +9,6 @@ target_link_libraries(
     ${PROJECT_NAME}
     PUBLIC
     fmt::fmt
-    ${OPENGL_LIBRARIES}
     glad
     glfw
     imgui
