@@ -39,6 +39,8 @@ namespace Nova
         static Window& Get();
 
         void Close() const;
+        void Minimize() const;
+        void Maximize() const;
         bool ShouldClose() const;
         void SwapBuffers() const;
 

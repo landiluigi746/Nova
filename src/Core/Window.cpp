@@ -69,6 +69,16 @@ namespace Nova
         glfwSetWindowShouldClose(m_Window, GLFW_TRUE);
     }
 
+    void Window::Minimize() const
+    {
+		glfwIconifyWindow(m_Window);
+    }
+
+	void Window::Maximize() const
+	{
+        glfwMaximizeWindow(m_Window);
+	}
+
     bool Window::ShouldClose() const
     {
         return glfwWindowShouldClose(m_Window);
