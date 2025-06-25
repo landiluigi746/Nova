@@ -271,7 +271,7 @@ namespace Nova::Renderer
     void DrawQuad(std::shared_ptr<Texture> texture, const glm::vec2& position, const glm::vec2& size,
                   const Color& color, float rotation, const glm::vec2& origin)
     {
-        if (texture == nullptr)
+        if (!texture)
             texture = s_Data.QuadTexture;
 
         if (s_Data.QuadVertices.size() > MAX_VERTICES - 4)
@@ -286,15 +286,12 @@ namespace Nova::Renderer
                 });
 
             if (it != s_Data.QuadTextures.end())
-            {
                 texIndex = static_cast<float>(std::distance(s_Data.QuadTextures.begin(), it));
-            }
             else
             {
                 if (s_Data.QuadTextures.size() >= MAX_TEXTURE_SLOTS)
-                {
                     SendQuadBatch();
-                }
+
                 s_Data.QuadTextures.emplace_back(texture);
                 texIndex = static_cast<float>(s_Data.QuadTextures.size() - 1);
             }

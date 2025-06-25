@@ -27,8 +27,11 @@ namespace Nova
         if (type > (size_t) EasingType::Last)
             return;
 
-        if (m_Config.Target == nullptr)
+        if (!m_Config.Target)
+        {
+            m_ElapsedTime = m_Config.DurationMs;
             return;
+        }
 
         *(m_Config.Target) =
             s_EasingFuncs[type](m_ElapsedTime, m_StartValue, m_Config.To - m_StartValue, m_Config.DurationMs);

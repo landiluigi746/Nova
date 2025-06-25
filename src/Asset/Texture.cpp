@@ -33,7 +33,7 @@ namespace Nova
 
         uint8_t* data = stbi_load(pathString.c_str(), &m_Width, &m_Height, &m_Channels, 0);
 
-        if (data == nullptr)
+        if (!data)
         {
             Logger::Warning("Failed to load texture: {}", pathString);
             return false;
@@ -63,7 +63,7 @@ namespace Nova
 
     bool Texture::Init(uint32_t width, uint32_t height, const Color* data)
     {
-        NOVA_ASSERT(data != nullptr, "Cannot initialize texture with null data!");
+        NOVA_ASSERT(data, "Cannot initialize texture with null data!");
 
         m_Width = width;
         m_Height = height;

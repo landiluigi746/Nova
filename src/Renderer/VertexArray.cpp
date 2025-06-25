@@ -125,7 +125,7 @@ namespace Nova
         for (const auto& element : layout)
             stride += GetSizeOfType(element.Type);
 
-        GLenum usage = (data == nullptr) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW;
+        GLenum usage = (data) ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW;
         m_VertexBufferDynamic = (usage == GL_DYNAMIC_DRAW);
 
         glGenBuffers(1, &m_VertexBufferID);
@@ -196,7 +196,7 @@ namespace Nova
             return;
         }
 
-        GLenum usage = (indices == nullptr) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW;
+        GLenum usage = (indices) ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW;
         m_IndexBufferDynamic = (usage == GL_DYNAMIC_DRAW);
 
         glGenBuffers(1, &m_IndexBufferID);

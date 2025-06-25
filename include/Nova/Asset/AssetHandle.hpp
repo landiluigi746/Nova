@@ -13,7 +13,7 @@ namespace Nova
 
         operator bool() const
         {
-            return Asset != nullptr;
+            return (bool)Asset;
         }
 
         operator std::shared_ptr<T>() const
