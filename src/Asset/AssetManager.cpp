@@ -1,4 +1,4 @@
-#include "Nova/Core/AssetManager.hpp"
+#include "Nova/Asset/AssetManager.hpp"
 #include "Nova/Misc/Assert.hpp"
 #include "Nova/Misc/Logger.hpp"
 

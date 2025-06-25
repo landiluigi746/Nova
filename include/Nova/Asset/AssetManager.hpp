@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Nova/Renderer/Texture.hpp"
-#include "Nova/Renderer/Shader.hpp"
+#include "Nova/Asset/Texture.hpp"
+#include "Nova/Asset/Shader.hpp"
 
 #include <cstdint>
 #include <string>
@@ -12,27 +12,6 @@
 
 namespace Nova
 {
-    template<typename T>
-    struct AssetHandle
-    {
-        std::shared_ptr<T> Asset;
-
-        AssetHandle() = default;
-        AssetHandle(std::shared_ptr<T> asset) : Asset(asset) {}
-
-        operator bool() const
-        {
-            return Asset != nullptr;
-        }
-
-        operator std::shared_ptr<T>() const
-        {
-            return Asset;
-        }
-    };
-
-    using TextureAsset = AssetHandle<Texture>;
-    using ShaderAsset = AssetHandle<Shader>;
 
     class AssetManager
     {

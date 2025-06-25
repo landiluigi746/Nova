@@ -1,0 +1,29 @@
+#pragma once
+
+#include <memory>
+
+namespace Nova
+{
+    template<typename T>
+    class AssetHandle
+    {
+    public:
+        AssetHandle() = default;
+        AssetHandle(std::shared_ptr<T> asset) : Asset(asset) {}
+
+        operator bool() const
+        {
+            return Asset != nullptr;
+        }
+
+        operator std::shared_ptr<T>() const
+        {
+            return Asset;
+        }
+
+    private:
+        std::shared_ptr<T> Asset;
+
+        friend class AssetManager;
+    };
+} // namespace Nova

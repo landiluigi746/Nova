@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Nova/Misc/Color.hpp"
-#include "Nova/Renderer/Texture.hpp"
+#include "Nova/Asset/Texture.hpp"
 
 #include <glm/vec2.hpp>
 #include <memory>

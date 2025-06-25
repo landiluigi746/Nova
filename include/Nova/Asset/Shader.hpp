@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Nova/Asset/AssetHandle.hpp"
+
 #include <cstdint>
 #include <string_view>
 #include <filesystem>
@@ -46,4 +48,6 @@ namespace Nova
 
         std::unordered_map<std::string_view, int32_t> m_UniformLocationCache;
     };
+
+	using ShaderAsset = AssetHandle<Shader>;
 } // namespace Nova

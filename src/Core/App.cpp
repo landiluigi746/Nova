@@ -1,7 +1,7 @@
 #include "Nova/Core/App.hpp"
 #include "Nova/Core/Window.hpp"
 #include "Nova/Core/Input.hpp"
-#include "Nova/Core/AssetManager.hpp"
+#include "Nova/Asset/AssetManager.hpp"
 
 #include "Nova/Renderer/Renderer.hpp"
 

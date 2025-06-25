@@ -1,7 +1,7 @@
 #include "Nova/Renderer/Renderer.hpp"
 #include "Nova/Renderer/VertexArray.hpp"
-#include "Nova/Renderer/Shader.hpp"
-#include "Nova/Renderer/Texture.hpp"
+#include "Nova/Asset/Shader.hpp"
+#include "Nova/Asset/Texture.hpp"
 #include "Nova/Renderer/GLError.hpp"
 
 #include "Nova/Misc/Logger.hpp"
