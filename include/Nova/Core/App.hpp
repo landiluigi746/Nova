@@ -13,7 +13,7 @@ namespace Nova
 {
     struct AppConfig
     {
-        uint8_t WindowFlags = WindowFlags_None;
+        uint16_t WindowFlags = WindowFlags_None;
         int Width;
         int Height;
         std::string Title = "Nova App";

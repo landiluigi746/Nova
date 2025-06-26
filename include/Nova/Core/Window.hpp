@@ -9,18 +9,19 @@ struct GLFWwindow;
 namespace Nova
 {
     // clang-format off
-    enum WindowFlags : uint8_t
+    enum WindowFlags : uint16_t
     {
         WindowFlags_None        = 0,
         WindowFlags_Vsync       = 1 << 0,
         WindowFlags_Fullscreen  = 1 << 1,
-        WindowFlags_Resizable   = 1 << 2
+        WindowFlags_Resizable   = 1 << 2,
+        WindowFlags_Undecorated = 1 << 3
     };
     // clang-format on
 
     struct WindowConfig
     {
-        uint8_t Flags;
+        uint16_t Flags;
         int Width;
         int Height;
         std::string Title;
@@ -38,6 +39,7 @@ namespace Nova
         static void Shutdown();
         static Window& Get();
 
+        void Resize(int width, int height) const;
         void Close() const;
         void Minimize() const;
         void Maximize() const;
