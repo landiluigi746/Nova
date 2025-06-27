@@ -270,16 +270,32 @@ namespace Nova::Renderer
     void DrawQuad(const glm::vec2& position, const glm::vec2& size, const Color& color, float rotation,
                   const glm::vec2& origin)
     {
-        DrawQuad(s_Data.QuadTexture, position, size, color, rotation, origin);
+        DrawQuad(s_Data.QuadTexture, position, size, color, rotation, origin,
+                 {0.0f, 0.0f, s_Data.QuadTexture->GetWidth(), s_Data.QuadTexture->GetHeight()});
     }
 
     void DrawQuad(std::shared_ptr<Texture> texture, const glm::vec2& position, float rotation, const glm::vec2& origin)
     {
-        DrawQuad(texture, position, {texture->GetWidth(), texture->GetHeight()}, White, rotation, origin);
+        DrawQuad(texture, position, {texture->GetWidth(), texture->GetHeight()}, White, rotation, origin,
+                 {0.0f, 0.0f, texture->GetWidth(), texture->GetHeight()});
+    }
+
+    void DrawQuad(std::shared_ptr<Texture> texture, const glm::vec2& position, float rotation, const glm::vec2& origin,
+                  const glm::vec4& sourceRect)
+    {
+        glm::vec4 src = sourceRect;
+
+        if (src.z < 0.0f)
+            src.z *= -1.0f;
+
+        if (src.w < 0.0f)
+            src.w *= -1.0f;
+
+        DrawQuad(texture, position, {src.z, src.w}, White, rotation, origin, src);
     }
 
     void DrawQuad(std::shared_ptr<Texture> texture, const glm::vec2& position, const glm::vec2& size,
-                  const Color& color, float rotation, const glm::vec2& origin)
+                  const Color& color, float rotation, const glm::vec2& origin, const glm::vec4& sourceRect)
     {
         if (!texture)
             texture = s_Data.QuadTexture;
@@ -307,6 +323,23 @@ namespace Nova::Renderer
             }
         }
 
+        glm::vec2 texSize = {(float) texture->GetWidth(), (float) texture->GetHeight()};
+        glm::vec2 uvMin = {0.0f, 0.0f};
+        glm::vec2 uvMax = {1.0f, 1.0f};
+
+        if (sourceRect.z > 0 && sourceRect.w > 0)
+        {
+            uvMin = {sourceRect.x / texSize.x, sourceRect.y / texSize.y};
+            uvMax = {(sourceRect.x + sourceRect.z) / texSize.x, (sourceRect.y + sourceRect.w) / texSize.y};
+        }
+
+        glm::vec2 texCoords[4] = {
+            {uvMin.x, uvMin.y},
+            {uvMax.x, uvMin.y},
+            {uvMax.x, uvMax.y},
+            {uvMin.x, uvMax.y},
+        };
+
         glm::mat4 transform = glm::mat4(1.0f);
         transform = glm::translate(transform, glm::vec3(position, 0.0f));
         transform = glm::translate(transform, glm::vec3(origin, 0.0f));
@@ -321,7 +354,7 @@ namespace Nova::Renderer
             glm::vec4 pos = transform * glm::vec4(s_QuadVertexPos[i], 0.0f, 1.0f);
 
             s_Data.QuadVertices.emplace_back(VertexData{.Position = glm::vec2{pos.x, pos.y},
-                                                        .TexCoords = s_QuadTexCoords[i],
+                                                        .TexCoords = texCoords[i],
                                                         .Color = normalizedColor,
                                                         .TexIndex = texIndex});
         }
