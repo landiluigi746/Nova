@@ -14,12 +14,12 @@
 // This class defines a simple scene for the sandbox project.
 // It demonstrates basic usage of the Nova framework: input handling, rendering, and ImGui UI.
 // You can experiment with the code to see how it works.
-// Currently, the scene just draws a white square that follows the mouse and its size/rotation 
+// Currently, the scene just draws a white square that follows the mouse and its size/rotation
 // can be controlled with ImGui.
 class SandboxScene : public Nova::Scene
 {
 public:
-    // This function gets called when you do 
+    // This function gets called when you do
     // something like sceneManager.StartScene("SandboxScene");
     void Start() override
     {
@@ -85,10 +85,13 @@ public:
 Nova::AppPtr Nova::CreateApp()
 {
     Nova::AppConfig config = {
-        .WindowFlags = Nova::WindowFlags_Resizable,
-        .Width = 1280,
-        .Height = 720,
-        .Title = "Nova Sandbox project",
+        .Window =
+            {
+                .Flags = Nova::WindowFlags_Resizable | Nova::WindowFlags_EnableMSAAx4,
+                .Width = 1280,
+                .Height = 720,
+                .Title = "Nova Sandbox project",
+            },
     };
 
     return Nova::MakeApp<SandboxApp>(config);

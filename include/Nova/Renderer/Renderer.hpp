@@ -9,6 +9,8 @@
 namespace Nova::Renderer
 {
     void UpdateProjection(int width, int height);
+    void EnableMultisampling();
+    void DisableMultisampling();
 
     void Init();
     void Shutdown();

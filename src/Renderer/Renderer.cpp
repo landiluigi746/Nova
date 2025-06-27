@@ -126,6 +126,16 @@ namespace Nova::Renderer
         CheckOpenGLErrors();
     }
 
+    void EnableMultisampling()
+    {
+        glEnable(GL_MULTISAMPLE);
+    }
+
+    void DisableMultisampling()
+    {
+        glDisable(GL_MULTISAMPLE);
+    }
+
     void Init()
     {
         if (s_Initialized)
@@ -236,7 +246,7 @@ namespace Nova::Renderer
         s_Data.QuadVA.Unbind();
 
         CheckOpenGLErrors();
-        
+
         Metrics::IncrementDrawnObjects(s_Data.QuadIndicesCount / 6);
         Metrics::IncrementDrawCalls();
 

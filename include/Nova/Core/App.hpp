@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Nova/Core/Window.hpp"
+#include "Nova/Core/WindowConfig.hpp"
 
 #include <memory>
 #include <string>
@@ -11,12 +11,11 @@ int main();
 
 namespace Nova
 {
+    class SceneManager;
+
     struct AppConfig
     {
-        uint16_t WindowFlags = WindowFlags_None;
-        int Width;
-        int Height;
-        std::string Title = "Nova App";
+        WindowConfig Window;
     };
 
     class App
@@ -25,6 +24,7 @@ namespace Nova
         App(const AppConfig& config);
         virtual ~App();
 
+    protected:
     private:
         void Init(const AppConfig& config);
         void Run();

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Nova/Core/WindowConfig.hpp"
+
 #include <string>
 #include <string_view>
 #include <cstdint>
@@ -8,25 +10,6 @@ struct GLFWwindow;
 
 namespace Nova
 {
-    // clang-format off
-    enum WindowFlags : uint16_t
-    {
-        WindowFlags_None        = 0,
-        WindowFlags_Vsync       = 1 << 0,
-        WindowFlags_Fullscreen  = 1 << 1,
-        WindowFlags_Resizable   = 1 << 2,
-        WindowFlags_Undecorated = 1 << 3
-    };
-    // clang-format on
-
-    struct WindowConfig
-    {
-        uint16_t Flags;
-        int Width;
-        int Height;
-        std::string Title;
-    };
-
     class Window
     {
     public:

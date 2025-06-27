@@ -43,8 +43,7 @@ namespace Nova
             Nova::Logger::Error("GLFW error: {}, {}", code, msg);
         });
 
-        Window::Init(WindowConfig{
-            .Flags = config.WindowFlags, .Width = config.Width, .Height = config.Height, .Title = config.Title});
+        Window::Init(config.Window);
 
         Logger::Info("Initializing GLAD...");
         NOVA_ASSERT(gladLoadGLLoader((GLADloadproc) glfwGetProcAddress), "Failed to initialize GLAD!");
@@ -55,6 +54,10 @@ namespace Nova
         Logger::Info("OpenGL renderer: {}", (const char*) glGetString(GL_RENDERER));
 
         Renderer::Init();
+
+        if (config.Window.Flags & WindowFlags_EnableMSAAx4)
+            Renderer::EnableMultisampling();
+
         InitImGui();
         SceneManager::Init();
         AssetManager::Init();

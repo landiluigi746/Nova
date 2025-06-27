@@ -19,6 +19,9 @@ namespace Nova
         glfwWindowHint(GLFW_RESIZABLE, (m_Config.Flags & WindowFlags_Resizable));
         glfwWindowHint(GLFW_DECORATED, (m_Config.Flags & WindowFlags_Undecorated) == 0);
 
+        if (m_Config.Flags & WindowFlags_EnableMSAAx4)
+            glfwWindowHint(GLFW_SAMPLES, 4);
+
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -26,12 +29,12 @@ namespace Nova
         GLFWmonitor* monitor = nullptr;
 
         if (m_Config.Flags & WindowFlags_Fullscreen)
-		{
-			monitor = glfwGetPrimaryMonitor();
-			const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-			m_Config.Width = mode->width;
-			m_Config.Height = mode->height;
-		}
+        {
+            monitor = glfwGetPrimaryMonitor();
+            const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+            m_Config.Width = mode->width;
+            m_Config.Height = mode->height;
+        }
 
         m_Window = glfwCreateWindow(m_Config.Width, m_Config.Height, m_Config.Title.c_str(), monitor, nullptr);
 
@@ -82,7 +85,7 @@ namespace Nova
             return;
         }
 
-		glfwSetWindowSize(m_Window, width, height);
+        glfwSetWindowSize(m_Window, width, height);
     }
 
     void Window::Close() const
@@ -92,11 +95,11 @@ namespace Nova
 
     void Window::Minimize() const
     {
-		glfwIconifyWindow(m_Window);
+        glfwIconifyWindow(m_Window);
     }
 
-	void Window::Maximize() const
-	{
+    void Window::Maximize() const
+    {
         if ((m_Config.Flags & WindowFlags_Resizable) == 0)
         {
             Logger::Warning("Cannot maximize a non-resizable window!");
@@ -104,7 +107,7 @@ namespace Nova
         }
 
         glfwMaximizeWindow(m_Window);
-	}
+    }
 
     bool Window::ShouldClose() const
     {
