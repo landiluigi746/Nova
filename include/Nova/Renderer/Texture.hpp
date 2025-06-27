@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Nova/Asset/AssetHandle.hpp"
 #include "Nova/Misc/Color.hpp"
 
 #include <cstdint>
@@ -50,6 +49,4 @@ namespace Nova
         int m_Height = 0;
         int m_Channels = 0;
     };
-    
-    using TextureAsset = AssetHandle<Texture>;
 } // namespace Nova

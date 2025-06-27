@@ -1,4 +1,4 @@
-#include "Nova/Asset/Shader.hpp"
+#include "Nova/Renderer/Shader.hpp"
 #include "Nova/Renderer/GLError.hpp"
 #include "Nova/Misc/Assert.hpp"
 #include "Nova/Misc/Logger.hpp"

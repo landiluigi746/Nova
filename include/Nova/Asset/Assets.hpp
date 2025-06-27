@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Nova/Renderer/Texture.hpp"
+#include "Nova/Renderer/Shader.hpp"
+
 #include <memory>
 
 namespace Nova
@@ -26,4 +29,7 @@ namespace Nova
 
         friend class AssetManager;
     };
+
+    using TextureAsset = AssetHandle<Texture>;
+	using ShaderAsset = AssetHandle<Shader>;
 } // namespace Nova

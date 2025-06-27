@@ -1,7 +1,6 @@
 #pragma once
 
-#include "Nova/Asset/Texture.hpp"
-#include "Nova/Asset/Shader.hpp"
+#include "Nova/Asset/Assets.hpp"
 
 #include <cstdint>
 #include <string>
