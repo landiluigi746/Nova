@@ -16,7 +16,7 @@ namespace Nova
     public:
         Scene();
 
-        virtual ~Scene() {}
+        virtual ~Scene() = default;
 
         virtual void Start() {}
         virtual void End() {}

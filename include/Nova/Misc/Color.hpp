@@ -10,6 +10,8 @@ namespace Nova
         uint8_t g;
         uint8_t b;
         uint8_t a;
+
+        constexpr bool operator==(const Color& other) const noexcept = default;
     };
 
     // clang-format off
@@ -48,14 +50,4 @@ namespace Nova
     inline constexpr Color Brown        = {127, 106,  79, 255};
     inline constexpr Color DarkBrown    = {76,   63,  47, 255};
     // clang-format on
-
-    inline constexpr bool operator==(const Color& lhs, const Color& rhs) noexcept
-    {
-        return ((lhs.r == rhs.r) && (lhs.g == rhs.g) && (lhs.b == rhs.b) && (lhs.a == rhs.a));
-    }
-
-    inline constexpr bool operator!=(const Color& lhs, const Color& rhs) noexcept
-    {
-        return !(lhs == rhs);
-    }
 } // namespace Nova

@@ -52,6 +52,7 @@ namespace Nova
         default:
             Logger::Warning("Texture {} is in an unsupported format!", pathString);
             m_Width = m_Height = m_Channels = -1;
+            stbi_image_free(data);
             return false;
         }
 
@@ -108,7 +109,7 @@ namespace Nova
 
         glBindTexture(GL_TEXTURE_2D, 0);
 
-        glPixelStorei(GL_UNPACK_ALIGNMENT, 4); 
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 
         CheckOpenGLErrors();
 

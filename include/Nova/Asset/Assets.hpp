@@ -22,10 +22,8 @@ namespace Nova
 
         T& operator*() const { return *Asset; }
 
-        bool operator==(const AssetHandle& other) const { return Asset == other.Asset; }
-        bool operator!=(const AssetHandle& other) const { return Asset != other.Asset; }
-        bool operator==(std::nullptr_t) const { return Asset == nullptr; }
-        bool operator!=(std::nullptr_t) const { return Asset != nullptr; }
+        bool operator==(const AssetHandle& other) const noexcept = default;
+        bool operator==(std::nullptr_t) const noexcept { return Asset == nullptr; }
         // clang-format on
 
     private:
