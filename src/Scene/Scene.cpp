@@ -1,7 +1,14 @@
 #include "Nova/Scene/Scene.hpp"
+#include "Nova/Core/App.hpp"
 
 namespace Nova
 {
+    Scene::Scene()
+        : m_Window(App::Get().GetWindow()), m_SceneManager(App::Get().GetSceneManager()),
+          m_AssetManager(App::Get().GetAssetManager())
+    {
+    }
+
     void Scene::AddEasing(const Easing& easing)
     {
         m_Easings.emplace_back(easing);

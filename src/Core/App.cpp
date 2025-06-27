@@ -21,18 +21,13 @@
 
 namespace Nova
 {
+    static App* s_Instance = nullptr;
+
     App::App(const AppConfig& config)
     {
-        Init(config);
-    }
+        NOVA_ASSERT(!s_Instance, "App already created!");
+        s_Instance = this;
 
-    App::~App()
-    {
-        Shutdown();
-    }
-
-    void App::Init(const AppConfig& config)
-    {
         Logger::Info("Initializing Nova App...");
 
         Logger::Info("Initializing GLFW...");
@@ -43,7 +38,7 @@ namespace Nova
             Nova::Logger::Error("GLFW error: {}, {}", code, msg);
         });
 
-        Window::Init(config.Window);
+        m_Window.Init(config.Window);
 
         Logger::Info("Initializing GLAD...");
         NOVA_ASSERT(gladLoadGLLoader((GLADloadproc) glfwGetProcAddress), "Failed to initialize GLAD!");
@@ -53,58 +48,59 @@ namespace Nova
         Logger::Info("OpenGL vendor: {}", (const char*) glGetString(GL_VENDOR));
         Logger::Info("OpenGL renderer: {}", (const char*) glGetString(GL_RENDERER));
 
-        Renderer::Init();
+        Renderer::Init(m_Window.GetWidth(), m_Window.GetHeight());
 
         if (config.Window.Flags & WindowFlags_EnableMSAAx4)
             Renderer::EnableMultisampling();
 
         InitImGui();
-        SceneManager::Init();
-        AssetManager::Init();
 
         Logger::Info("Nova App initialized successfully!");
     }
 
+    App::~App()
+    {
+        Logger::Info("Shutting down Nova App...");
+
+        ShutdownImGui();
+        Renderer::Shutdown();
+        m_SceneManager.Shutdown();
+        m_AssetManager.Shutdown();
+        m_Window.Shutdown();
+        glfwTerminate();
+
+        Logger::Info("Nova App shut down successfully!");
+    }
+
+    App& App::Get()
+    {
+        NOVA_ASSERT(s_Instance, "App not initialized!");
+        return *s_Instance;
+    }
+
     void App::Run()
     {
-        Window& window = Window::Get();
-        SceneManager& sceneManager = SceneManager::Get();
-
-        while (!window.ShouldClose())
+        while (!m_Window.ShouldClose())
         {
             float deltaTime = Metrics::NewFrame();
 
             Input::PollEvents();
 
             Renderer::BeginFrame();
-            sceneManager.ProcessScenes(deltaTime);
+            m_SceneManager.ProcessScenes(deltaTime);
             Renderer::EndFrame();
 
             ImGui_ImplOpenGL3_NewFrame();
             ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
 
-            sceneManager.ProcessImGuiFrame();
+            m_SceneManager.ProcessImGuiFrame();
 
             ImGui::Render();
             ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-            window.SwapBuffers();
+            m_Window.SwapBuffers();
         }
-    }
-
-    void App::Shutdown()
-    {
-        Logger::Info("Shutting down Nova App...");
-
-        AssetManager::Shutdown();
-        SceneManager::Shutdown();
-        ShutdownImGui();
-        Renderer::Shutdown();
-        Window::Shutdown();
-        glfwTerminate();
-
-        Logger::Info("Nova App shut down successfully!");
     }
 
     void App::InitImGui()
@@ -121,10 +117,10 @@ namespace Nova
 
         ImGui::StyleColorsDark();
 
-        ImGui_ImplGlfw_InitForOpenGL(Window::Get().GetNativeWindow(), true);
+        ImGui_ImplGlfw_InitForOpenGL(m_Window.GetNativeWindow(), true);
         ImGui_ImplOpenGL3_Init("#version 330");
 
-        Logger::Info("Initialized ImGui successfully!");
+        Logger::Info("ImGui Initialized successfully!");
     }
 
     void App::ShutdownImGui()

@@ -11,18 +11,19 @@
 
 namespace Nova
 {
+    class AssetManager;
+
     class SceneManager
     {
     public:
-        SceneManager(const SceneManager&) = delete;
-        SceneManager& operator=(const SceneManager&) = delete;
+        SceneManager();
 
+        SceneManager(const SceneManager&) = delete;
         SceneManager(SceneManager&&) = delete;
+        SceneManager& operator=(const SceneManager&) = delete;
         SceneManager& operator=(SceneManager&&) = delete;
 
-        static void Init();
-        static void Shutdown();
-        static SceneManager& Get();
+        void Shutdown();
 
         void ProcessScenes(float deltaTime);
         void ProcessImGuiFrame();
@@ -67,9 +68,6 @@ namespace Nova
         };
 
         using SceneContainer = std::vector<SceneData>;
-
-        SceneManager() = default;
-        ~SceneManager() = default;
 
         std::pair<bool, SceneContainer::iterator> IsSceneRegistered(const std::string_view& name);
 

@@ -9,10 +9,18 @@ namespace Nova
 {
     static Window* s_Window = nullptr;
 
-    Window::Window(const WindowConfig& config) : m_Config(config)
+    Window::Window()
+    {
+        NOVA_ASSERT(!s_Window, "Window already created!");
+        s_Window = this;
+    }
+
+    void Window::Init(const WindowConfig& config)
     {
         NOVA_ASSERT(config.Width > 0 && config.Height > 0, "Invalid window dimensions");
         NOVA_ASSERT(!config.Title.empty(), "Window title cannot be empty");
+
+        m_Config = config;
 
         Logger::Info("Creating window...");
 
@@ -70,7 +78,7 @@ namespace Nova
         Logger::Info("Window created and initialized successfully!");
     }
 
-    Window::~Window()
+    void Window::Shutdown()
     {
         Logger::Info("Destroying window...");
         glfwDestroyWindow(m_Window);
@@ -117,31 +125,5 @@ namespace Nova
     void Window::SwapBuffers() const
     {
         glfwSwapBuffers(m_Window);
-    }
-
-    void Window::Init(const WindowConfig& config)
-    {
-        if (s_Window)
-            return;
-
-        s_Window = new Window(config);
-    }
-
-    void Window::Shutdown()
-    {
-        if (!s_Window)
-            return;
-
-        delete s_Window;
-        s_Window = nullptr;
-    }
-
-    Window& Window::Get()
-    {
-        NOVA_ASSERT_CLEANUP_FUNC(s_Window, "Window is not initialized", [] {
-            glfwTerminate();
-        });
-
-        return *s_Window;
     }
 } // namespace Nova

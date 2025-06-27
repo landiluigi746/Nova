@@ -1,11 +1,23 @@
 #include "Nova/Scene/SceneManager.hpp"
 #include "Nova/Misc/Assert.hpp"
+#include "Nova/Core/App.hpp"
 
 #include <GLFW/glfw3.h>
 
 namespace Nova
 {
     static SceneManager* s_SceneManager = nullptr;
+
+    SceneManager::SceneManager()
+    {
+        NOVA_ASSERT(!s_SceneManager, "SceneManager is already initialized");
+        s_SceneManager = this;
+    }
+
+    void SceneManager::Shutdown()
+    {
+        m_Scenes.clear();
+    }
 
     void SceneManager::RemoveScene(const std::string_view& name)
     {
@@ -94,35 +106,5 @@ namespace Nova
             if (scene.Running && !scene.Stopped)
                 scene.Scene->ImGuiDraw();
         }
-    }
-
-    void SceneManager::Init()
-    {
-        if (s_SceneManager)
-            return;
-
-        Logger::Info("Initializing SceneManager...");
-        s_SceneManager = new SceneManager();
-        Logger::Info("SceneManager initialized successfully!");
-    }
-
-    void SceneManager::Shutdown()
-    {
-        if (!s_SceneManager)
-            return;
-
-        Logger::Info("Shutting down SceneManager...");
-        delete s_SceneManager;
-        s_SceneManager = nullptr;
-        Logger::Info("SceneManager shut down successfully!");
-    }
-
-    SceneManager& SceneManager::Get()
-    {
-        NOVA_ASSERT_CLEANUP_FUNC(s_SceneManager, "SceneManager is not initialized", [] {
-            glfwTerminate();
-        });
-
-        return *s_SceneManager;
     }
 } // namespace Nova

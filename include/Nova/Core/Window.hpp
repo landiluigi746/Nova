@@ -13,15 +13,15 @@ namespace Nova
     class Window
     {
     public:
+        Window();
+
         Window(const Window&) = delete;
         Window(Window&&) = delete;
         Window& operator=(const Window&) = delete;
         Window& operator=(Window&&) = delete;
 
-        static void Init(const WindowConfig& config);
-        static void Shutdown();
-        static Window& Get();
-
+        void Init(const WindowConfig& config);
+        void Shutdown();
         void Resize(int width, int height) const;
         void Close() const;
         void Minimize() const;
@@ -48,10 +48,6 @@ namespace Nova
         {
             return m_Window;
         }
-
-    private:
-        Window(const WindowConfig& config);
-        ~Window();
 
     private:
         GLFWwindow* m_Window;

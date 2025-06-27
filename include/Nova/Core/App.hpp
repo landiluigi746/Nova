@@ -1,6 +1,8 @@
 #pragma once
 
-#include "Nova/Core/WindowConfig.hpp"
+#include "Nova/Core/Window.hpp"
+#include "Nova/Asset/AssetManager.hpp"
+#include "Nova/Scene/SceneManager.hpp"
 
 #include <memory>
 #include <string>
@@ -11,8 +13,6 @@ int main();
 
 namespace Nova
 {
-    class SceneManager;
-
     struct AppConfig
     {
         WindowConfig Window;
@@ -24,11 +24,21 @@ namespace Nova
         App(const AppConfig& config);
         virtual ~App();
 
+        static App& Get();
+
+        // clang-format off
+        Window& GetWindow() { return m_Window; }
+		AssetManager& GetAssetManager() { return m_AssetManager; }
+		SceneManager& GetSceneManager() { return m_SceneManager; }
+        // clang-format on
+
     protected:
+        Window m_Window;
+        AssetManager m_AssetManager;
+        SceneManager m_SceneManager;
+
     private:
-        void Init(const AppConfig& config);
         void Run();
-        void Shutdown();
 
         void InitImGui();
         void ShutdownImGui();

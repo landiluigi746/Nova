@@ -1,6 +1,6 @@
 #include "Nova/Core/Input.hpp"
 #include "Nova/Misc/Logger.hpp"
-#include "Nova/Core/Window.hpp"
+#include "Nova/Core/App.hpp"
 
 #include <GLFW/glfw3.h>
 #include <array>
@@ -132,7 +132,7 @@ namespace Nova::Input
     glm::vec2 GetMousePos()
     {
         double x, y;
-        glfwGetCursorPos(Window::Get().GetNativeWindow(), &x, &y);
+        glfwGetCursorPos(App::Get().GetWindow().GetNativeWindow(), &x, &y);
         return {(float) x, (float) y};
     }
 

@@ -12,7 +12,7 @@ namespace Nova::Renderer
     void EnableMultisampling();
     void DisableMultisampling();
 
-    void Init();
+    void Init(int width, int height);
     void Shutdown();
 
     void BeginFrame();

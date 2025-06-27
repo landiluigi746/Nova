@@ -136,7 +136,7 @@ namespace Nova::Renderer
         glDisable(GL_MULTISAMPLE);
     }
 
-    void Init()
+    void Init(int width, int height)
     {
         if (s_Initialized)
             return;
@@ -192,7 +192,7 @@ namespace Nova::Renderer
         s_Data.QuadTextures.emplace_back(s_Data.QuadTexture);
         s_Data.QuadVA.Unbind();
 
-        UpdateProjection(Window::Get().GetWidth(), Window::Get().GetHeight());
+        UpdateProjection(width, height);
 
         CheckOpenGLErrors();
 

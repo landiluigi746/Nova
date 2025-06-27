@@ -7,10 +7,14 @@
 
 namespace Nova
 {
+    class Window;
+    class SceneManager;
+    class AssetManager;
+
     class Scene
     {
     public:
-        Scene() = default;
+        Scene();
 
         virtual ~Scene() {}
 
@@ -25,6 +29,11 @@ namespace Nova
 
     private:
         void ProcessEasings(float milliseconds);
+
+    protected:
+        Window& m_Window;
+        SceneManager& m_SceneManager;
+        AssetManager& m_AssetManager;
 
     private:
         std::vector<Easing> m_Easings;

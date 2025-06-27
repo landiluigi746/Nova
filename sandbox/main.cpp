@@ -19,8 +19,13 @@
 class SandboxScene : public Nova::Scene
 {
 public:
+    // Inherit the constructor from the base class
+    // This allows us to call the base class constructor
+    // so you don't need to write it yourself
+    using Nova::Scene::Scene;
+
     // This function gets called when you do
-    // something like sceneManager.StartScene("SandboxScene");
+    // something like m_SceneManager.StartScene("SandboxScene");
     void Start() override
     {
         Nova::Logger::Info("Hi! Welcome to Nova!");
@@ -71,12 +76,9 @@ class SandboxApp : public Nova::App
 public:
     SandboxApp(const Nova::AppConfig& config) : Nova::App(config)
     {
-        // Get the instance of the SceneManager
-        Nova::SceneManager& sceneManager = Nova::SceneManager::Get();
-
         // Add and start the SandboxScene
-        sceneManager.AddScene<SandboxScene>("SandboxScene");
-        sceneManager.StartScene("SandboxScene");
+        m_SceneManager.AddScene<SandboxScene>("SandboxScene");
+        m_SceneManager.StartScene("SandboxScene");
     }
 };
 
