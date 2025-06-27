@@ -14,15 +14,19 @@ namespace Nova
         AssetHandle() = default;
         AssetHandle(std::shared_ptr<T> asset) : Asset(asset) {}
 
-        operator bool() const
-        {
-            return (bool)Asset;
-        }
+        // clang-format off
+        operator bool() const { return (bool) Asset; }
+        operator std::shared_ptr<T>() const { return Asset; }
 
-        operator std::shared_ptr<T>() const
-        {
-            return Asset;
-        }
+        T* operator->() const { return Asset.get(); }
+
+        T& operator*() const { return *Asset; }
+
+        bool operator==(const AssetHandle& other) const { return Asset == other.Asset; }
+        bool operator!=(const AssetHandle& other) const { return Asset != other.Asset; }
+        bool operator==(std::nullptr_t) const { return Asset == nullptr; }
+        bool operator!=(std::nullptr_t) const { return Asset != nullptr; }
+        // clang-format on
 
     private:
         std::shared_ptr<T> Asset;
@@ -31,5 +35,5 @@ namespace Nova
     };
 
     using TextureAsset = AssetHandle<Texture>;
-	using ShaderAsset = AssetHandle<Shader>;
+    using ShaderAsset = AssetHandle<Shader>;
 } // namespace Nova
