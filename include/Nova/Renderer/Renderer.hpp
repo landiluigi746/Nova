@@ -2,6 +2,7 @@
 
 #include "Nova/Misc/Color.hpp"
 #include "Nova/Renderer/Texture.hpp"
+#include "Nova/Renderer/Sprite.hpp"
 
 #include <glm/vec2.hpp>
 #include <glm/vec4.hpp>
@@ -32,4 +33,10 @@ namespace Nova::Renderer
     void DrawQuad(std::shared_ptr<Texture> texture, const glm::vec2& position, const glm::vec2& size,
                   const Color& color = Nova::White, float rotation = 0.0f, const glm::vec2& origin = {0.0f, 0.0f},
                   const glm::vec4& sourceRect = {0.0f, 0.0f, -1.0f, -1.0f});
+
+    void DrawSprite(const Sprite& sprite, const glm::vec2& position, float rotation = 0.0f,
+                    const glm::vec2& origin = {0.0f, 0.0f});
+
+    void DrawSprite(const Sprite& sprite, const glm::vec2& position, const glm::vec2& size, float rotation = 0.0f,
+                    const glm::vec2& origin = {0.0f, 0.0f});
 } // namespace Nova::Renderer

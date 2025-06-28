@@ -11,6 +11,8 @@
 #include "Nova/Core/Window.hpp"
 
 #include <glad/glad.h>
+#include <glm/vec2.hpp>
+#include <glm/vec4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <array>
@@ -292,6 +294,18 @@ namespace Nova::Renderer
             src.w *= -1.0f;
 
         DrawQuad(texture, position, {src.z, src.w}, White, rotation, origin, src);
+    }
+
+    void DrawSprite(const Sprite& sprite, const glm::vec2& position, float rotation,
+                    const glm::vec2& origin)
+    {
+        DrawSprite(sprite, position, sprite.GetFrameSize(), rotation, origin);
+    }
+
+    void DrawSprite(const Sprite& sprite, const glm::vec2& position, const glm::vec2& size, float rotation, const glm::vec2& origin)
+    {
+        DrawQuad(sprite.GetTexture(), position, size, White, rotation, origin,
+                 glm::vec4(sprite.GetFramePosition(), sprite.GetFrameSize()));
     }
 
     void DrawQuad(std::shared_ptr<Texture> texture, const glm::vec2& position, const glm::vec2& size,
