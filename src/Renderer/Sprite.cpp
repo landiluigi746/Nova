@@ -6,7 +6,7 @@ namespace Nova
 {
     Sprite::Sprite(const SpriteConfig& config) : m_Config(config) {}
 
-    void Sprite::PlayAnimation(const std::string& name, bool loop, bool skipIfAlreadyPlaying)
+    void Sprite::PlayAnimation(const std::string_view& name, bool loop, bool skipIfAlreadyPlaying)
     {
         if (!m_AnimationMap.contains(name))
         {

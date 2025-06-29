@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Nova/Misc/StringHash.hpp"
+
 #include <cstdint>
 #include <string_view>
 #include <filesystem>
@@ -40,6 +42,6 @@ namespace Nova
     private:
         uint32_t m_ID = 0;
 
-        std::unordered_map<std::string_view, int32_t> m_UniformLocationCache;
+        std::unordered_map<std::string, int32_t, StringHash, std::equal_to<>> m_UniformLocationCache;
     };
 } // namespace Nova

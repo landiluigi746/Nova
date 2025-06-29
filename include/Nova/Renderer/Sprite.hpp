@@ -2,6 +2,7 @@
 
 #include "Nova/Asset/Assets.hpp"
 #include "Nova/Misc/Logger.hpp"
+#include "Nova/Misc/StringHash.hpp"
 
 #include <string>
 #include <algorithm>
@@ -29,7 +30,7 @@ namespace Nova
         Sprite(const SpriteConfig& config);
 
         template<size_t N>
-        void AddAnimation(const std::string& name, const std::array<uint32_t, N>& frames)
+        void AddAnimation(const std::string_view& name, const std::array<uint32_t, N>& frames)
         {
             if (N > m_Config.NumCols * m_Config.NumRows)
             {
@@ -46,10 +47,10 @@ namespace Nova
                 }
             }
 
-            m_AnimationMap[name] = std::vector(std::begin(frames), std::end(frames));
+            m_AnimationMap.emplace(name, std::vector(std::begin(frames), std::end(frames)));
         }
 
-        void PlayAnimation(const std::string& name, bool loop = true, bool skipIfAlreadyPlaying = true);
+        void PlayAnimation(const std::string_view& name, bool loop = true, bool skipIfAlreadyPlaying = true);
 
         void Update(float deltaTime) noexcept;
 
@@ -85,6 +86,6 @@ namespace Nova
         float m_CurrentTime = 0.0f;
         SpriteConfig m_Config;
         std::string m_CurrentAnimation;
-        std::unordered_map<std::string, std::vector<uint32_t>> m_AnimationMap;
+        std::unordered_map<std::string, std::vector<uint32_t>, StringHash, std::equal_to<>> m_AnimationMap;
     };
 } // namespace Nova

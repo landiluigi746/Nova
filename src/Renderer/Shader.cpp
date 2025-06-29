@@ -137,14 +137,14 @@ namespace Nova
 
     int32_t Shader::GetUniformLocation(const std::string_view& name)
     {
-        if (m_UniformLocationCache.contains(name))
-            return m_UniformLocationCache[name];
+        if (auto it = m_UniformLocationCache.find(name); it != m_UniformLocationCache.end())
+            return it->second;
 
         int32_t location = glGetUniformLocation(m_ID, name.data());
 
         NOVA_ASSERT(location != -1, "Failed to get uniform location for {}", name);
 
-        m_UniformLocationCache[name] = location;
+        m_UniformLocationCache.emplace(name, location);
         return location;
     }
 

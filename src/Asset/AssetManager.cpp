@@ -30,8 +30,8 @@ namespace Nova
         {
             for (const auto& entry : std::filesystem::directory_iterator(path / "textures"))
             {
-                auto path = entry.path();
-                LoadTexture(path.stem().string(), path);
+                const auto& entryPath = entry.path();
+                LoadTexture(entryPath.stem().string(), entryPath);
             }
         }
 
@@ -39,13 +39,13 @@ namespace Nova
         {
             for (const auto& entry : std::filesystem::directory_iterator(path / "shaders"))
             {
-                auto path = entry.path();
-                LoadShader(path.stem().string(), path);
+                const auto& entryPath = entry.path();
+                LoadShader(entryPath.stem().string(), entryPath);
             }
         }
     }
 
-    void AssetManager::LoadTexture(const std::string& name, const std::filesystem::path& path)
+    void AssetManager::LoadTexture(const std::string_view& name, const std::filesystem::path& path)
     {
         if (m_Textures.contains(name))
         {
@@ -57,13 +57,13 @@ namespace Nova
 
         TextureAsset texture(std::make_shared<Texture>());
 
-        if (!texture.Asset->Init(path))
+        if (!texture->Init(path))
             return;
 
-        m_Textures[name] = texture;
+        m_Textures.emplace(name, texture);
     }
 
-    void AssetManager::LoadShader(const std::string& name, const std::filesystem::path& fragmentPath)
+    void AssetManager::LoadShader(const std::string_view& name, const std::filesystem::path& fragmentPath)
     {
         if (m_Shaders.contains(name))
         {
@@ -75,25 +75,25 @@ namespace Nova
 
         ShaderAsset shader(std::make_shared<Shader>());
 
-        if (!shader.Asset->InitFromFile(fragmentPath))
+        if (!shader->InitFromFile(fragmentPath))
             return;
 
-        m_Shaders[name] = shader;
+        m_Shaders.emplace(name, shader);
     }
 
-    TextureAsset AssetManager::GetTexture(const std::string& name)
+    TextureAsset AssetManager::GetTexture(const std::string_view& name)
     {
-        if (m_Textures.contains(name))
-            return m_Textures[name];
+        if (auto it = m_Textures.find(name); it != m_Textures.end())
+            return it->second;
 
         Logger::Warning("Texture with name {} does not exist!", name);
         return TextureAsset();
     }
 
-    ShaderAsset AssetManager::GetShader(const std::string& name)
+    ShaderAsset AssetManager::GetShader(const std::string_view& name)
     {
-        if (m_Shaders.contains(name))
-            return m_Shaders[name];
+        if (auto it = m_Shaders.find(name); it != m_Shaders.end())
+            return it->second;
 
         Logger::Warning("Shader with name {} does not exist!", name);
         return ShaderAsset();
