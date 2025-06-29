@@ -33,11 +33,7 @@ namespace Nova
         {
             static_assert(std::is_base_of_v<Scene, SceneT>, "Your scenes must derive from Nova::Scene!");
 
-            auto it = std::find_if(std::begin(m_Scenes), std::end(m_Scenes), [&name](const SceneData& sceneData) {
-                return sceneData.Name == name;
-            });
-
-            if (it != std::end(m_Scenes))
+            if (auto [found, it] = IsSceneRegistered(name, false); found)
             {
                 Logger::Warning("The scene \"{}\" is already registered", name);
                 return;
@@ -69,7 +65,7 @@ namespace Nova
 
         using SceneContainer = std::vector<SceneData>;
 
-        std::pair<bool, SceneContainer::iterator> IsSceneRegistered(const std::string_view& name);
+        std::pair<bool, SceneContainer::iterator> IsSceneRegistered(const std::string_view& name, bool warn = true);
 
     private:
         SceneContainer m_Scenes;

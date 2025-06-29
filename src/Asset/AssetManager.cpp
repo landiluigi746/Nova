@@ -83,7 +83,7 @@ namespace Nova
 
     TextureAsset AssetManager::GetTexture(const std::string_view& name)
     {
-        if (auto it = m_Textures.find(name); it != m_Textures.end())
+        if (auto it = m_Textures.find(name); it != std::end(m_Textures))
             return it->second;
 
         Logger::Warning("Texture with name {} does not exist!", name);
@@ -92,7 +92,7 @@ namespace Nova
 
     ShaderAsset AssetManager::GetShader(const std::string_view& name)
     {
-        if (auto it = m_Shaders.find(name); it != m_Shaders.end())
+        if (auto it = m_Shaders.find(name); it != std::end(m_Shaders))
             return it->second;
 
         Logger::Warning("Shader with name {} does not exist!", name);

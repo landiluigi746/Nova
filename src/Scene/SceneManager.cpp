@@ -66,7 +66,7 @@ namespace Nova
     }
 
     std::pair<bool, SceneManager::SceneContainer::iterator> SceneManager::IsSceneRegistered(
-        const std::string_view& name)
+        const std::string_view& name, bool warn)
     {
         auto it =
             std::find_if(std::begin(m_Scenes), std::end(m_Scenes), [&name](const SceneContainer::value_type& scene) {
@@ -75,7 +75,7 @@ namespace Nova
 
         bool found = it != std::end(m_Scenes);
 
-        if (!found)
+        if (!found && warn)
             Logger::Warning("Scene \"{}\" is not registered", name.data());
 
         return {found, it};

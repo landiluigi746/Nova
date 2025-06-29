@@ -296,13 +296,13 @@ namespace Nova::Renderer
         DrawQuad(texture, position, {src.z, src.w}, White, rotation, origin, src);
     }
 
-    void DrawSprite(const Sprite& sprite, const glm::vec2& position, float rotation,
-                    const glm::vec2& origin)
+    void DrawSprite(const Sprite& sprite, const glm::vec2& position, float rotation, const glm::vec2& origin)
     {
         DrawSprite(sprite, position, sprite.GetFrameSize(), rotation, origin);
     }
 
-    void DrawSprite(const Sprite& sprite, const glm::vec2& position, const glm::vec2& size, float rotation, const glm::vec2& origin)
+    void DrawSprite(const Sprite& sprite, const glm::vec2& position, const glm::vec2& size, float rotation,
+                    const glm::vec2& origin)
     {
         DrawQuad(sprite.GetTexture(), position, size, White, rotation, origin,
                  glm::vec4(sprite.GetFramePosition(), sprite.GetFrameSize()));
@@ -325,8 +325,8 @@ namespace Nova::Renderer
                     return tex->GetID() == texture->GetID();
                 });
 
-            if (it != s_Data.QuadTextures.end())
-                texIndex = static_cast<float>(std::distance(s_Data.QuadTextures.begin(), it));
+            if (it != std::end(s_Data.QuadTextures))
+                texIndex = static_cast<float>(std::distance(std::begin(s_Data.QuadTextures), it));
             else
             {
                 if (s_Data.QuadTextures.size() >= MAX_TEXTURE_SLOTS)
