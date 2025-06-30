@@ -10,6 +10,7 @@
 #include <unordered_map>
 #include <vector>
 #include <glm/vec2.hpp>
+#include <glm/vec4.hpp>
 
 namespace Nova
 {
@@ -77,6 +78,9 @@ namespace Nova
 
     public:
         bool FlipX = false;
+
+    private:
+        void CalculateCurrentPosition() noexcept;
 
     private:
         bool m_Loop = true;

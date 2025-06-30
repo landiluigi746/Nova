@@ -285,15 +285,7 @@ namespace Nova::Renderer
     void DrawQuad(std::shared_ptr<Texture> texture, const glm::vec2& position, float rotation, const glm::vec2& origin,
                   const glm::vec4& sourceRect)
     {
-        glm::vec4 src = sourceRect;
-
-        if (src.z < 0.0f)
-            src.z *= -1.0f;
-
-        if (src.w < 0.0f)
-            src.w *= -1.0f;
-
-        DrawQuad(texture, position, {src.z, src.w}, White, rotation, origin, src);
+        DrawQuad(texture, position, {sourceRect.z, sourceRect.w}, White, rotation, origin, sourceRect);
     }
 
     void DrawSprite(const Sprite& sprite, const glm::vec2& position, float rotation, const glm::vec2& origin)
@@ -304,8 +296,12 @@ namespace Nova::Renderer
     void DrawSprite(const Sprite& sprite, const glm::vec2& position, const glm::vec2& size, float rotation,
                     const glm::vec2& origin)
     {
-        DrawQuad(sprite.GetTexture(), position, size, White, rotation, origin,
-                 glm::vec4(sprite.GetFramePosition(), sprite.GetFrameSize()));
+        glm::vec4 src = glm::vec4(sprite.GetFramePosition(), sprite.GetFrameSize());
+
+        if (sprite.FlipX)
+            src.z *= -1.0f;
+
+        DrawQuad(sprite.GetTexture(), position, size, White, rotation, origin, src);
     }
 
     void DrawQuad(std::shared_ptr<Texture> texture, const glm::vec2& position, const glm::vec2& size,
@@ -337,15 +333,29 @@ namespace Nova::Renderer
             }
         }
 
+        bool flipX = false;
+        glm::vec4 src = sourceRect;
+
+        if (src.z < 0.0f)
+        {
+            src.z *= -1.0f;
+            flipX = true;
+        }
+
+        if (src.w < 0.0f)
+            src.w *= -1.0f;
+
         glm::vec2 texSize = {(float) texture->GetWidth(), (float) texture->GetHeight()};
-        glm::vec2 uvMin = {0.0f, 0.0f};
+        glm::vec2 uvMin = {src.x / texSize.x, src.y / texSize.y};
+        glm::vec2 uvMax = {(src.x + src.z) / texSize.x, (src.y + src.w) / texSize.y};
+        /*glm::vec2 uvMin = {0.0f, 0.0f};
         glm::vec2 uvMax = {1.0f, 1.0f};
 
         if (sourceRect.z > 0 && sourceRect.w > 0)
         {
             uvMin = {sourceRect.x / texSize.x, sourceRect.y / texSize.y};
             uvMax = {(sourceRect.x + sourceRect.z) / texSize.x, (sourceRect.y + sourceRect.w) / texSize.y};
-        }
+        }*/
 
         glm::vec2 texCoords[4] = {
             {uvMin.x, uvMin.y},
@@ -353,6 +363,12 @@ namespace Nova::Renderer
             {uvMax.x, uvMax.y},
             {uvMin.x, uvMax.y},
         };
+
+        if (flipX)
+        {
+            std::swap(texCoords[0], texCoords[1]);
+            std::swap(texCoords[2], texCoords[3]);
+        }
 
         glm::mat4 transform = glm::mat4(1.0f);
         transform = glm::translate(transform, glm::vec3(position, 0.0f));
