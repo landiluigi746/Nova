@@ -1,4 +1,5 @@
 #include "Nova/Scene/Scene.hpp"
+#include "Nova/Scene/Entity.hpp"
 #include "Nova/Core/App.hpp"
 
 namespace Nova
@@ -7,6 +8,18 @@ namespace Nova
         : m_Window(App::Get().GetWindow()), m_SceneManager(App::Get().GetSceneManager()),
           m_AssetManager(App::Get().GetAssetManager())
     {
+    }
+
+    Entity Scene::CreateEntity()
+    {
+        return Entity(m_Registry.create(), this);
+    }
+
+    void Scene::DestroyEntity(Entity& entity)
+    {
+        m_Registry.destroy(entity.m_Entity);
+        entity.m_Entity = entt::null;
+        entity.m_ParentScene = nullptr;
     }
 
     void Scene::AddEasing(const Easing& easing)

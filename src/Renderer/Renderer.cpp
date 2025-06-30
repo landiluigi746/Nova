@@ -348,15 +348,7 @@ namespace Nova::Renderer
         glm::vec2 texSize = {(float) texture->GetWidth(), (float) texture->GetHeight()};
         glm::vec2 uvMin = {src.x / texSize.x, src.y / texSize.y};
         glm::vec2 uvMax = {(src.x + src.z) / texSize.x, (src.y + src.w) / texSize.y};
-        /*glm::vec2 uvMin = {0.0f, 0.0f};
-        glm::vec2 uvMax = {1.0f, 1.0f};
-
-        if (sourceRect.z > 0 && sourceRect.w > 0)
-        {
-            uvMin = {sourceRect.x / texSize.x, sourceRect.y / texSize.y};
-            uvMax = {(sourceRect.x + sourceRect.z) / texSize.x, (sourceRect.y + sourceRect.w) / texSize.y};
-        }*/
-
+        
         glm::vec2 texCoords[4] = {
             {uvMin.x, uvMin.y},
             {uvMax.x, uvMin.y},

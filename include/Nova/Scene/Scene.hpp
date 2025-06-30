@@ -4,12 +4,15 @@
 
 #include <vector>
 #include <memory>
+#include <entt/entity/registry.hpp>
 
 namespace Nova
 {
     class Window;
     class SceneManager;
     class AssetManager;
+
+    class Entity;
 
     class Scene
     {
@@ -25,6 +28,15 @@ namespace Nova
         virtual void ImGuiDraw() {}
 
     protected:
+        Entity CreateEntity();
+        void DestroyEntity(Entity& entity);
+
+        template<typename... Components>
+        auto GetEntitiesWith() const
+        {
+            return m_Registry.view<Components...>();
+        }
+
         void AddEasing(const Easing& easing);
 
     private:
@@ -37,8 +49,10 @@ namespace Nova
 
     private:
         std::vector<Easing> m_Easings;
+        entt::registry m_Registry;
 
         friend class SceneManager;
+        friend class Entity;
     };
 
     using ScenePtr = std::shared_ptr<Scene>;
