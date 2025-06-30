@@ -15,6 +15,7 @@ target_link_libraries(
     glm::glm
     stb_image
     reasings
+    EnTT
 )
 
 if(MSVC)
