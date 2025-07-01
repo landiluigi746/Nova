@@ -275,8 +275,8 @@ namespace Nova::Renderer
                  {0.0f, 0.0f, texture->GetWidth(), texture->GetHeight()});
     }
 
-    void DrawQuad(std::shared_ptr<Texture> texture, const glm::vec2& position, float rotation, const glm::vec2& origin,
-                  const glm::vec4& sourceRect)
+    void DrawQuad(std::shared_ptr<Texture> texture, const glm::vec4& sourceRect, const glm::vec2& position,
+                  float rotation, const glm::vec2& origin)
     {
         DrawQuad(texture, position, {sourceRect.z, sourceRect.w}, White, rotation, origin, sourceRect);
     }
@@ -309,7 +309,9 @@ namespace Nova::Renderer
         float texIndex = 0.0f;
         if (texture != s_Data.QuadTexture)
         {
-            auto it = std::ranges::find_if(s_Data.QuadTextures, [&](const auto& tex) { return tex->GetID() == texture->GetID(); });
+            auto it = std::ranges::find_if(s_Data.QuadTextures, [&](const auto& tex) {
+                return tex->GetID() == texture->GetID();
+            });
 
             if (it != std::end(s_Data.QuadTextures))
                 texIndex = static_cast<float>(std::distance(std::begin(s_Data.QuadTextures), it));
@@ -338,7 +340,7 @@ namespace Nova::Renderer
         glm::vec2 texSize = {(float) texture->GetWidth(), (float) texture->GetHeight()};
         glm::vec2 uvMin = {src.x / texSize.x, src.y / texSize.y};
         glm::vec2 uvMax = {(src.x + src.z) / texSize.x, (src.y + src.w) / texSize.y};
-        
+
         auto texCoords = std::to_array<glm::vec2>({
             {uvMin.x, uvMin.y},
             {uvMax.x, uvMin.y},

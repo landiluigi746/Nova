@@ -20,7 +20,7 @@ namespace Nova
         m_CurrentTime = 0.0f;
         m_Loop = loop;
 
-		CalculateCurrentPosition();
+        CalculateCurrentPosition();
     }
 
     void Sprite::Update(float deltaTime) noexcept
@@ -42,12 +42,12 @@ namespace Nova
         else if (m_CurrentAnimIndex < currentFrames.size() - 1)
             m_CurrentAnimIndex++;
 
-		CalculateCurrentPosition();
+        CalculateCurrentPosition();
     }
 
     void Sprite::CalculateCurrentPosition() noexcept
     {
-		const auto& currentFrames = m_AnimationMap[m_CurrentAnimation];
+        const auto& currentFrames = m_AnimationMap[m_CurrentAnimation];
 
         m_CurrentCol = currentFrames[m_CurrentAnimIndex] % m_Config.NumCols;
         m_CurrentRow = currentFrames[m_CurrentAnimIndex] / m_Config.NumCols;
