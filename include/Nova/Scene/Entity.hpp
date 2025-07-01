@@ -33,10 +33,21 @@ namespace Nova
         }
 
         template<typename Component>
+        const Component& GetComponent() const
+        {
+            return m_ParentScene->m_Registry.get<Component>(m_Entity);
+        }
+
+        template<typename Component>
         void RemoveComponent()
         {
             m_ParentScene->m_Registry.remove<Component>(m_Entity);
         }
+
+        operator entt::entity() const noexcept
+		{
+			return m_Entity;
+		}
 
         operator bool() const noexcept
         {

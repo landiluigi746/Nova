@@ -32,10 +32,18 @@ namespace Nova
         void DestroyEntity(Entity& entity);
 
         template<typename... Components>
+        auto GetEntitiesWith()
+        {
+            return m_Registry.view<Components...>();
+        }
+
+        template<typename... Components>
         auto GetEntitiesWith() const
         {
             return m_Registry.view<Components...>();
         }
+
+        entt::registry& GetRegistry() { return m_Registry; }
 
         void AddEasing(const Easing& easing);
 
