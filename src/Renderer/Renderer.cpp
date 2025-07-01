@@ -271,6 +271,9 @@ namespace Nova::Renderer
 
     void DrawQuad(std::shared_ptr<Texture> texture, const glm::vec2& position, float rotation, const glm::vec2& origin)
     {
+        if (!texture)
+            texture = s_Data.QuadTexture;
+
         DrawQuad(texture, position, {texture->GetWidth(), texture->GetHeight()}, White, rotation, origin,
                  {0.0f, 0.0f, texture->GetWidth(), texture->GetHeight()});
     }
