@@ -49,9 +49,9 @@ namespace Nova
     using AppPtr = std::unique_ptr<App>;
 
     template<typename AppT, typename... Args>
+    requires std::is_base_of_v<App, AppT>
     inline AppPtr MakeApp(Args&&... args)
     {
-        static_assert(std::is_base_of_v<App, AppT>, "App must derive from Nova::Application!");
         return std::make_unique<AppT>(std::forward<Args>(args)...);
     }
 

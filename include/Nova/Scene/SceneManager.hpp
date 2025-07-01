@@ -29,10 +29,9 @@ namespace Nova
         void ProcessImGuiFrame();
 
         template<typename SceneT, typename... Args>
+        requires std::is_base_of_v<Scene, SceneT>
         void AddScene(std::string name, Args&&... args)
         {
-            static_assert(std::is_base_of_v<Scene, SceneT>, "Your scenes must derive from Nova::Scene!");
-
             if (auto [found, it] = IsSceneRegistered(name, false); found)
             {
                 Logger::Warning("The scene \"{}\" is already registered", name);
