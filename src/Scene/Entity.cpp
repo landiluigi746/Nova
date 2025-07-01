@@ -15,6 +15,9 @@ namespace Nova
     {
         Entity other;
 
+        if (!m_ParentScene)
+			return other;
+
         other.m_ParentScene = m_ParentScene;
         other.m_Entity = m_ParentScene->m_Registry.create();
 

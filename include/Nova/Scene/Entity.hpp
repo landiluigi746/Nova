@@ -51,7 +51,7 @@ namespace Nova
 
         operator bool() const noexcept
         {
-            return m_Entity != entt::null;
+            return m_Entity != entt::null && m_ParentScene;
         }
 
         bool operator==(const Entity& other) const noexcept = default;

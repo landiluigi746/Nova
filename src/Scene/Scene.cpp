@@ -17,6 +17,9 @@ namespace Nova
 
     void Scene::DestroyEntity(Entity& entity)
     {
+		if (entity.m_Entity == entt::null || entity.m_ParentScene != this)
+			return;
+
         m_Registry.destroy(entity.m_Entity);
         entity.m_Entity = entt::null;
         entity.m_ParentScene = nullptr;
