@@ -1,5 +1,3 @@
-#pragma once
-
 #include "Nova/Renderer/Sprite.hpp"
 
 namespace Nova

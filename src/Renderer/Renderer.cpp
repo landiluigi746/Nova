@@ -98,19 +98,12 @@ namespace Nova::Renderer
         "    FragColor = color;\n"
         "}\n";
 
-    static constexpr glm::vec2 s_QuadVertexPos[4] = {
+    static constexpr auto s_QuadVertexPos = std::to_array<glm::vec2>({
         { -0.5f, -0.5f },
         {  0.5f, -0.5f },
         {  0.5f,  0.5f },
         { -0.5f,  0.5f },
-    };
-
-    static constexpr glm::vec2 s_QuadTexCoords[4] = {
-        { 0.0f, 0.0f },
-        { 1.0f, 0.0f },
-        { 1.0f, 1.0f },
-        { 0.0f, 1.0f },
-    };
+    });
     // clang-format on
 
     static bool s_Initialized = false;
@@ -316,10 +309,7 @@ namespace Nova::Renderer
         float texIndex = 0.0f;
         if (texture != s_Data.QuadTexture)
         {
-            auto it =
-                std::find_if(std::begin(s_Data.QuadTextures), std::end(s_Data.QuadTextures), [&](const auto& tex) {
-                    return tex->GetID() == texture->GetID();
-                });
+            auto it = std::ranges::find_if(s_Data.QuadTextures, [&](const auto& tex) { return tex->GetID() == texture->GetID(); });
 
             if (it != std::end(s_Data.QuadTextures))
                 texIndex = static_cast<float>(std::distance(std::begin(s_Data.QuadTextures), it));
@@ -349,12 +339,12 @@ namespace Nova::Renderer
         glm::vec2 uvMin = {src.x / texSize.x, src.y / texSize.y};
         glm::vec2 uvMax = {(src.x + src.z) / texSize.x, (src.y + src.w) / texSize.y};
         
-        glm::vec2 texCoords[4] = {
+        auto texCoords = std::to_array<glm::vec2>({
             {uvMin.x, uvMin.y},
             {uvMax.x, uvMin.y},
             {uvMax.x, uvMax.y},
             {uvMin.x, uvMax.y},
-        };
+        });
 
         if (flipX)
         {
