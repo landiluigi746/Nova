@@ -1,4 +1,4 @@
-#include "Nova/Scene/System.hpp"
+#include "Nova/ECS/System.hpp"
 #include "Nova/Misc/Assert.hpp"
 
 namespace Nova

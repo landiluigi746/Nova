@@ -1,5 +1,5 @@
 #include "Nova/Scene/Scene.hpp"
-#include "Nova/Scene/Entity.hpp"
+#include "Nova/ECS/Entity.hpp"
 #include "Nova/Core/App.hpp"
 
 namespace Nova
@@ -17,8 +17,8 @@ namespace Nova
 
     void Scene::DestroyEntity(Entity& entity)
     {
-		if (entity.m_Entity == entt::null || entity.m_ParentScene != this)
-			return;
+        if (entity.m_Entity == entt::null || entity.m_ParentScene != this)
+            return;
 
         m_Registry.destroy(entity.m_Entity);
         entity.m_Entity = entt::null;
@@ -51,6 +51,6 @@ namespace Nova
     void Scene::UpdateSystems(float deltaTime) const
     {
         for (const auto& system : m_Systems)
-			system->Update(deltaTime);
+            system->Update(deltaTime);
     }
 } // namespace Nova

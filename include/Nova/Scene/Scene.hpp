@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Nova/Misc/Easings.hpp"
-#include "Nova/Scene/RendererSystem.hpp"
+#include "Nova/ECS/RendererSystem.hpp"
 
 #include <vector>
 #include <memory>

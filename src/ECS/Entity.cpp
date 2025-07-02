@@ -1,4 +1,4 @@
-#include "Nova/Scene/Entity.hpp"
+#include "Nova/ECS/Entity.hpp"
 #include "Nova/Misc/Assert.hpp"
 
 namespace Nova

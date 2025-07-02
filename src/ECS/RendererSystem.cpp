@@ -1,6 +1,6 @@
-#include "Nova/Scene/RendererSystem.hpp"
+#include "Nova/ECS/RendererSystem.hpp"
 #include "Nova/Scene/Scene.hpp"
-#include "Nova/Scene/Components.hpp"
+#include "Nova/ECS/Components.hpp"
 
 #include "Nova/Renderer/Renderer.hpp"
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Nova/Scene/System.hpp"
+#include "Nova/ECS/System.hpp"
 
 namespace Nova
 {
