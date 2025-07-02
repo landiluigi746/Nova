@@ -269,19 +269,29 @@ namespace Nova::Renderer
                  {0.0f, 0.0f, s_Data.QuadTexture->GetWidth(), s_Data.QuadTexture->GetHeight()});
     }
 
-    void DrawQuad(std::shared_ptr<Texture> texture, const glm::vec2& position, float rotation, const glm::vec2& origin)
+    void DrawQuad(std::shared_ptr<Texture> texture, const glm::vec2& position, const Color& color, float rotation,
+                  const glm::vec2& origin)
     {
         if (!texture)
             texture = s_Data.QuadTexture;
 
-        DrawQuad(texture, position, {texture->GetWidth(), texture->GetHeight()}, White, rotation, origin,
-                 {0.0f, 0.0f, texture->GetWidth(), texture->GetHeight()});
+        DrawQuad(texture, {0.0f, 0.0f, texture->GetWidth(), texture->GetHeight()}, position, color, rotation, origin);
     }
 
     void DrawQuad(std::shared_ptr<Texture> texture, const glm::vec4& sourceRect, const glm::vec2& position,
-                  float rotation, const glm::vec2& origin)
+                  const Color& color, float rotation, const glm::vec2& origin)
     {
-        DrawQuad(texture, position, {sourceRect.z, sourceRect.w}, White, rotation, origin, sourceRect);
+        DrawQuad(texture, position, {sourceRect.z, sourceRect.w}, color, rotation, origin, sourceRect);
+    }
+
+    void DrawQuad(std::shared_ptr<Texture> texture, const glm::vec2& position, const glm::vec2& size,
+                  const Color& color, float rotation, const glm::vec2& origin)
+    {
+        if (!texture)
+            texture = s_Data.QuadTexture;
+
+        DrawQuad(texture, position, size, color, rotation, origin,
+                 {0.0f, 0.0f, texture->GetWidth(), texture->GetHeight()});
     }
 
     void DrawSprite(const Sprite& sprite, const glm::vec2& position, float rotation, const glm::vec2& origin)
