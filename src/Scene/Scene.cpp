@@ -6,7 +6,7 @@ namespace Nova
 {
     Scene::Scene()
         : m_Window(App::Get().GetWindow()), m_SceneManager(App::Get().GetSceneManager()),
-          m_AssetManager(App::Get().GetAssetManager()), m_RendererSystem(this)
+          m_AssetManager(App::Get().GetAssetManager()), m_RendererSystem(std::make_unique<RendererSystem>(this))
     {
     }
 

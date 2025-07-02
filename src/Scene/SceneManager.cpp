@@ -98,7 +98,7 @@ namespace Nova
             if (scene.Running && !scene.Stopped)
             {
                 scene.Scene->Draw();
-                scene.Scene->m_RendererSystem.Update(deltaTime);
+                scene.Scene->m_RendererSystem->Update(deltaTime);
             }
         }
     }

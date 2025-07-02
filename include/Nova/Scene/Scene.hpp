@@ -29,11 +29,18 @@ namespace Nova
         virtual void ImGuiDraw() {}
 
         template<typename SystemT, typename... Args>
-        requires std::is_base_of_v<System, SystemT>
+        requires(std::is_base_of_v<System, SystemT> && !std::is_base_of_v<RendererSystem, SystemT>)
         void AddSystem(Args&&... args)
         {
             m_Systems.emplace_back(std::make_unique<SystemT>(this, std::forward<Args>(args)...));
         }
+
+        template<typename SystemT, typename... Args>
+		requires std::is_base_of_v<RendererSystem, SystemT>
+        void SetRendererSystem(Args&&... args)
+		{
+			m_RendererSystem = std::make_unique<SystemT>(this, std::forward<Args>(args)...);
+		}
 
         Entity CreateEntity();
         void DestroyEntity(Entity& entity);
@@ -68,7 +75,7 @@ namespace Nova
         AssetManager& m_AssetManager;
 
     private:
-        RendererSystem m_RendererSystem;
+        std::unique_ptr<RendererSystem> m_RendererSystem;
         std::vector<std::unique_ptr<System>> m_Systems;
         std::vector<Easing> m_Easings;
         entt::registry m_Registry;

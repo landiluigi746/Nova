@@ -4,7 +4,7 @@
 
 namespace Nova
 {
-    class RendererSystem final : public System
+    class RendererSystem : public System
     {
     public:
         using System::System;
