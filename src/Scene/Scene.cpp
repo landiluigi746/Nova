@@ -1,6 +1,7 @@
 #include "Nova/Scene/Scene.hpp"
 #include "Nova/ECS/Entity.hpp"
 #include "Nova/Core/App.hpp"
+#include "Nova/Misc/Metrics.hpp"
 
 namespace Nova
 {
@@ -12,6 +13,7 @@ namespace Nova
 
     Entity Scene::CreateEntity()
     {
+		Metrics::IncrementEntities();
         return Entity(m_Registry.create(), this);
     }
 
@@ -23,6 +25,8 @@ namespace Nova
         m_Registry.destroy(entity.m_Entity);
         entity.m_Entity = entt::null;
         entity.m_ParentScene = nullptr;
+
+        Metrics::DecrementEntities();
     }
 
     void Scene::AddEasing(const Easing& easing)

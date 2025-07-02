@@ -184,7 +184,7 @@ namespace Nova
                 NOVA_ASSERT(false, "Unknown ShaderDataType");
             }
 
-            index++;
+            ++index;
         }
     }
 

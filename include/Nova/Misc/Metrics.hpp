@@ -16,4 +16,6 @@ namespace Nova::Metrics
 
     void IncrementDrawCalls();
     void IncrementDrawnObjects(uint32_t count);
+    void IncrementEntities();
+    void DecrementEntities();
 } // namespace Nova::Metrics

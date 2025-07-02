@@ -40,7 +40,7 @@ namespace Nova
         if (m_Loop)
             m_CurrentAnimIndex = (m_CurrentAnimIndex + 1) % currentFrames.size();
         else if (m_CurrentAnimIndex < currentFrames.size() - 1)
-            m_CurrentAnimIndex++;
+            ++m_CurrentAnimIndex;
 
         CalculateCurrentPosition();
     }
