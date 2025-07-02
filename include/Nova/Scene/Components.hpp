@@ -23,9 +23,5 @@ namespace Nova
         ColorComponent Color = Nova::White;
     };
 
-    struct SpriteComponent
-    {
-        Sprite Sprite;
-        ColorComponent Color = Nova::White;
-    };
+    using SpriteComponent = Sprite;
 } // namespace Nova
