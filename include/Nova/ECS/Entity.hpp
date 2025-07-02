@@ -45,9 +45,9 @@ namespace Nova
         }
 
         operator entt::entity() const noexcept
-		{
-			return m_Entity;
-		}
+        {
+            return m_Entity;
+        }
 
         operator bool() const noexcept
         {

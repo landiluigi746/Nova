@@ -36,11 +36,11 @@ namespace Nova
         }
 
         template<typename SystemT, typename... Args>
-		requires std::is_base_of_v<RendererSystem, SystemT>
+        requires std::is_base_of_v<RendererSystem, SystemT>
         void SetRendererSystem(Args&&... args)
-		{
-			m_RendererSystem = std::make_unique<SystemT>(this, std::forward<Args>(args)...);
-		}
+        {
+            m_RendererSystem = std::make_unique<SystemT>(this, std::forward<Args>(args)...);
+        }
 
         Entity CreateEntity();
         void DestroyEntity(Entity& entity);
