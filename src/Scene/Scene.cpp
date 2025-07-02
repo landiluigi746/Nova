@@ -6,7 +6,7 @@ namespace Nova
 {
     Scene::Scene()
         : m_Window(App::Get().GetWindow()), m_SceneManager(App::Get().GetSceneManager()),
-          m_AssetManager(App::Get().GetAssetManager())
+          m_AssetManager(App::Get().GetAssetManager()), m_RendererSystem(this)
     {
     }
 
@@ -46,5 +46,11 @@ namespace Nova
             else
                 ++it;
         }
+    }
+
+    void Scene::UpdateSystems(float deltaTime) const
+    {
+        for (const auto& system : m_Systems)
+			system->Update(deltaTime);
     }
 } // namespace Nova

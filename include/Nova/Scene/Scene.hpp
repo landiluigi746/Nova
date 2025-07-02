@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Nova/Misc/Easings.hpp"
+#include "Nova/Scene/RendererSystem.hpp"
 
 #include <vector>
 #include <memory>
@@ -27,7 +28,13 @@ namespace Nova
         virtual void Draw() = 0;
         virtual void ImGuiDraw() {}
 
-    protected:
+        template<typename SystemT, typename... Args>
+        requires std::is_base_of_v<System, SystemT>
+        void AddSystem(Args&&... args)
+        {
+            m_Systems.emplace_back(std::make_unique<SystemT>(this, std::forward<Args>(args)...));
+        }
+
         Entity CreateEntity();
         void DestroyEntity(Entity& entity);
 
@@ -43,11 +50,16 @@ namespace Nova
             return m_Registry.view<Components...>();
         }
 
-        entt::registry& GetRegistry() { return m_Registry; }
+        entt::registry& GetRegistry()
+        {
+            return m_Registry;
+        }
 
+    protected:
         void AddEasing(const Easing& easing);
 
     private:
+        void UpdateSystems(float deltaTime) const;
         void ProcessEasings(float milliseconds);
 
     protected:
@@ -56,6 +68,8 @@ namespace Nova
         AssetManager& m_AssetManager;
 
     private:
+        RendererSystem m_RendererSystem;
+        std::vector<std::unique_ptr<System>> m_Systems;
         std::vector<Easing> m_Easings;
         entt::registry m_Registry;
 
