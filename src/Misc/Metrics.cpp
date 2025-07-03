@@ -42,15 +42,15 @@ namespace Nova::Metrics
         s_Data.DrawnObjects += count;
     }
 
-	void IncrementEntities()
-	{
-		++s_Data.Entities;
-	}
+    void IncrementEntities()
+    {
+        ++s_Data.Entities;
+    }
 
-	void DecrementEntities()
-	{
-		--s_Data.Entities;
-	}
+    void DecrementEntities()
+    {
+        --s_Data.Entities;
+    }
 
     void DebugUI()
     {
@@ -61,7 +61,7 @@ namespace Nova::Metrics
         ImGui::Value("FPS", s_Data.FPS, "%.2f");
         ImGui::Value("Draw Calls", s_Data.DrawCalls);
         ImGui::Value("Drawn Objects", s_Data.DrawnObjects);
-		ImGui::Value("Entities", s_Data.Entities);
+        ImGui::Value("Entities", s_Data.Entities);
 
         ImGui::End();
 #endif

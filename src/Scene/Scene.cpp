@@ -13,7 +13,7 @@ namespace Nova
 
     Entity Scene::CreateEntity()
     {
-		Metrics::IncrementEntities();
+        Metrics::IncrementEntities();
         return Entity(m_Registry.create(), this);
     }
 
