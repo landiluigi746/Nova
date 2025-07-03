@@ -22,24 +22,24 @@ namespace Nova::Renderer
 
     void ClearScreen(const Color& color);
 
-    void DrawQuad(const glm::vec2& position, const glm::vec2& size, const Color& color, float rotation = 0.0f,
+    void DrawQuad(const glm::vec2& position, const glm::vec2& scale, const Color& color, float rotation = 0.0f,
                   const glm::vec2& origin = {0.0f, 0.0f});
 
     void DrawQuad(std::shared_ptr<Texture> texture, const glm::vec2& position, const Color& color = Nova::White,
                   float rotation = 0.0f, const glm::vec2& origin = {0.0f, 0.0f});
 
-    void DrawQuad(std::shared_ptr<Texture> texture, const glm::vec2& position, const glm::vec2& size,
+    void DrawQuad(std::shared_ptr<Texture> texture, const glm::vec2& position, const glm::vec2& scale,
                   const Color& color = Nova::White, float rotation = 0.0f, const glm::vec2& origin = {0.0f, 0.0f});
 
     void DrawQuad(std::shared_ptr<Texture> texture, const glm::vec4& sourceRect, const glm::vec2& position,
                   const Color& color, float rotation, const glm::vec2& origin);
 
-    void DrawQuad(std::shared_ptr<Texture> texture, const glm::vec2& position, const glm::vec2& size,
+    void DrawQuad(std::shared_ptr<Texture> texture, const glm::vec2& position, const glm::vec2& scale,
                   const Color& color, float rotation, const glm::vec2& origin, const glm::vec4& sourceRect);
 
     void DrawSprite(const Sprite& sprite, const glm::vec2& position, float rotation = 0.0f,
                     const glm::vec2& origin = {0.0f, 0.0f});
 
-    void DrawSprite(const Sprite& sprite, const glm::vec2& position, const glm::vec2& size, float rotation = 0.0f,
+    void DrawSprite(const Sprite& sprite, const glm::vec2& position, const glm::vec2& scale, float rotation = 0.0f,
                     const glm::vec2& origin = {0.0f, 0.0f});
 } // namespace Nova::Renderer

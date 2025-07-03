@@ -13,7 +13,7 @@ namespace Nova
             auto view = m_ParentScene->GetEntitiesWith<const QuadTransform, const ColorComponent>();
 
             view.each([](const QuadTransform& transform, const ColorComponent& color) {
-                Renderer::DrawQuad(transform.Position, transform.Size, color, transform.Rotation);
+                Renderer::DrawQuad(transform.Position, transform.Scale, color, transform.Rotation);
             });
         }
 
@@ -23,7 +23,7 @@ namespace Nova
 
             // clang-format off
             view.each([](const QuadTransform& transform, const TextureComponent& texture) {
-                Renderer::DrawQuad(texture.Texture, transform.Position, transform.Size, texture.Color, transform.Rotation);
+                Renderer::DrawQuad(texture.Texture, transform.Position, transform.Scale, texture.Color, transform.Rotation);
             });
             // clang-format on
         }
@@ -33,7 +33,7 @@ namespace Nova
             auto view = m_ParentScene->GetEntitiesWith<const QuadTransform, const SpriteComponent>();
 
             view.each([](const QuadTransform& transform, const SpriteComponent& sprite) {
-                Renderer::DrawSprite(sprite, transform.Position, transform.Size, transform.Rotation);
+                Renderer::DrawSprite(sprite, transform.Position, transform.Scale, transform.Rotation);
             });
         }
     }

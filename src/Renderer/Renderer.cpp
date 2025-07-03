@@ -262,10 +262,10 @@ namespace Nova::Renderer
         glClear(GL_COLOR_BUFFER_BIT);
     }
 
-    void DrawQuad(const glm::vec2& position, const glm::vec2& size, const Color& color, float rotation,
+    void DrawQuad(const glm::vec2& position, const glm::vec2& scale, const Color& color, float rotation,
                   const glm::vec2& origin)
     {
-        DrawQuad(s_Data.QuadTexture, position, size, color, rotation, origin,
+        DrawQuad(s_Data.QuadTexture, position, scale, color, rotation, origin,
                  {0.0f, 0.0f, s_Data.QuadTexture->GetWidth(), s_Data.QuadTexture->GetHeight()});
     }
 
@@ -284,14 +284,15 @@ namespace Nova::Renderer
         DrawQuad(texture, position, {sourceRect.z, sourceRect.w}, color, rotation, origin, sourceRect);
     }
 
-    void DrawQuad(std::shared_ptr<Texture> texture, const glm::vec2& position, const glm::vec2& size,
+    void DrawQuad(std::shared_ptr<Texture> texture, const glm::vec2& position, const glm::vec2& scale,
                   const Color& color, float rotation, const glm::vec2& origin)
     {
         if (!texture)
             texture = s_Data.QuadTexture;
 
-        DrawQuad(texture, position, size, color, rotation, origin,
-                 {0.0f, 0.0f, texture->GetWidth(), texture->GetHeight()});
+        glm::vec4 sourceRect = {0.0f, 0.0f, texture->GetWidth(), texture->GetHeight()};
+
+        DrawQuad(texture, position, scale, color, rotation, origin, sourceRect);
     }
 
     void DrawSprite(const Sprite& sprite, const glm::vec2& position, float rotation, const glm::vec2& origin)
@@ -299,18 +300,18 @@ namespace Nova::Renderer
         DrawSprite(sprite, position, sprite.GetFrameSize(), rotation, origin);
     }
 
-    void DrawSprite(const Sprite& sprite, const glm::vec2& position, const glm::vec2& size, float rotation,
+    void DrawSprite(const Sprite& sprite, const glm::vec2& position, const glm::vec2& scale, float rotation,
                     const glm::vec2& origin)
     {
-        glm::vec4 src = glm::vec4(sprite.GetFramePosition(), sprite.GetFrameSize());
+        glm::vec4 src = {sprite.GetFramePosition(), sprite.GetFrameSize()};
 
         if (sprite.FlipX)
             src.z *= -1.0f;
 
-        DrawQuad(sprite.GetTexture(), position, size, White, rotation, origin, src);
+        DrawQuad(sprite.GetTexture(), position, scale, White, rotation, origin, src);
     }
 
-    void DrawQuad(std::shared_ptr<Texture> texture, const glm::vec2& position, const glm::vec2& size,
+    void DrawQuad(std::shared_ptr<Texture> texture, const glm::vec2& position, const glm::vec2& scale,
                   const Color& color, float rotation, const glm::vec2& origin, const glm::vec4& sourceRect)
     {
         if (!texture)
@@ -351,6 +352,7 @@ namespace Nova::Renderer
             src.w *= -1.0f;
 
         glm::vec2 texSize = {(float) texture->GetWidth(), (float) texture->GetHeight()};
+        glm::vec2 srcTexSize = {src.z, src.w};
         glm::vec2 uvMin = {src.x / texSize.x, src.y / texSize.y};
         glm::vec2 uvMax = {(src.x + src.z) / texSize.x, (src.y + src.w) / texSize.y};
 
@@ -367,23 +369,25 @@ namespace Nova::Renderer
             std::swap(texCoords[2], texCoords[3]);
         }
 
-        glm::mat4 transform = glm::mat4(1.0f);
+        glm::mat4 transform = {1.0f};
         transform = glm::translate(transform, glm::vec3(position, 0.0f));
         transform = glm::translate(transform, glm::vec3(origin, 0.0f));
         transform = glm::rotate(transform, glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f));
-        transform = glm::scale(transform, glm::vec3(size, 1.0f));
+        transform = glm::scale(transform, glm::vec3(scale * srcTexSize, 1.0f));
         transform = glm::translate(transform, glm::vec3(-origin, 0.0f));
 
-        glm::vec4 normalizedColor = glm::vec4(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.a / 255.0f);
+        glm::vec4 normalizedColor = {color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.a / 255.0f};
 
         for (int i = 0; i < 4; ++i)
         {
             glm::vec4 pos = transform * glm::vec4(s_QuadVertexPos[i], 0.0f, 1.0f);
 
-            s_Data.QuadVertices.emplace_back(VertexData{.Position = glm::vec2{pos.x, pos.y},
-                                                        .TexCoords = texCoords[i],
-                                                        .Color = normalizedColor,
-                                                        .TexIndex = texIndex});
+            s_Data.QuadVertices.emplace_back(VertexData{
+                .Position = glm::vec2{pos.x, pos.y},
+                .TexCoords = texCoords[i],
+                .Color = normalizedColor,
+                .TexIndex = texIndex,
+            });
         }
 
         s_Data.QuadIndicesCount += 6;

@@ -11,7 +11,7 @@ namespace Nova
     struct QuadTransform
     {
         glm::vec2 Position;
-        glm::vec2 Size;
+        glm::vec2 Scale;
         float Rotation;
     };
 
