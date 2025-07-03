@@ -29,7 +29,7 @@ namespace Nova
         void ProcessImGuiFrame();
 
         template<typename SceneT, typename... Args>
-        requires std::is_base_of_v<Scene, SceneT>
+            requires std::is_base_of_v<Scene, SceneT>
         void AddScene(std::string name, Args&&... args)
         {
             if (auto [found, it] = IsSceneRegistered(name, false); found)

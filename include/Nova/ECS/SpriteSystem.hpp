@@ -4,12 +4,12 @@
 
 namespace Nova
 {
-    class RendererSystem : public System
+    class SpriteSystem : public System
     {
     public:
         using System::System;
 
-        virtual ~RendererSystem() = default;
+        virtual ~SpriteSystem() = default;
         virtual void Update(float deltaTime) override;
     };
 } // namespace Nova
