@@ -13,6 +13,9 @@ namespace Nova
 
     Entity Entity::Duplicate() const
     {
+        if (!m_ParentScene)
+			return Entity();
+
         Entity other = m_ParentScene->CreateEntity();
 
         for (auto [id, storage] : m_ParentScene->m_Registry.storage())
