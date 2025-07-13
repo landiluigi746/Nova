@@ -18,34 +18,35 @@ Nova is a lightweight 2D game development framework written in **C++20** using *
 
 ## ✨ Features
 
-Currently implemented (after just 4 days of development):
+While still in the early stages of development, Nova provides the following features:
 
-- Texture loading and management
-- Shader abstraction and usage
+- **Texture** loading and management
+- **Shader** abstraction and usage
 - Mouse and Keyboard input handling
 - Integration with **Dear ImGui** for building UIs
 - Basic **Asset Manager** for streamlined resource handling
 - Modular **Scene System** with functions for lifecycle management (`Start`, `Update`, `Draw`, `ImGuiDraw`, etc.)
+- **Spritesheet support**
+- **Entity Component System** (ECS) based on **entt**
 
 ## 🔮 Roadmap
 
 Planned features coming soon:
 
 - 🔊 **Sound support**
-- 🎞 **Spritesheet management**
 - ⚡ **Event system** (input dispatch, custom events)
-- 🧩 **GameObject/component system**
 
 ## 📦 Dependencies
 
 Nova uses the following libraries:
 
-- [GLFW](https://www.glfw.org/)
-- [glad](https://glad.dav1d.de/)
+- [GLFW](https://www.glfw.org)
+- [glad](https://glad.dav1d.de)
 - [GLM](https://github.com/g-truc/glm)
 - [fmt](https://github.com/fmtlib/fmt)
 - [stb_image](https://github.com/nothings/stb)
 - [Dear ImGui](https://github.com/ocornut/imgui)
+- [entt](https://github.com/skypjack/entt)
 
 ## 🚀 Getting Started
 
@@ -69,12 +70,12 @@ git clone https://github.com/landiluigi746/Nova.git
 cd Nova
 ```
 
-2. Build the Nova and sandbox projects:
+2. Build Nova and the sandbox project:
 
 > 💡 **You can also use your favourite IDE to build the projects and run the sandbox**
 
 ```bash
-# you can set BUILD_TYPE to either "Release" or "Debug"
+# you can set BUILD_TYPE to one of "Debug", "RelWithDebInfo" or "Release"
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
 cmake --build build
 ```
@@ -119,7 +120,7 @@ Nova is licensed under the [MIT License](https://github.com/landiluigi746/Nova/b
 
 ## 📝 Acknowledgements
 
-Huge shoutouts to [TheCherno](https://www.youtube.com/@TheCherno) for his OpenGL series and his [Hazel](https://hazelengine.com/) game engine, which served as a great inspiration for this project.
+Huge shoutouts to youtubers [TheCherno](https://www.youtube.com/@TheCherno) and [Low Level Game Dev](https://www.youtube.com/@lowlevelgamedev9330) for their amazing tutorials and projects, which served as a great inspiration for this project.
 
 ## 👥 Contributing
 
