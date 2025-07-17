@@ -113,10 +113,18 @@ public:
         // - a ColorComponent (component that stores the color of the quad)
         // - a Direction (stores the direction of movement on the y axis)
 
-        std::array<Nova::Color, 10> colors = {
-            Nova::Red,     Nova::Green, Nova::Blue,   Nova::Yellow, Nova::Beige,
-            Nova::Magenta, Nova::Lime,  Nova::Maroon, Nova::White,  Nova::Black,
-        };
+        const auto colors = std::to_array<Nova::Color>({
+            Nova::Red,
+            Nova::Green,
+            Nova::Blue,
+            Nova::Yellow,
+            Nova::Beige,
+            Nova::Magenta,
+            Nova::Lime,
+            Nova::Maroon,
+            Nova::White,
+            Nova::Black,
+        });
 
         for (int i = 0; i < 10; ++i)
         {
