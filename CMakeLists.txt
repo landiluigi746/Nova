@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.24)
 
 project(Nova LANGUAGES C CXX)
 
@@ -94,6 +94,15 @@ FetchContent_Declare(
 	GIT_SHALLOW TRUE
 )
 FetchContent_MakeAvailable(entt)
+
+FetchContent_Declare(
+    raudio
+    GIT_REPOSITORY https://github.com/landiluigi746/raudio.git
+	GIT_TAG fix_vs_linking_cmake
+	GIT_SHALLOW TRUE
+    SOURCE_SUBDIR "projects/CMake"
+)
+FetchContent_MakeAvailable(raudio)
 
 add_subdirectory(vendor)
 add_subdirectory(src)

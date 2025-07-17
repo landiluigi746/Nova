@@ -16,6 +16,7 @@ target_link_libraries(
     stb_image
     reasings
     EnTT
+    raudio
 )
 
 if(MSVC)
