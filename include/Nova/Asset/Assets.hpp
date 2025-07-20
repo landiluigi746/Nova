@@ -36,6 +36,6 @@ namespace Nova
 
     using TextureAsset = AssetHandle<Texture>;
     using ShaderAsset = AssetHandle<Shader>;
-	using SoundAsset = AssetHandle<Sound>;
-	using MusicAsset = AssetHandle<Music>;
+    using SoundAsset = AssetHandle<Sound>;
+    using MusicAsset = AssetHandle<Music>;
 } // namespace Nova

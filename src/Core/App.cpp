@@ -57,7 +57,7 @@ namespace Nova
             Renderer::EnableMultisampling();
 
         InitImGui();
-		InitAudio();
+        InitAudio();
 
         Logger::Info("Nova App initialized successfully!");
     }
@@ -66,7 +66,7 @@ namespace Nova
     {
         Logger::Info("Shutting down Nova App...");
 
-		ShutdownAudio();
+        ShutdownAudio();
         ShutdownImGui();
         Renderer::Shutdown();
         m_SceneManager.Shutdown();

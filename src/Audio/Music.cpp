@@ -35,7 +35,7 @@ namespace Nova
 
     void Music::Update() const
     {
-		UpdateMusicStream(m_Music);
+        UpdateMusicStream(m_Music);
     }
 
     void Music::Stop() const

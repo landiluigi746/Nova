@@ -8,10 +8,10 @@
 namespace Nova
 {
     enum class TextureFilter : uint8_t
-	{
-		Nearest,
-		Linear
-	};
+    {
+        Nearest,
+        Linear
+    };
 
     class Texture
     {
@@ -28,7 +28,7 @@ namespace Nova
         bool Init(uint32_t width, uint32_t height, const Color* data);
         void Shutdown();
 
-		void SetFilter(TextureFilter filter);
+        void SetFilter(TextureFilter filter);
         void Bind(uint32_t slot) const;
         void Unbind() const;
 
@@ -48,9 +48,9 @@ namespace Nova
         }
 
         TextureFilter GetFilter() const
-		{
-			return m_Filter;
-		}
+        {
+            return m_Filter;
+        }
 
     private:
         bool Init(int format, const void* data);
@@ -60,6 +60,6 @@ namespace Nova
         int m_Width = 0;
         int m_Height = 0;
         int m_Channels = 0;
-		TextureFilter m_Filter = TextureFilter::Linear;
+        TextureFilter m_Filter = TextureFilter::Linear;
     };
 } // namespace Nova

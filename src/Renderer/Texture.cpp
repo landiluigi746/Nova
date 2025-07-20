@@ -76,23 +76,23 @@ namespace Nova
     {
         Bind(0);
 
-		switch (filter)
-		{
-		case TextureFilter::Nearest:
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        switch (filter)
+        {
+        case TextureFilter::Nearest:
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
             m_Filter = filter;
-			break;
-		case TextureFilter::Linear:
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			m_Filter = filter;
+            break;
+        case TextureFilter::Linear:
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            m_Filter = filter;
             break;
         default:
             Logger::Warning("Unrecognized texture filter!");
-		}
+        }
 
-		Unbind();
+        Unbind();
     }
 
     void Texture::Bind(uint32_t slot) const

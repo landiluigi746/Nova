@@ -14,7 +14,7 @@ namespace Nova
     Entity Entity::Duplicate() const
     {
         if (!m_ParentScene)
-			return Entity();
+            return Entity();
 
         Entity other = m_ParentScene->CreateEntity();
 

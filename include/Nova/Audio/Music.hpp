@@ -5,36 +5,37 @@
 
 namespace Nova
 {
-	class Music
-	{
-	public:
+    class Music
+    {
+    public:
         Music() = default;
-		virtual ~Music();
+        virtual ~Music();
 
-		Music(const Music& music) = delete;
-		Music(Music&& music) = delete;
-		Music& operator=(const Music& music) = delete;
-		Music& operator=(Music&& music) = delete;
+        Music(const Music& music) = delete;
+        Music(Music&& music) = delete;
+        Music& operator=(const Music& music) = delete;
+        Music& operator=(Music&& music) = delete;
 
-		bool Init(const std::filesystem::path& path);
-		void Shutdown() const;
-		
-		void Play() const;
+        bool Init(const std::filesystem::path& path);
+        void Shutdown() const;
+
+        void Play() const;
         void Update() const;
-		void Stop() const;
-		void Pause() const;
-		void Resume() const;
-		
-		void Seek(float seconds) const;
-		void SetVolume(float volume) const;
-		void SetPitch(float pitch) const;
-		void SetPan(float pan) const;
+        void Stop() const;
+        void Pause() const;
+        void Resume() const;
 
-		float GetSecondsLength() const;
-		float GetSecondsPlayed() const;
-		
-		bool IsPlaying() const;
-	private:
-		::Music m_Music = {};
-	};
-}
+        void Seek(float seconds) const;
+        void SetVolume(float volume) const;
+        void SetPitch(float pitch) const;
+        void SetPan(float pan) const;
+
+        float GetSecondsLength() const;
+        float GetSecondsPlayed() const;
+
+        bool IsPlaying() const;
+
+    private:
+        ::Music m_Music = {};
+    };
+} // namespace Nova

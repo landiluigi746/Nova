@@ -28,8 +28,8 @@ namespace Nova
 
         // clang-format off
         Window& GetWindow() { return m_Window; }
-		AssetManager& GetAssetManager() { return m_AssetManager; }
-		SceneManager& GetSceneManager() { return m_SceneManager; }
+        AssetManager& GetAssetManager() { return m_AssetManager; }
+        SceneManager& GetSceneManager() { return m_SceneManager; }
         // clang-format on
 
     protected:
@@ -43,7 +43,7 @@ namespace Nova
         void InitImGui();
         void ShutdownImGui();
         void InitAudio();
-		void ShutdownAudio();
+        void ShutdownAudio();
 
         friend int ::main();
     };

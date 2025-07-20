@@ -5,32 +5,32 @@
 
 namespace Nova
 {
-	class Sound
-	{
+    class Sound
+    {
     public:
         Sound() = default;
-		virtual ~Sound();
+        virtual ~Sound();
 
-		Sound(const Sound& sound) = delete;
-		Sound(Sound&& sound) = delete;
-		Sound& operator=(const Sound& sound) = delete;
-		Sound& operator=(Sound&& sound) = delete;
+        Sound(const Sound& sound) = delete;
+        Sound(Sound&& sound) = delete;
+        Sound& operator=(const Sound& sound) = delete;
+        Sound& operator=(Sound&& sound) = delete;
 
-		bool Init(const std::filesystem::path& path);
-		void Shutdown() const;
+        bool Init(const std::filesystem::path& path);
+        void Shutdown() const;
 
-		void Play() const;
+        void Play() const;
         void Stop() const;
         void Pause() const;
-		void Resume() const;
+        void Resume() const;
 
-		void SetVolume(float volume) const;
-		void SetPitch(float pitch) const;
-		void SetPan(float pan) const;
+        void SetVolume(float volume) const;
+        void SetPitch(float pitch) const;
+        void SetPan(float pan) const;
 
-		bool IsPlaying() const;
+        bool IsPlaying() const;
 
-	private:
+    private:
         ::Sound m_Sound = {};
-	};
-}
+    };
+} // namespace Nova

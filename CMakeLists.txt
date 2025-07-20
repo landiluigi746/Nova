@@ -27,9 +27,9 @@ endif()
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     set(NOVA_BUILD_TYPE "Debug" CACHE STRING "")
-	set(NOVA_DEBUG ON CACHE BOOL "")
+    set(NOVA_DEBUG ON CACHE BOOL "")
 elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
-	set(NOVA_BUILD_TYPE "Dist" CACHE STRING "")
+    set(NOVA_BUILD_TYPE "Dist" CACHE STRING "")
     set(NOVA_DIST ON CACHE BOOL "")
 else()
     if(NOT CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
@@ -37,7 +37,7 @@ else()
     endif()
 
     set(CMAKE_BUILD_TYPE "RelWithDebInfo" CACHE STRING "" FORCE)
-	set(NOVA_BUILD_TYPE "Release" CACHE STRING "")
+    set(NOVA_BUILD_TYPE "Release" CACHE STRING "")
     set(NOVA_RELEASE ON CACHE BOOL "")
 endif()
 
@@ -82,24 +82,24 @@ set(GLM_ENABLE_CXX_20 ON CACHE BOOL "")
 FetchContent_Declare(
     glm
     GIT_REPOSITORY https://github.com/g-truc/glm.git
-	GIT_TAG 1.0.1
-	GIT_SHALLOW TRUE
+    GIT_TAG 1.0.1
+    GIT_SHALLOW TRUE
 )
 FetchContent_MakeAvailable(glm)
 
 FetchContent_Declare(
     entt
     GIT_REPOSITORY https://github.com/skypjack/entt.git
-	GIT_TAG v3.15.0
-	GIT_SHALLOW TRUE
+    GIT_TAG v3.15.0
+    GIT_SHALLOW TRUE
 )
 FetchContent_MakeAvailable(entt)
 
 FetchContent_Declare(
     raudio
     GIT_REPOSITORY https://github.com/landiluigi746/raudio.git
-	GIT_TAG fix_vs_linking_cmake
-	GIT_SHALLOW TRUE
+    GIT_TAG fix_vs_linking_cmake
+    GIT_SHALLOW TRUE
     SOURCE_SUBDIR "projects/CMake"
 )
 FetchContent_MakeAvailable(raudio)

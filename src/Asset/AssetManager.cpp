@@ -17,7 +17,7 @@ namespace Nova
         m_Shaders.clear();
         m_Textures.clear();
         m_Sounds.clear();
-		m_Musics.clear();
+        m_Musics.clear();
     }
 
     void AssetManager::LoadFromDirectory(const std::filesystem::path& path)
