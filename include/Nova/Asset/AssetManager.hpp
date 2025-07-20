@@ -26,12 +26,21 @@ namespace Nova
 
         void LoadTexture(const std::string_view& name, const std::filesystem::path& path);
         void LoadShader(const std::string_view& name, const std::filesystem::path& fragmentPath);
+        void LoadSound(const std::string_view& name, const std::filesystem::path& path);
+        void LoadMusic(const std::string_view& name, const std::filesystem::path& path);
 
         TextureAsset GetTexture(const std::string_view& name);
         ShaderAsset GetShader(const std::string_view& name);
+        SoundAsset GetSound(const std::string_view& name);
+        MusicAsset GetMusic(const std::string_view& name);
 
     private:
-        std::unordered_map<std::string, TextureAsset, StringHash, std::equal_to<>> m_Textures;
-        std::unordered_map<std::string, ShaderAsset, StringHash, std::equal_to<>> m_Shaders;
+        template<typename T>
+        using AssetContainer = std::unordered_map<std::string, T, StringHash, std::equal_to<>>;
+
+        AssetContainer<TextureAsset> m_Textures;
+        AssetContainer<ShaderAsset> m_Shaders;
+        AssetContainer<SoundAsset> m_Sounds;
+        AssetContainer<MusicAsset> m_Musics;
     };
 } // namespace Nova

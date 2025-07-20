@@ -2,6 +2,8 @@
 
 #include "Nova/Renderer/Texture.hpp"
 #include "Nova/Renderer/Shader.hpp"
+#include "Nova/Audio/Sound.hpp"
+#include "Nova/Audio/Music.hpp"
 
 #include <memory>
 
@@ -34,4 +36,6 @@ namespace Nova
 
     using TextureAsset = AssetHandle<Texture>;
     using ShaderAsset = AssetHandle<Shader>;
+	using SoundAsset = AssetHandle<Sound>;
+	using MusicAsset = AssetHandle<Music>;
 } // namespace Nova

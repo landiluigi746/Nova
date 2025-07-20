@@ -42,6 +42,8 @@ namespace Nova
 
         void InitImGui();
         void ShutdownImGui();
+        void InitAudio();
+		void ShutdownAudio();
 
         friend int ::main();
     };

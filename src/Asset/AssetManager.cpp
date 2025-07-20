@@ -16,6 +16,8 @@ namespace Nova
     {
         m_Shaders.clear();
         m_Textures.clear();
+        m_Sounds.clear();
+		m_Musics.clear();
     }
 
     void AssetManager::LoadFromDirectory(const std::filesystem::path& path)
@@ -71,7 +73,7 @@ namespace Nova
             return;
         }
 
-        Logger::Info("Loading fragment shader {} ()...", name, fragmentPath.string());
+        Logger::Info("Loading fragment shader {} ({})...", name, fragmentPath.string());
 
         ShaderAsset shader(std::make_shared<Shader>());
 
@@ -79,6 +81,42 @@ namespace Nova
             return;
 
         m_Shaders.emplace(name, shader);
+    }
+
+    void AssetManager::LoadSound(const std::string_view& name, const std::filesystem::path& path)
+    {
+        if (m_Sounds.contains(name))
+        {
+            Logger::Warning("Sound with name {} already exists! Skipping...", name);
+            return;
+        }
+
+        Logger::Info("Loading sound {} ({})", name, path.string());
+
+        SoundAsset sound(std::make_shared<Sound>());
+
+        if (!sound->Init(path))
+            return;
+
+        m_Sounds.emplace(name, sound);
+    }
+
+    void AssetManager::LoadMusic(const std::string_view& name, const std::filesystem::path& path)
+    {
+        if (m_Musics.contains(name))
+        {
+            Logger::Warning("Music with name {} already exists! Skipping...", name);
+            return;
+        }
+
+        Logger::Info("Loading music {} ({})", name, path.string());
+
+        MusicAsset music(std::make_shared<Music>());
+
+        if (!music->Init(path))
+            return;
+
+        m_Musics.emplace(name, music);
     }
 
     TextureAsset AssetManager::GetTexture(const std::string_view& name)
@@ -97,5 +135,23 @@ namespace Nova
 
         Logger::Warning("Shader with name {} does not exist!", name);
         return ShaderAsset();
+    }
+
+    SoundAsset AssetManager::GetSound(const std::string_view& name)
+    {
+        if (auto it = m_Sounds.find(name); it != std::end(m_Sounds))
+            return it->second;
+
+        Logger::Warning("Sound with name {} does not exist!", name);
+        return SoundAsset();
+    }
+
+    MusicAsset AssetManager::GetMusic(const std::string_view& name)
+    {
+        if (auto it = m_Musics.find(name); it != std::end(m_Musics))
+            return it->second;
+
+        Logger::Warning("Music with name {} does not exist!", name);
+        return MusicAsset();
     }
 } // namespace Nova

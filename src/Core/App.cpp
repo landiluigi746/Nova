@@ -1,6 +1,7 @@
 #include "Nova/Core/App.hpp"
 #include "Nova/Core/Window.hpp"
 #include "Nova/Core/Input.hpp"
+
 #include "Nova/Asset/AssetManager.hpp"
 
 #include "Nova/Renderer/Renderer.hpp"
@@ -18,6 +19,8 @@
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
+
+#include <raudio.h>
 
 namespace Nova
 {
@@ -54,6 +57,7 @@ namespace Nova
             Renderer::EnableMultisampling();
 
         InitImGui();
+		InitAudio();
 
         Logger::Info("Nova App initialized successfully!");
     }
@@ -62,6 +66,7 @@ namespace Nova
     {
         Logger::Info("Shutting down Nova App...");
 
+		ShutdownAudio();
         ShutdownImGui();
         Renderer::Shutdown();
         m_SceneManager.Shutdown();
@@ -132,6 +137,25 @@ namespace Nova
         ImGui::DestroyContext();
 
         Logger::Info("ImGui shut down successfully!");
+    }
+
+    void App::InitAudio()
+    {
+        Logger::Info("Initializing audio...");
+
+        InitAudioDevice();
+        NOVA_ASSERT(IsAudioDeviceReady(), "Failed to initialize audio device!");
+
+        Logger::Info("Audio initialized successfully!");
+    }
+
+    void App::ShutdownAudio()
+    {
+        Logger::Info("Shutting down audio...");
+
+        CloseAudioDevice();
+
+        Logger::Info("Audio shut down successfully!");
     }
 } // namespace Nova
 
